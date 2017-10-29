@@ -1,0 +1,17 @@
+<h1>The Letter Desk</h1>
+    <h4>Brainchild of Ethan Holland</h4>
+    <label>To:</label>
+     <input [(ngModel)]="user.name" placeholder="name">
+<label>Receiver's Email:</label> <input id="sendAddress" />
+<br >
+<div>
+    <label>Message to {{user.name}}:</label> 
+    </div>
+    
+    <div>
+    <textarea rows="30" cols="100" id="txt" placeholder="  [Insert letter body here]">
+      
+        </textarea>
+</div>
+    <button (click)="onSend()">Send</button>
+    <!-- skeleton -->
