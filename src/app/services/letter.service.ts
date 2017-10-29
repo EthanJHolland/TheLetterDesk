@@ -31,6 +31,13 @@ export class LetterService {
           .catch(this.handleError);     //catches an error if no letter class object exists
     }
 
+    send(data: any): Promise<any>{
+        const url = `${this.letterUrl}/send`; //send
+        return this.http.post(url, JSON.stringify(data), {headers: this.headers}) 
+          .toPromise()      //makes the server wait until information is returned
+          .catch(this.handleError);     //catches an error if no letter class object exists
+    }
+
     private handleError(error: any): Promise<any> {     //error message if any error occurs
         console.error('An error occurred', error); 
         return Promise.reject(error.message || error);

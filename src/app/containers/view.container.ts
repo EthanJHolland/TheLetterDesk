@@ -9,7 +9,7 @@ import 'rxjs/add/operator/filter';
 
 @Component({
     selector: 'view-page',
-    templateUrl: './templates/view.container.html'
+    templateUrl: '../components/templates/view.container.html'
 })
 export class ViewPageComponent implements OnInit{
     letter: Letter={

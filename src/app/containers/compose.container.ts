@@ -9,14 +9,19 @@ import 'rxjs/add/operator/switchMap';
 
 @Component({
     selector: 'compose-page',
-    templateUrl: './templates/compose.container.html',
-    styleUrls: ['./templates/compose.container.css']
+    template: `<compose-component
+     [buttonSrc]=buttonSrc
+     [letter]=letter
+     (buttonClick)=buttonClick($event)>
+     </compose-component>
+     `
 })
 export class ComposePageComponent implements OnInit {
     letter: Letter ={
         _id: 'new',
         content: ''
     };
+    buttonSrc='/assets/seal_clean.png';
 
     constructor(private letterService: LetterService, private route: ActivatedRoute, private router: Router){}
 
@@ -24,9 +29,15 @@ export class ComposePageComponent implements OnInit {
         this.route.paramMap.subscribe((params: ParamMap) => this.letter._id=params.get('id'));
     }
 
-    onSend(){
+    buttonClick(data){
+        //send
         console.log('sending');
         console.log(this.letter);
-        this.letterService.update(this.letter);
+        this.letterService.update(data);
+        this.letterService.send({
+            'recipientEmail': 'ontheejh@gmail.com',
+            'senderName': 'brad',
+            'letterId': 'Peach'
+        });
     }
 }

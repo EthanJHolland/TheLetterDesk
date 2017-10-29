@@ -4,11 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 
-// import containers
+//import containers
 import { AppComponent } from './containers/app';
 import { ComposePageComponent } from './containers/compose.container';
 import { ViewPageComponent } from './containers/view.container';
 import { RedirectPageComponent } from './containers/redirect.container';
+
+//import components
+import { ComposeComponent } from './components/compose.component';
 
 //import services
 import { LetterService } from './services/letter.service';
@@ -21,7 +24,8 @@ import { routes } from './routes';
     AppComponent,
     ComposePageComponent,
     ViewPageComponent,
-    RedirectPageComponent
+    RedirectPageComponent,
+    ComposeComponent
   ],
   imports: [
     BrowserModule,
