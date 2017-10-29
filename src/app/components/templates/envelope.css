@@ -1,7 +1,6 @@
-body {
+.body {
     background-image: url("/assets/wood1.jpg");  
-    background-size: cover;
-    overflow: hidden;
+    background-size: 100%;
 }
 
 #drink {

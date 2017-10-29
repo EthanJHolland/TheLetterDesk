@@ -8,21 +8,14 @@ import { Letter } from '../models/letter';
 import 'rxjs/add/operator/filter';
 
 @Component({
-    selector: 'view-page',
-    template: `<compose-component
-    [buttonSrc]=buttonSrc
-    [letter]=letter
-    (buttonClick)=buttonClick($event)>
-    </compose-component>
-    `,
+    selector: 'send-page',
+    templateUrl: '../components/templates/paper.html'
 })
-export class ViewPageComponent implements OnInit{
+export class SendPageComponent implements OnInit{
     letter: Letter={
         _id: 'new',
         content: 'loading...'
     };
-
-    buttonSrc='/assets/write_clean.png';
 
     constructor(
         private route: ActivatedRoute,
@@ -31,7 +24,6 @@ export class ViewPageComponent implements OnInit{
       ) {}
     
     ngOnInit(){
-        console.log('view page component');
         this.route.paramMap.subscribe((params: ParamMap) => {
             this.letter.content=params.get('id');
             this.letterService.getLetter(params.get('id'))
@@ -47,8 +39,7 @@ export class ViewPageComponent implements OnInit{
 
     }
 
-    buttonClick(){
-        //redirect to a new compose
+    onReply(){
         this.router.navigate(['/compose/'+require('shortid').generate()]);
     }
 }

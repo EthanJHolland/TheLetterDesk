@@ -4,10 +4,10 @@ import { Letter } from '../models/letter';
 
 @Component({
     selector: 'compose-component',
-    templateUrl: './templates/compose.container.html',
+    templateUrl: './templates/paper.html',
     styleUrls: ['./templates/paper.css']
 })
-export class ComposeComponent{
+export class PaperComponent{
     @Input() letter: Letter;
     @Input() buttonSrc: string;
     @Output() buttonClick: EventEmitter<any> = new EventEmitter();

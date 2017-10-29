@@ -2,7 +2,9 @@ import { Component,OnInit } from '@angular/core';
 import { Router,ActivatedRoute, ParamMap } from '@angular/router';
 
 import { Letter } from '../models/letter';
+import { Envelope } from '../models/envelope';
 import { LetterService } from '../services/letter.service';
+import { EnvelopeService } from '../services/envelope.service';
 
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/switchMap';
@@ -17,13 +19,17 @@ import 'rxjs/add/operator/switchMap';
      `
 })
 export class ComposePageComponent implements OnInit {
-    letter: Letter ={
+    letter: Letter={
         _id: 'new',
         content: ''
     };
     buttonSrc='/assets/seal_clean.png';
 
-    constructor(private letterService: LetterService, private route: ActivatedRoute, private router: Router){}
+    constructor(
+        private letterService: LetterService,
+         private envelopeService: EnvelopeService,
+         private route: ActivatedRoute, 
+         private router: Router){}
 
     ngOnInit(){
         this.route.paramMap.subscribe((params: ParamMap) => this.letter._id=params.get('id'));
@@ -34,10 +40,20 @@ export class ComposePageComponent implements OnInit {
         console.log('sending');
         console.log(this.letter);
         this.letterService.update(data);
-        this.letterService.send({
-            'recipientEmail': 'ontheejh@gmail.com',
-            'senderName': 'brad',
-            'letterId': 'Peach'
-        });
+
+        const en: Envelope = {
+            _id: 'Peach',
+            sender_name: 'Caroline',
+            recipient_name: 'Lucas',
+            recipient_email: 'ontheejh@gmail.com'
+        };
+        this.envelopeService.update(en);
+        // this.letterService.send({
+        //     'recipientEmail': 'ontheejh@gmail.com',
+        //     'senderName': 'brad',
+        //     'letterId': 'Peach'
+        // });
+
+        
     }
 }

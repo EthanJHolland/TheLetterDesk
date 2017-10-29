@@ -1,4 +1,4 @@
-
+<div class="body">
     <div class="letter">
         <img id=letter-background src="assets/paper.png"/>
         <textarea [(ngModel)]="letter.content" class=text autofocus> 
@@ -11,5 +11,5 @@
     <img id="pencil" src="assets/pencil.png"/>
     
     <!--toggle between seal_clean.png and write_clean.png-->
-    <img id="seal" src="assets/seal_clean.png" (click)="onSend()"/>
-    
+    <img id="seal" [src]="buttonSrc" (click)="onClick()"/>
+</div>
