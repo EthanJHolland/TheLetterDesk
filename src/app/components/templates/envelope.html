@@ -1,35 +1,19 @@
-<!DOCTYPE HTML>
 
-<html>
-    
-<head>
-    <title>LetterDesk</title>
-    <meta charset='UTF'>
-    <link rel='stylesheet' href='styles.css'>
-    <link rel='stylesheet' href='envelope.css'>
-    <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
-</head>
-    
-<body id="viewing">
 
     <div class="envelope">
-        <img id=envelope-background src="images/envelope.png"/>
+        <img id=envelope-background src="assets/envelope.png"/>
         <input id="sender" type="text" name="sender" placeholder="Sender" autofocus>
         <input id="where" type="text" name="where" placeholder="Location">
         <input id="receiver" type="text" name="receiver" placeholder="Receiver">
     </div>
     
-    <img id="logo" src="images/logo_clean.png"/>
-    <img id="drink" src="images/coffee.png"/>
+    <img id="logo" src="assets/logo_clean.png"/>
+    <img id="drink" src="assets/coffee.png"/>
     
     <!--toggle between send.png and open.png-->
-    <img id="send" src="images/send.png"/>
+    <img id="send" src="assets/send.png" (click)="onClick()"/>
     
-    <img id="pencil" src="images/pencil.png"/>
-    <img id="stickynotes" src="images/stickynote.png"/>
-    <img id="paperclip1" src="images/paperclip.png"/>
-    <img id="paperclip2" src="images/paperclip.png"/>
-    
-</body>
-    
-</html>
+    <img id="pencil" src="assets/pencil.png"/>
+    <img id="stickynotes" src="assets/stickynote.png"/>
+    <img id="paperclip1" src="assets/paperclip.png"/>
+    <img id="paperclip2" src="assets/paperclip.png"/>

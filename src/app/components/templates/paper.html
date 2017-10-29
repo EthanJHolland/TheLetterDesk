@@ -1,32 +1,15 @@
-<!DOCTYPE HTML>
-
-<html>
-    
-<head>
-    <title>LetterDesk</title>
-    <meta charset='UTF'>
-    <link rel='stylesheet' href='styles.css'>
-    <link rel='stylesheet' href='paper.css'>
-    <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
-</head>
-    
-<body>
 
     <div class="letter">
-        <img id=letter-background src="images/paper.png"/>
-        <textarea class=text autofocus> 
+        <img id=letter-background src="assets/paper.png"/>
+        <textarea [(ngModel)]="letter.content" class=text autofocus> 
         </textarea>
     </div>
     
-    <img id="logo" src="images/logo_clean.png"/>
-    <img id="drink" src="images/coffee.png"/>
-    <img id="pen" src="images/fountainPen.png"/>
-    <img id="pencil" src="images/pencil.png"/>
+    <img id="logo" src="assets/logo_clean.png"/>
+    <img id="drink" src="assets/coffee.png"/>
+    <img id="pen" src="assets/fountainPen.png"/>
+    <img id="pencil" src="assets/pencil.png"/>
     
     <!--toggle between seal_clean.png and write_clean.png-->
-    <img id="seal" src="images/seal_clean.png"/>
+    <img id="seal" src="assets/seal_clean.png" (click)="onSend"/>
     
-    
-</body>
-    
-</html>

@@ -5,7 +5,7 @@ import { Letter } from '../models/letter';
 @Component({
     selector: 'compose-component',
     templateUrl: './templates/compose.container.html',
-    styleUrls: ['./templates/compose.container.css']
+    styleUrls: ['./templates/envelope.css']
 })
 export class ComposeComponent{
     @Input() letter: Letter;
