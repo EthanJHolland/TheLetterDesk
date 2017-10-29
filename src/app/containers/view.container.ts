@@ -1,5 +1,5 @@
 import { Component,OnInit } from '@angular/core';
-import { Router,ActivatedRoute } from '@angular/router';
+import { Router,ActivatedRoute,ParamMap } from '@angular/router';
 import { shortid } from 'shortid';
 
 import { LetterService } from '../services/letter.service';
@@ -12,7 +12,10 @@ import 'rxjs/add/operator/filter';
     templateUrl: './templates/view.container.html'
 })
 export class ViewPageComponent implements OnInit{
-    letter: Letter;
+    letter: Letter={
+        _id: 'new',
+        content: 'loading...'
+    };
 
     constructor(
         private route: ActivatedRoute,
@@ -21,20 +24,18 @@ export class ViewPageComponent implements OnInit{
       ) {}
     
     ngOnInit(){
-        this.letter={
-            _id: 'temp',
-            content: 'loading...'
-        };
-
-        this.letterService.getLetter('Peach')
-            .then((letter) => {
-                console.log(letter);
-                if(letter){
-                    this.letter=letter;
-                }else{
-                    this.router.navigate(['/compose/'+require('shortid').generate()]);
-                }
-            });
+        this.route.paramMap.subscribe((params: ParamMap) => {
+            this.letter.content=params.get('id');
+            this.letterService.getLetter(params.get('id'))
+                .then((letter) => {
+                    console.log(letter);
+                    if(letter){
+                        this.letter=letter;
+                    }else{
+                        this.router.navigate(['/compose/'+require('shortid').generate()]);
+                    }
+                });
+        });
 
     }
 

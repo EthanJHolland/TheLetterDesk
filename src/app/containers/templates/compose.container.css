@@ -4,7 +4,7 @@
     box-sizing: border-box;
   }
   
-body {
+.body {
     background-image: url("/assets/wood1.jpg");
 }
   

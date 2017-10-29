@@ -24,7 +24,7 @@ export class LetterService {
     }
 
     update(letter: Letter): Promise<Letter> {   //puts a Letter class object letter at the url letterUrl/letter.id
-        const url = `${this.letterUrl}`;//${letter._id}`;   //generates the storage url for letter
+        const url = `${this.letterUrl}/create`;//${letter._id}`;   //generates the storage url for letter
         return this.http.post(url, JSON.stringify({letter: letter}), {headers: this.headers}) 
           .toPromise()      //makes the server wait until information is returned
           .then(() => letter)   //???
