@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+#logo {
+    width: 150px;
+    height: 50px;
+    position: absolute;
+    top: 10px;
+    left: 10px; 
+}

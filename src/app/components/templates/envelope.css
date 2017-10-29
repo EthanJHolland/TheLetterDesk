@@ -1,0 +1,101 @@
+body {
+    background-image: url("images/wood1.jpg");  
+    background-size: cover;
+    overflow: hidden;
+}
+
+#drink {
+    position: absolute;
+    left: 360px;
+    top: -250px;
+    width: 500px;
+}
+
+#pencil{
+    /*567x588 width by height*/
+    position: absolute;
+    width: 350px;
+    top: 100px;
+    left: 20px;
+}
+
+#send {
+    /*325x66*/
+    width: 70px;
+    position: absolute;
+    top: 15px;
+    left: 1170px;
+}
+
+#send:hover {
+    border: 1.5px transparent solid;
+}
+
+#stickynotes {
+    position: absolute;
+    left: 1100px;
+    top: 480px;
+    width: 200px;
+}
+
+#paperclip1 {
+    position: absolute;
+    left: 1040px;
+    top: 210px;
+    width: 100px;
+    transform: rotate(-40deg);
+}
+
+#paperclip2 {
+    position: absolute;
+    left: 1010px;
+    top: 260px;
+    width: 100px;
+}
+
+#envelope-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#sender, #where, #receiver {
+    position: absolute;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 0.8em;
+    font-family: 'Lora', serif;
+    line-height: 1em;
+}
+
+#sender {
+    top: 3%;
+    left: 1.5%;
+    width: 30%;
+    height: 10%;
+}
+
+#where {
+    top: 8%;
+    left: 1.5%;
+    width: 30%;
+    height: 10%;
+}
+
+#receiver {
+    top: 45%;
+    left: 45%;
+    width: 50%;
+    height: 10%;
+}
+
+.envelope {
+    position: absolute;
+    top: 100px;
+    left: 200px;
+    width: 850px;
+    height: 365px;
+}

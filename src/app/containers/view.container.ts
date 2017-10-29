@@ -1,14 +1,22 @@
 import { Component,OnInit } from '@angular/core';
-import { Router,ActivatedRoute } from '@angular/router';
+import { Router,ActivatedRoute,ParamMap } from '@angular/router';
 import { shortid } from 'shortid';
 
 import { LetterService } from '../services/letter.service';
+import { Letter } from '../models/letter';
+
+import 'rxjs/add/operator/filter';
 
 @Component({
     selector: 'view-page',
-    templateUrl: './templates/view.container.html'
+    templateUrl: '../components/templates/view.container.html'
 })
-export class ViewPageComponent implements OnInit{ 
+export class ViewPageComponent implements OnInit{
+    letter: Letter={
+        _id: 'new',
+        content: 'loading...'
+    };
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
@@ -16,10 +24,22 @@ export class ViewPageComponent implements OnInit{
       ) {}
     
     ngOnInit(){
-        this.letterService.getLetter('Peach')
-            .then();
-        // let newid = require('shortid').generate();
-        // this.router.navigate(['/compose/'+ newid]);
+        this.route.paramMap.subscribe((params: ParamMap) => {
+            this.letter.content=params.get('id');
+            this.letterService.getLetter(params.get('id'))
+                .then((letter) => {
+                    console.log(letter);
+                    if(letter){
+                        this.letter=letter;
+                    }else{
+                        this.router.navigate(['/compose/'+require('shortid').generate()]);
+                    }
+                });
+        });
+
     }
 
+    onReply(){
+        this.router.navigate(['/compose/'+require('shortid').generate()]);
+    }
 }
