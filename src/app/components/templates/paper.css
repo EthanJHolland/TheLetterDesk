@@ -1,7 +1,8 @@
-body {
-    background-image: url("assets/wood1.jpg");
+.body {
+    background-image: url("/assets/wood1.jpg");
     background-size: 100%; /*describes width? */
 }
+
 
 #drink {
     position: absolute;
