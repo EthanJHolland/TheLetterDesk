@@ -10,12 +10,13 @@ export class LetterService {
  
     private headers = new Headers({'Content-Type': 'application/json'});
 
-    private letterUrl = 'http://localhost:3000/create';  // Url that all info Letter 's will be stored at
+    private letterUrl = 'localhost:3000/create';  // Url that all info Letter 's will be stored at
 
     constructor(private http: Http) { }
 
-    getLetter(): Promise<Letter> {  //pulls off a Letter class object letter from a storage at a url
-        return this.http.get(this.letterUrl)
+    getLetter(id: string): Promise<Letter> {  //pulls off a Letter class object letter from a storage at a url
+        const url = `${this.letterUrl}/${id}`;  //creates the url that will be accessed, based on the id given
+        return this.http.get(url)
                 .toPromise()    //makes the server wait until information is returned
                 .then(response => response.json().data as Letter)
                 .catch(this.handleError);   //catches an error if no letter class object exists at that url
