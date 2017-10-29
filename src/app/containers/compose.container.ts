@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
-export class Letter {
-  id: string;
-  content: string;
-}
+import { Letter } from '../models/letter';
+
 @Component({
-    selector: 'view-page',
+    selector: 'compose-page',
     template: `<h1>The Letter Desk</h1>
     <h4>Brainchild of Ethan Holland</h4>
     <label>To:</label>
-     <input [(ngModel)]="letter.name" placeholder="name">
+     <input [(ngModel)]="letter.id" placeholder="name">
 <label>Receiver's Email:</label> <input id="sendAddress" />
 <br >
 <div>

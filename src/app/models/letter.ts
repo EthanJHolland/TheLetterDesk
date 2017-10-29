@@ -1,4 +1,4 @@
-export class letter {
+export class Letter {
   id: string;
   content: string;
 }

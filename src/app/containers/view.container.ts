@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'app-root',
-    template: 'tnd'
+    selector: 'view-page',
+    template: '<p>tnd</p>'
 })
 export class ViewPageComponent{   
 }
