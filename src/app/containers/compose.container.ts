@@ -5,7 +5,8 @@ import { LetterService } from '../services/letter.service';
 
 @Component({
     selector: 'compose-page',
-    templateUrl: './templates/compose.container.html'
+    templateUrl: './templates/compose.container.html',
+    styleUrls: ['./templates/compose.container.css']
 })
 export class ComposePageComponent{
     letter: Letter ={

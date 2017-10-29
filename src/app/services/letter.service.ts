@@ -14,12 +14,13 @@ export class LetterService {
 
     constructor(private http: Http) { }
 
-    getLetter(_id: string): Promise<Letter> {  //pulls off a Letter class object letter from a storage at a url
+    getLetter(_id: string): Promise<any> {  //pulls off a Letter class object letter from a storage at a url
         const url = `${this.letterUrl}/retrieve/${_id}`;  //creates the url that will be accessed, based on the id given
+        console.log(url);
         return this.http.get(url)
-                .toPromise()    //makes the server wait until information is returned
-                .then(response => response.json().data as Letter)
-                .catch(this.handleError);   //catches an error if no letter class object exists at that url
+                .toPromise()
+                .then(response => response.json() as Letter)    //makes the server wait until information is returned
+               .catch(this.handleError);   //catches an error if no letter class object exists at that url
     }
 
     update(letter: Letter): Promise<Letter> {   //puts a Letter class object letter at the url letterUrl/letter.id

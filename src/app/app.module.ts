@@ -8,6 +8,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './containers/app';
 import { ComposePageComponent } from './containers/compose.container';
 import { ViewPageComponent } from './containers/view.container';
+import { RedirectPageComponent } from './containers/redirect.container';
 
 //import services
 import { LetterService } from './services/letter.service';
@@ -19,7 +20,8 @@ import { routes } from './routes';
   declarations: [
     AppComponent,
     ComposePageComponent,
-    ViewPageComponent
+    ViewPageComponent,
+    RedirectPageComponent
   ],
   imports: [
     BrowserModule,
