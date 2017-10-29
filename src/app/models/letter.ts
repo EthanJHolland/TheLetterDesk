@@ -1,4 +1,4 @@
 export class Letter {
-  id: string;
+  _id: string;
   content: string;
 }
