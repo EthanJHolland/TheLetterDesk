@@ -16,7 +16,8 @@ export class ViewPageComponent implements OnInit{
       ) {}
     
     ngOnInit(){
-
+        this.letterService.getLetter('Peach')
+            .then();
         // let newid = require('shortid').generate();
         // this.router.navigate(['/compose/'+ newid]);
     }
