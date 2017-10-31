@@ -9,11 +9,12 @@ import 'rxjs/add/operator/filter';
 
 @Component({
     selector: 'view-page',
-    template: `<compose-component
+    template: `<paper-component
     [buttonSrc]=buttonSrc
     [letter]=letter
+    [canEdit]=canEdit
     (buttonClick)=buttonClick($event)>
-    </compose-component>
+    </paper-component>
     `,
 })
 export class ViewPageComponent implements OnInit{
@@ -22,6 +23,7 @@ export class ViewPageComponent implements OnInit{
         content: 'loading...'
     };
 
+    canEdit=false;
     buttonSrc='/assets/write_clean.png';
 
     constructor(
@@ -33,7 +35,6 @@ export class ViewPageComponent implements OnInit{
     ngOnInit(){
         console.log('view page component');
         this.route.paramMap.subscribe((params: ParamMap) => {
-            this.letter.content=params.get('id');
             this.letterService.getLetter(params.get('id'))
                 .then((letter) => {
                     console.log(letter);

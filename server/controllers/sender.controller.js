@@ -34,9 +34,11 @@ exports.retrieve=function(req,res){
         var coll=db.collection('envelopes');
         var id=req.params.id;
         var item=coll.findOne({_id: id}, (err, doc) => {
+            console.log('found one');
             if(err){
                 res.json({error: err});
             }else{
+                console.log(doc);
                 res.json(doc);
             }
         });

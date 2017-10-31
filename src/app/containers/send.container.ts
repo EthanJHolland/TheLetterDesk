@@ -2,44 +2,48 @@ import { Component,OnInit } from '@angular/core';
 import { Router,ActivatedRoute,ParamMap } from '@angular/router';
 import { shortid } from 'shortid';
 
-import { LetterService } from '../services/letter.service';
-import { Letter } from '../models/letter';
+import { EnvelopeService } from '../services/envelope.service';
+import { Envelope } from '../models/envelope';
 
 import 'rxjs/add/operator/filter';
 
 @Component({
     selector: 'send-page',
-    templateUrl: '../components/templates/paper.html'
+    template: `<envelope-component
+    [buttonSrc]=buttonSrc
+    [envelope]=envelope
+    [canEdit]=canEdit
+    (buttonClick)=buttonClick($event)>
+    </envelope-component>
+    `
 })
 export class SendPageComponent implements OnInit{
-    letter: Letter={
+    envelope: Envelope = {
         _id: 'new',
-        content: 'loading...'
+        sender_name: '',
+        recipient_email: '',
+        recipient_name: ''
     };
+
+    canEdit=true;
+    buttonSrc='assets/send.png';
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private letterService: LetterService 
+        private envelopeService: EnvelopeService 
       ) {}
     
     ngOnInit(){
         this.route.paramMap.subscribe((params: ParamMap) => {
-            this.letter.content=params.get('id');
-            this.letterService.getLetter(params.get('id'))
-                .then((letter) => {
-                    console.log(letter);
-                    if(letter){
-                        this.letter=letter;
-                    }else{
-                        this.router.navigate(['/compose/'+require('shortid').generate()]);
-                    }
-                });
+            this.envelope._id=params.get('id');
+            //TODO: check if the corresponding letter exists and if not redirect
         });
-
     }
 
-    onReply(){
+    buttonClick(data){
+        this.envelopeService.update(data);
+        //this.envelopeService.send(data);
         this.router.navigate(['/compose/'+require('shortid').generate()]);
     }
 }

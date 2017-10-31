@@ -11,11 +11,12 @@ import 'rxjs/add/operator/switchMap';
 
 @Component({
     selector: 'compose-page',
-    template: `<compose-component
+    template: `<paper-component
      [buttonSrc]=buttonSrc
      [letter]=letter
+     [canEdit]=canEdit
      (buttonClick)=buttonClick($event)>
-     </compose-component>
+     </paper-component>
      `
 })
 export class ComposePageComponent implements OnInit {
@@ -23,6 +24,8 @@ export class ComposePageComponent implements OnInit {
         _id: 'new',
         content: ''
     };
+
+    canEdit=true;
     buttonSrc='/assets/seal_clean.png';
 
     constructor(
@@ -39,21 +42,7 @@ export class ComposePageComponent implements OnInit {
         //send
         console.log('sending');
         console.log(this.letter);
-        this.letterService.update(data);
-
-        const en: Envelope = {
-            _id: 'Peach',
-            sender_name: 'Caroline',
-            recipient_name: 'Lucas',
-            recipient_email: 'ontheejh@gmail.com'
-        };
-        this.envelopeService.update(en);
-        // this.letterService.send({
-        //     'recipientEmail': 'ontheejh@gmail.com',
-        //     'senderName': 'brad',
-        //     'letterId': 'Peach'
-        // });
-
-        
+        this.letterService.update(data)
+            .then((res) => this.router.navigate(['/send/'+data._id]));
     }
 }

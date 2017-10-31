@@ -14,6 +14,7 @@ import { SendPageComponent } from './containers/send.container';
 
 //import components
 import { PaperComponent } from './components/paper.component';
+import { EnvelopeComponent } from './components/envelope.component';
 
 //import services
 import { LetterService } from './services/letter.service';
@@ -29,6 +30,7 @@ import { routes } from './routes';
     ViewPageComponent,
     RedirectPageComponent,
     PaperComponent,
+    EnvelopeComponent,
     SendPageComponent,
     RecievePageComponent
   ],

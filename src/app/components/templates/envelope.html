@@ -1,16 +1,16 @@
 <div class="body">
     <div class="envelope">
         <img id=envelope-background src="assets/envelope.png"/>
-        <input id="sender" type="text" name="sender" placeholder="Sender" autofocus>
-        <input id="where" type="text" name="where" placeholder="Location">
-        <input id="receiver" type="text" name="receiver" placeholder="Receiver">
+        <input id="sender" type="text" name="sender" placeholder="Sender" [(ngModel)]="envelope.sender_name" autofocus  [readonly]="!canEdit">
+        <input id="where" type="text" name="where" placeholder="Location" [(ngModel)]="envelope.recipient_email"  [readonly]="!canEdit">
+        <input id="receiver" type="text" name="receiver" placeholder="Receiver" [(ngModel)]="envelope.recipient_name"  [readonly]="!canEdit">
     </div>
     
     <img id="logo" src="assets/logo_clean.png"/>
     <img id="drink" src="assets/coffee.png"/>
     
     <!--toggle between send.png and open.png-->
-    <img id="send" src="assets/send.png" (click)="onClick()"/>
+    <img id="send" [src]="buttonSrc" (click)="onClick()"/>
     
     <img id="pencil" src="assets/pencil.png"/>
     <img id="stickynotes" src="assets/stickynote.png"/>
