@@ -13,7 +13,8 @@ export class RedirectPageComponent implements OnInit{
       ) {}
     
     ngOnInit(){
-        let newid = require('shortid').generate();
+        //redirect user to a new compose page
+        const newid = require('shortid').generate();
         this.router.navigate(['/compose/'+ newid]);
     }
 

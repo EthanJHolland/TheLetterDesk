@@ -1,7 +1,7 @@
 <div class="body">
     <div class="letter">
         <img id=letter-background src="assets/paper.png"/>
-        <textarea [(ngModel)]="letter.content" class=text [readonly]="!canEdit" autofocus> 
+        <textarea [(ngModel)]="currText" class=text [readonly]="!canEdit" autofocus (input)="textChanged($event)"> 
         </textarea>
     </div>
     

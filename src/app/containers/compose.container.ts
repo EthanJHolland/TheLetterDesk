@@ -20,11 +20,7 @@ import 'rxjs/add/operator/switchMap';
      `
 })
 export class ComposePageComponent implements OnInit {
-    letter: Letter={
-        _id: 'new',
-        content: ''
-    };
-
+    letter = new Letter('new');
     canEdit=true;
     buttonSrc='/assets/seal_clean.png';
 

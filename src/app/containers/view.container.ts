@@ -18,10 +18,7 @@ import 'rxjs/add/operator/filter';
     `,
 })
 export class ViewPageComponent implements OnInit{
-    letter: Letter={
-        _id: 'new',
-        content: 'loading...'
-    };
+    letter = new Letter('new');
 
     canEdit=false;
     buttonSrc='/assets/write_clean.png';
