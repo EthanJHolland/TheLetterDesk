@@ -13,6 +13,8 @@ export class PaperComponent{
     @Input() canEdit: boolean;
     @Output() buttonClick: EventEmitter<any> = new EventEmitter();
     currText: string; //the current text
+    cursorPos = 0; //the index of the cursor
+    count=0;
 
     onClick(){
         console.log('clicked');
@@ -20,29 +22,26 @@ export class PaperComponent{
     }
 
     textChanged(event){
-        console.log(event, event.inputType);
+        console.log('&');
+        // this.letter.resolveDiff(this.currText);
+        // console.log(this.letter);
+        // console.log(this.letter.deriveSimpleText());
+        console.log(this.cursorPos);
+        this.getCursorPosition(event);
+    }
+        
+    getCursorPosition($event){
+        //to add support for other browsers see 
+        //http://blog.sodhanalibrary.com/2015/02/get-cursor-position-in-text-input-field.html#.WjnbXt-nFPY
 
-        switch(event.inputType){
-            case 'insertText': //text
-                this.letter.resolveDiff(this.currText, event.data); //event.data holds what was typed    
-                break;      
-            case 'deleteContentBackward': //backspace
-                this.letter.resolveDiff(this.currText, 'backspace' as 'backspace'); //make sure the type is backspace not string
-                break;
-            case 'deleteContentForward': //delete
-                this.letter.resolveDiff(this.currText, 'delete' as 'delete'); //make sure the type is delete not string            
-                break;
-            case 'insertLineBreak': //new line
-                this.letter.resolveDiff(this.currText, '\n');
-                break;
-            case 'insertFromPaste': //text inserted by pasting
-
-                break;
-            case 'deleteByCut': //text cut
-                break;
+        console.log('.');
+        const field=$event.target; 
+        if(field.selectionStart){
+            this.cursorPos = field.selectionStart;
+        }else{
+            this.cursorPos = 0;
         }
 
-        console.log(this.letter);
-        console.log(this.letter.deriveSimpleText());
+        console.log(this.cursorPos);        
     }
 }

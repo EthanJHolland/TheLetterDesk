@@ -13,9 +13,9 @@ export class Letter {
     this.simpleText='';
   }
 
-  //find the first place at which the strings differ and then add a change object
-  //note that it is assumed that there is only one difference between the two
-  resolveDiff(newStr: string, change: string){
+  //find string differences and add changes to the changelog to make the letter string match the given string
+  //note that changes happen in order from beginning of the string to end of the string
+  resolveDiff(newStr: string){
     const firstDiff: number = this.findFirstDifference(newStr, this.simpleText);
     if(firstDiff<0){
       //strings are identical so do nothing
@@ -23,13 +23,13 @@ export class Letter {
     }
 
     //a change was made
-    if(this.simpleText === ''){
-      this.started = new Date(); //any time the entire letter is deleted start
-    }
-    //TODO: deal with block changes (example ctrl+a+backspace or pasting)
-    this.changeLog.push(new Change(change, firstDiff)); //append change to changelog
+    //note that relative string length does not indicate anything because text could be pasted over a previous selection of arbitrary length
+    //TODO: deal with bana => ba[na]na by pasting
+
+    // this.changeLog.push(new Change(change, firstDiff)); //append change to changelog
     this.simpleText=newStr; //store new string
     
+    this.resolveDiff(newStr); //recurse until strings are equal
   }
 
   //find the first index at which two strings differ

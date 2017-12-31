@@ -1,7 +1,14 @@
 <div class="body">
+    <h1>{{count}}</h1>
     <div class="letter">
-        <img id=letter-background src="assets/paper.png"/>
-        <textarea [(ngModel)]="currText" class=text [readonly]="!canEdit" autofocus (input)="textChanged($event)"> 
+        <img id=letter-background src="assets/paper.png"/>        
+        <textarea 
+            [(ngModel)]="currText"
+            class="text"
+            [readonly]="!canEdit"
+            (input)="textChanged($event)"
+            (click)="getCursorPosition($event)"
+            autofocus> 
         </textarea>
     </div>
     
