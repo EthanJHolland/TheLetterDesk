@@ -1,15 +1,21 @@
 <div class="body">
     <h1>{{count}}</h1>
     <div class="letter">
-        <img id=letter-background src="assets/paper.png"/>        
+        <img id=letter-background src="assets/paper.png"/>    
         <textarea 
             [(ngModel)]="currText"
             class="text"
             [readonly]="!canEdit"
             (input)="textChanged($event)"
-            (click)="getCursorPosition($event)"
-            autofocus> 
-        </textarea>
+            (keyup)="getCursorPos()"
+            (keydown)="keyDownSelection=getCursorPos()"
+            id="textarea"
+            ondragenter="event.dataTransfer.dropEffect='none'; event.stopPropagation(); event.preventDefault();"  
+            ondragover="event.dataTransfer.dropEffect='none';event.stopPropagation(); event.preventDefault();"  
+            ondrop="event.dataTransfer.dropEffect='none';event.stopPropagation(); event.preventDefault();"
+            autofocus>
+            <!-- ondragenter, ondragover, ondrop prevent people from dragging text into the textarea which is a change-tracking nightmare -->
+        </textarea> 
     </div>
     
     <img id="logo" src="assets/logo_clean.png"/>
