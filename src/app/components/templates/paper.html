@@ -1,14 +1,12 @@
 <div class="body">
-    <h1>{{count}}</h1>
     <div class="letter">
         <img id=letter-background src="assets/paper.png"/>    
         <textarea 
             [(ngModel)]="currText"
             class="text"
             [readonly]="!canEdit"
+            (beforeinput)="keyDownSelection=getCursorPos()"
             (input)="textChanged($event)"
-            (keyup)="getCursorPos()"
-            (keydown)="keyDownSelection=getCursorPos()"
             id="textarea"
             ondragenter="event.dataTransfer.dropEffect='none'; event.stopPropagation(); event.preventDefault();"  
             ondragover="event.dataTransfer.dropEffect='none';event.stopPropagation(); event.preventDefault();"  
