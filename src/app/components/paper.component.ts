@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { Letter } from '../models/letter';
+import { Selection } from '../models/selection';
 
 @Component({
     selector: 'paper-component',
@@ -13,8 +14,8 @@ export class PaperComponent{
     @Input() canEdit: boolean;
     @Output() buttonClick: EventEmitter<any> = new EventEmitter();
     currText: string; //the current text
-    cursorPos = 0; //the index of the cursor
     count=0;
+    keyDownSelection: Selection;
 
     onClick(){
         console.log('clicked');
@@ -22,26 +23,37 @@ export class PaperComponent{
     }
 
     textChanged(event){
-        console.log('&');
-        // this.letter.resolveDiff(this.currText);
-        // console.log(this.letter);
-        // console.log(this.letter.deriveSimpleText());
-        console.log(this.cursorPos);
-        this.getCursorPosition(event);
+        console.log(this.keyDownSelection);
+        console.log(event);
+        console.log(this.getCursorPos());
+        console.log('-');
+        //this.letter.resolveDiff(this.currText);
     }
-        
-    getCursorPosition($event){
-        //to add support for other browsers see 
-        //http://blog.sodhanalibrary.com/2015/02/get-cursor-position-in-text-input-field.html#.WjnbXt-nFPY
 
-        console.log('.');
-        const field=$event.target; 
-        if(field.selectionStart){
-            this.cursorPos = field.selectionStart;
-        }else{
-            this.cursorPos = 0;
+    keyup(){
+        console.log('up');
+    }
+
+    keydown(){
+        console.log('down');
+    }
+
+    getCursorPos() {
+        const el = document.getElementById("textarea") as HTMLTextAreaElement; //cast so you can access textarea specific elements
+        el.focus();
+        var start = 0, end = 0, normalizedValue, range,
+            textInputRange, len, endRange;
+    
+        //note this does not work for IE
+        if (typeof el.selectionStart == "number" && typeof el.selectionEnd == "number") {
+            start = el.selectionStart;
+            end = el.selectionEnd;
         }
-
-        console.log(this.cursorPos);        
+    
+     //   console.log(start+' '+end);
+        return {
+            start: start,
+            end: end
+        } as Selection
     }
 }
