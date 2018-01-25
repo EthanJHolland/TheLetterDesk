@@ -1,5 +1,8 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+#keypair.pem holds public key for SSH into AWS EC2 instance
+*.pem
+
 # aws secret and api key
 /aws.config.json
 
