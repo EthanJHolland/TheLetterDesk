@@ -1,4 +1,5 @@
-import { Change } from './change';
+import { Change, Insertion, Deletion } from './change';
+import { Selection } from './selection';
 
 export class Letter {
   _id: string; //the id which specifies the url at which it should be shown
@@ -13,23 +14,32 @@ export class Letter {
     this.simpleText='';
   }
 
-  //find string differences and add changes to the changelog to make the letter string match the given string
-  //note that changes happen in order from beginning of the string to end of the string
-  resolveDiff(newStr: string){
-    const firstDiff: number = this.findFirstDifference(newStr, this.simpleText);
-    if(firstDiff<0){
-      //strings are identical so do nothing
-      return;
+  /*
+  assumtions:
+    it is impossible to trigger an InputEvent and immediatly after triggering the event be selecting text
+    text dragging nd dropping has been disabled for the text area
+  */
+  resolveDiff(newStr: string, beforeSelection: Selection, afterSelection: Selection){
+    if(newStr === this.simpleText)return; //no detectable changes so do nothing
+
+    if(beforeSelection.start == beforeSelection.end){
+      //the user was not selecting text so characters were either inserted or deleted but not both
+      const before=beforeSelection.start;
+      const after=afterSelection.start;
+
+      if(before<after){
+        //insertion of some type (ex. typing, pasting, etc)
+        const added: string = newStr.substring(before, after);
+        this.changeLog.push(new Insertion(added, before))
+      }else{
+        //deletion of some sort
+        const lenDiff = this.simpleText.length - newStr.length; //find number of characters deleted
+
+      }
+    }else{
+      //user started with a selection so assume those characters were deleted
+
     }
-
-    //a change was made
-    //note that relative string length does not indicate anything because text could be pasted over a previous selection of arbitrary length
-    //TODO: deal with bana => ba[na]na by pasting
-
-    // this.changeLog.push(new Change(change, firstDiff)); //append change to changelog
-    this.simpleText=newStr; //store new string
-    
-    this.resolveDiff(newStr); //recurse until strings are equal
   }
 
   //find the first index at which two strings differ
@@ -46,23 +56,6 @@ export class Letter {
       i++;
     } 
     return i;
-  }
-
-  //get the final text after all backspaces have been resolved
-  //TODO: remove?
-  deriveSimpleText(){
-    let simple = '';
-
-    //iterate through changes
-    this.changeLog.forEach(change => {
-      if(change.isDeletion()){
-        simple=simple.substring(0,change.place)+simple.substring(change.place+1); //remove change specified by place
-      }else{
-        simple=simple.substring(0,change.place)+change.char+simple.substring(change.place); //add change in specified place
-      }
-    });
-
-    return simple;
   }
 
   simplify(){

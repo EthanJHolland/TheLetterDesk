@@ -1,6 +1,6 @@
 export class Envelope {
-    _id: string;
-    sender_name: string;
-    recipient_name: string;
-    recipient_email: string;
-  }
+  _id: string;
+  sender_name: string;
+  recipient_name: string;
+  recipient_email: string;
+}

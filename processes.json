@@ -1,16 +1,9 @@
 {
     "apps": [
         {
-            "name": "website",
-            "script": "npm run start",
-            "merge_logs": true,
-            "max_restarts": 20,
-            "instances": 2,
-            "max_memory_restart": "500M",
-            "env": {
-                "PORT": 4200,
-                "NODE_ENV": "production"
-            }
+            "name": "serv",
+            "script": "npm",
+            "args": "run start"
         }
     ]
 }
