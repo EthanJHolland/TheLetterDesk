@@ -50,10 +50,10 @@ WORKDIR ${appDir}
 
 # Add our package.json and install *before* adding our application files
 ADD package.json ./
-RUN npm i --production
+RUN npm install
 
 # Install pm2 so we can run our application
-RUN npm i -g pm2
+RUN npm install -g pm2
 
 # Add application files
 ADD ./ /var/www/app/current
@@ -63,4 +63,3 @@ EXPOSE 4200
 
 #run headless chrome in the background and pm2 in the foreground
 CMD pm2 start processes.json --no-daemon
-

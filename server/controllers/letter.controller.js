@@ -2,6 +2,10 @@
 
 var MongoClient = require('mongodb').MongoClient
 
+exports.test=function(req,res){
+    res.json({success: true})
+}
+
 exports.create=function(req,res){
     console.log("create");
 

@@ -1,9 +1,9 @@
 {
     "apps": [
         {
-            "name": "serv",
-            "script": "npm",
-            "args": "run start"
+            "name": "q",
+            "script": "ng",
+            "args": "serve"
         }
     ]
 }

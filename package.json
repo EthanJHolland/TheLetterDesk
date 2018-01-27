@@ -10,7 +10,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "test": "echo hello"
+    "port": "ng serve --port 80"
   },
   "private": true,
   "dependencies": {

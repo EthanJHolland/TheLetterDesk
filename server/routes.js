@@ -10,4 +10,5 @@ module.exports = function(app) {
   app.route('/send').post(sesController.send);
   app.route('/envelope/send').post(senderController.create);
   app.route('/envelope/retrieve/:id').get(senderController.retrieve);
+  app.route('/test').get(letterController.test);
 };
