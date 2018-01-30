@@ -15,10 +15,13 @@ import { SendPageComponent } from './containers/send.container';
 //import components
 import { PaperComponent } from './components/paper.component';
 import { EnvelopeComponent } from './components/envelope.component';
+import { ReadComponent } from './components/read.component';
+import { WriteComponent } from './components/write.component';
 
 //import services
 import { LetterService } from './services/letter.service';
 import { EnvelopeService } from './services/envelope.service';
+import { ReadWriteService } from './services/readwrite.service';
 
 //routes
 import { routes } from './routes';
@@ -32,7 +35,9 @@ import { routes } from './routes';
     PaperComponent,
     EnvelopeComponent,
     SendPageComponent,
-    RecievePageComponent
+    RecievePageComponent,
+    ReadComponent,
+    WriteComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +47,8 @@ import { routes } from './routes';
   ],
   providers: [
     LetterService,
-    EnvelopeService
+    EnvelopeService,
+    ReadWriteService
   ],
   bootstrap: [AppComponent]
 })

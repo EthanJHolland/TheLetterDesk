@@ -9,8 +9,7 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "port": "ng serve --port 80"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
@@ -28,6 +27,7 @@
     "cors": "^2.8.4",
     "google-auth-library": "^0.11.0",
     "googleapis": "^22.2.0",
+    "jquery": "^3.3.1",
     "mongodb": "^2.2.33",
     "pm2": "^2.9.3",
     "require": "^2.4.20",
@@ -41,6 +41,7 @@
     "@angular/language-service": "^4.0.0",
     "@types/jasmine": "~2.5.53",
     "@types/jasminewd2": "~2.0.2",
+    "@types/jquery": "^3.3.0",
     "@types/node": "^6.0.90",
     "codelyzer": "~3.0.1",
     "concurrently": "^3.5.0",

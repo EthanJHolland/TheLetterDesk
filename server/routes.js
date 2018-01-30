@@ -2,6 +2,7 @@
 module.exports = function(app) {
   var letterController = require('./controllers/letter.controller.js');
   var senderController =  require('./controllers/sender.controller.js');
+  var readwriteController = require('./controllers/readwrite.controller.js');
 
   // routes
   app.route('/create').post(letterController.create);
@@ -9,4 +10,6 @@ module.exports = function(app) {
   app.route('/envelope/send').post(senderController.create);
   app.route('/envelope/retrieve/:id').get(senderController.retrieve);
   app.route('/test').get(letterController.test);
+
+  app.route('/readwrite/send').post(readwriteController.send);
 };
