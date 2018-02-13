@@ -5,10 +5,12 @@
     box-sizing: border-box;
 }
 
-#logo {
-    width: 150px;
-    height: 50px;
-    position: absolute;
-    top: 10px;
-    left: 10px; 
+/* ensure that all body divs take up the full screen */
+.body{
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    position: fixed;    
 }

@@ -8,12 +8,6 @@
     text-decoration: none; /* no underline */
   }
   .body {
-    height: 100%;
-    width: 100%;
-    left: 0;
-    top: 0;
-    overflow: hidden;
-    position: fixed;
     background: rgb(249,249,249);
     transition: background 2.5s, color 1.0s;
     color: black;

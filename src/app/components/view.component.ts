@@ -22,7 +22,6 @@ export class ViewComponent{
     pause = false;
     totalString = ""; //what is outputted
     i=0; //what array index we are on
-    output = document.getElementsByClassName("words")[0]; //what div the letter is typed into
     shift = false; //if the shift key was pressed down 1 keypress ago
     messageComplete = true; //true before letter starts or after entire message has been typed
 
@@ -36,7 +35,7 @@ export class ViewComponent{
     openLetter(){
         //when you click .start (the open letter button), all this happens:
         $(".wrapper").fadeOut(400); //fade out the start button (using a wrapper div)
-        $("body").toggleClass("typing"); //change the body background
+        $(".body").toggleClass("typing"); //change the body background
         $(".menu").toggleClass("typing"); //fade out the logo
         $(".details").toggleClass("typing"); //fade in the details (i.e. the clock)
         $(".letter").toggleClass("typing"); //allow the letter to be visible
@@ -163,10 +162,18 @@ export class ViewComponent{
         //TODO: 2 pressing spacebar toggles back to blue
         return this.i + " / " + this.order.length;
     }       
+       
+    getPartialString(){
+        if(this.messageComplete || this.totalString==''){
+            return this.totalString;
+        }else{
+            return this.totalString+"|";
+        }
+    }
         
     toEnd() {
         //toggle everything back to the original (gray) display
-        $("body").toggleClass("typing");
+        $(".body").toggleClass("typing");
         $(".logo").toggleClass("typing");
         $(".details").toggleClass("typing");
         $(".letter").toggleClass("typing");

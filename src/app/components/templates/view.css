@@ -3,12 +3,12 @@
     margin: 0;
     box-sizing: border-box;
   }
-  body {
+  .body {
       background: rgb(249,249,249);
       transition: background 2.5s, color 1.0s;
       color: black;
   }
-  body.typing {
+  .body.typing {
       background: #232223;
       color: white; /*this is text color*/
   }

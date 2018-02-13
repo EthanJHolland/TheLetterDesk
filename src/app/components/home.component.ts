@@ -22,10 +22,7 @@ export class HomeComponent{
     //output = document.getElementsByClassName("words")[0]; //what div the letter is typed into
     shift = false; //if the shift key was pressed down 1 keypress ago
 
-    constructor(
-        private route: ActivatedRoute,
-        private router: Router
-      ) {}
+    constructor(private route: ActivatedRoute, private router: Router){}
     
     //when you click WHAT IS THIS, all this happens (it plays a letter for you)
     showAbout(){
