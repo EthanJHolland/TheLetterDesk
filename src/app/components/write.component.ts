@@ -8,7 +8,12 @@ import * as $ from 'jquery';
     templateUrl: './templates/write.html',
     styleUrls: ['./templates/readwrite.css']
 })
-export class WriteComponent{    
+export class WriteComponent{ 
+    @Output() send: EventEmitter<any> = new EventEmitter();
+    @Input() tldId: string;
+    url: string = 'http://localhost:4200/view/'; //add the tldId to get the url where the sent letter can be viewed
+    sent: boolean =  false; //indicate when to show that the message has been sent
+   
     //parallel arrays
     order: number[] = []; //order of down presses
     down: number[] = []; //down times
@@ -41,12 +46,14 @@ export class WriteComponent{
         }
     }
     
-    send() {
+    onSend() {
         console.log(this.order);
         console.log(this.times);
         console.log(this.duration);
         
-        this.readwriteService.send(this.order, this.times, this.duration);
+        this.send.emit({tldId: this.tldId, order: this.order, times: this.times, duration: this.duration});
            // .then((res) => this.router.navigate(['/send/'+data._id]));
-    }   
+        this.sent=true;
+        $(".body").toggleClass("typing"); //change the body background
+    }
 }

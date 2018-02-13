@@ -10,7 +10,7 @@ import 'rxjs/add/operator/switchMap';
     selector: 'compose-page',
     template: `<compose-component
      [tldid]=tldid
-     (send)=send($event)>
+     (send)=sendEmitter($event)>
      </compose-component>
      `
 })

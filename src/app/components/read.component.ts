@@ -3,7 +3,6 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Letter } from '../models/letter';
 import { Selection } from '../models/selection';
 
-//import jquery
 import * as $ from 'jquery';
 
 @Component({

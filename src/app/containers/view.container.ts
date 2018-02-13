@@ -1,52 +1,39 @@
 import { Component,OnInit } from '@angular/core';
 import { Router,ActivatedRoute,ParamMap } from '@angular/router';
-import { shortid } from 'shortid';
 
-import { LetterService } from '../services/letter.service';
-import { Letter } from '../models/letter';
+import { ReadWriteService } from '../services/readwrite.service';
 
 import 'rxjs/add/operator/filter';
 
 @Component({
     selector: 'view-page',
-    template: `<paper-component
-    [buttonSrc]=buttonSrc
-    [letter]=letter
-    [canEdit]=canEdit
-    (buttonClick)=buttonClick($event)>
-    </paper-component>
+    template: `<view-component
+    [letter]=letter>
+    </view-component>
     `,
 })
 export class ViewPageComponent implements OnInit{
-    letter = new Letter('new');
-
-    canEdit=false;
-    buttonSrc='/assets/write_clean.png';
+    letter: any;
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private letterService: LetterService 
+        private reaadWriteService: ReadWriteService 
       ) {}
     
     ngOnInit(){
         console.log('view page component');
-        this.route.paramMap.subscribe((params: ParamMap) => {
-            this.letterService.getLetter(params.get('id'))
-                .then((letter) => {
-                    console.log(letter);
-                    if(letter){
-                        this.letter=letter;
-                    }else{
-                        this.router.navigate(['/compose/'+require('shortid').generate()]);
-                    }
-                });
-        });
+        // this.route.paramMap.subscribe((params: ParamMap) => {
+        //     this.reaadWriteService.retrieve(params.get('id'))
+        //         .then((letter) => {
+        //             if(letter){
+        //                 this.letter=letter;
+        //             }else{
+        //                 //letter does not exist so redirect to compose page for now
+        //                 this.router.navigate(['/compose']);
+        //             }
+        //         });
+        // });
 
-    }
-
-    buttonClick(){
-        //redirect to a new compose
-        this.router.navigate(['/compose/'+require('shortid').generate()]);
     }
 }

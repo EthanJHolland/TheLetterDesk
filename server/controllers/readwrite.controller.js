@@ -7,7 +7,7 @@ exports.test=function(req,res){
 }
 
 exports.send=function(req,res){
-    console.log("create");
+    console.log("sending");
 
     MongoClient.connect('mongodb://localhost:27017/tld', function (err, db) {
         if (err){
@@ -17,7 +17,7 @@ exports.send=function(req,res){
 
         var coll=db.collection('letters');
         var letter=req.body.doc;
-        coll.insertOne(letter,  (err, doc) => {
+        coll.replaceOne({tldid: letter.tldid}, letter, {upsert: true}, (err, doc) => {
             if(err){
                 res.json({success: false})
             }else{
