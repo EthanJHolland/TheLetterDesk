@@ -6,18 +6,18 @@ exports.test=function(req,res){
     res.json({success: true})
 }
 
-exports.create=function(req,res){
-    console.log("create");
+exports.send=function(req,res){
+    console.log("sending");
 
     MongoClient.connect('mongodb://localhost:27017/tld', function (err, db) {
         if (err){
-            res.json({error: 'unable to connect'});
+            res.json({error: 'unable to connect', success: false});
             return;
         } 
 
         var coll=db.collection('letters');
-        var letter=req.body.letter;
-        coll.insertOne(letter,  (err, doc) => {
+        var letter=req.body.doc;
+        coll.replaceOne({tldid: letter.tldid}, letter, {upsert: true}, (err, doc) => {
             if(err){
                 res.json({success: false})
             }else{

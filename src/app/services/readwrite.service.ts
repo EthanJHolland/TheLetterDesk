@@ -9,7 +9,7 @@ import 'rxjs/add/operator/toPromise';
 export class ReadWriteService {
     private headers = new Headers({'Content-Type': 'application/json'});
 
-    private apiUrl = Constants.API_URL+'/readwrite';  // Url that all info Letter 's will be stored at
+    private apiUrl = Constants.API_URL;  // Url that all info Letter 's will be stored at
 
     constructor(private http: Http) { }
 
