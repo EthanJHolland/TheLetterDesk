@@ -4,7 +4,7 @@ const MongoClient = require('mongodb').MongoClient;
 const MONGO_URL = require('../constants').MONGO_URL
 
 exports.test=function(req,res){
-    res.json({success: Constants.API_URL})
+    res.json({success: true})
 }
 
 exports.send=function(req,res){
