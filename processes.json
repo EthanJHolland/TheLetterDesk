@@ -1,9 +1,8 @@
 {
     "apps": [
         {
-            "name": "q",
-            "script": "ng",
-            "args": "serve"
+            "name": "serverstart",
+            "script": "./server/server.js"
         }
     ]
 }

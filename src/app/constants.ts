@@ -1,3 +1,5 @@
+//note this file is git ignored
+
 //dev
 // export class Constants {
 //     public static URL='http://localhost:4200';
@@ -7,5 +9,5 @@
 //deploy
 export class Constants {
     public static URL='http://theletterdesk.com';
-    public static API_URL='ec2-54-91-205-135.compute-1.amazonaws.com:3000' //note this changes every time the ec2 instance is stopped and restarted
+    public static API_URL='ec2-54-208-75-189.compute-1.amazonaws.com:3000' //note this changes every time the ec2 instance is stopped and restarted
 }
