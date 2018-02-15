@@ -5,7 +5,7 @@
 *.ppk
 
 #dont track constants so that can use dev constants locally and deploy constants when deployed
-/src/app/constants.ts
+**/constants.*
 
 # aws secret and api key
 /aws.config.json
