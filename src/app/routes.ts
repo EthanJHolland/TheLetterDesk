@@ -26,6 +26,10 @@ export const routes: Routes = [
         component: ViewPageComponent
     },
     {
+        path: 'preview/:id',
+        component: ViewPageComponent
+    },
+    {
         path: '**',
         redirectTo: 'home',
         pathMatch: 'full'

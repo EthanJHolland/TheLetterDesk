@@ -59,7 +59,7 @@ export class ComposeComponent{
         
     //show stats
     send() {
-        if (this.y>=280) {
+        if (this.y>=2) {
             //if character count is satisfied (280), then proceed.
             //fade OUT letter writing stuff
             $('.letter').toggleClass('sent');
@@ -69,7 +69,8 @@ export class ComposeComponent{
             $('.getLink-container').toggleClass('sent');
 
             //tell container to send letter
-            this.sendEmitter.emit({tldId: this.tldid, location: this.location.toLowerCase(), order: this.order, down: this.down, duration: this.duration, times: this.times});
+            console.log('sending1')
+            this.sendEmitter.emit({tldid: this.tldid, location: this.location.toLowerCase(), order: this.order, down: this.down, duration: this.duration, times: this.times});
         }
     };
         
@@ -86,10 +87,15 @@ export class ComposeComponent{
         return Constants.URL+'/view/'+this.tldid
     }
 
+    //get url for previewing
+    getPreviewUrl(){
+        return Constants.URL+'/preview/'+this.tldid
+    }
+
     //preview -- go to link in new tab
     preview(){
         //router can't navigate in new tab so need to use traditional html methods
-        window.open(this.getUrl());
+        window.open(this.getPreviewUrl());
     }
         
     //close -- go back to editing letter if you wish

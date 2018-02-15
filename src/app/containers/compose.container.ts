@@ -10,7 +10,7 @@ import 'rxjs/add/operator/switchMap';
     selector: 'compose-page',
     template: `<compose-component
      [tldid]=tldid
-     (send)=sendEmitter($event)>
+     (sendEmitter)=send($event)>
      </compose-component>
      `
 })
@@ -28,7 +28,7 @@ export class ComposePageComponent implements OnInit {
 
     send(doc){
         //send
-        console.log('sending');
+        console.log('sending2');
         this.readwriteService.send(doc);
             //.then((res) => this.router.navigate(['/send/'+data._id]));
     }

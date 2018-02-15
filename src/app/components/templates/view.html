@@ -12,7 +12,7 @@
     <p class="logoTEXT fastfor details"><span style="color: #ffc8c8;">RIGHT ARROW</span></p>
     
     <!--the location and time appear only when you click the letter-->
-    <p class="logoTEXT location details">{{locationString.toUpperCase()}}</p>
+    <p class="logoTEXT location details">{{letter ? letter.location.toUpperCase() : ''}}</p>
     <p class="logoTEXT time details"></p>
     
     <!--open letter button: to move this around relative to the page, move wrapper div-->

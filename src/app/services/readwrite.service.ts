@@ -9,7 +9,7 @@ import 'rxjs/add/operator/toPromise';
 export class ReadWriteService {
     private headers = new Headers({'Content-Type': 'application/json'});
 
-    private apiUrl = Constants.API_URL;  // Url that all info Letter 's will be stored at
+    private apiUrl = Constants.API_URL;  //api endpoint for reading and writing
 
     constructor(private http: Http) { }
 
@@ -25,8 +25,8 @@ export class ReadWriteService {
         const url = `${this.apiUrl}/retrieve/${tldid}`;
         return this.http.get(url)
             .toPromise()
+            .then((res) => JSON.parse(res.text()))
             .catch(this.handleError);
-
     }
 
     private handleError(error: any): Promise<any> {     //error message if any error occurs
