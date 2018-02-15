@@ -1,8 +1,5 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-#constants file (to seperate dev and deploy constants)
-/src/app/constants.ts
-
 #public key for SSH into AWS EC2 instance
 *.pem
 *.ppk
