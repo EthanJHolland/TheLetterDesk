@@ -1,22 +1,24 @@
 'use strict'
 
-var MongoClient = require('mongodb').MongoClient
+const MongoClient = require('mongodb').MongoClient;
+const MONGO_URL = require('../constants').MONGO_URL
 
 exports.test=function(req,res){
-    res.json({success: true})
+    res.json({success: Constants.API_URL})
 }
 
 exports.send=function(req,res){
     console.log("sending "+req.body.doc.tldid);
 
-    MongoClient.connect('mongodb://localhost:27017/tld', function (err, db) {
+    MongoClient.connect(MONGO_URL, function (err, client) {
         if (err){
             res.json({error: 'unable to connect', success: false});
             return;
         } 
 
-        var coll=db.collection('letters');
-        var letter=req.body.doc;
+        const db=client.db('tld')
+        const coll=db.collection('letters');
+        const letter=req.body.doc;
         coll.replaceOne({tldid: letter.tldid}, letter, {upsert: true}, (err, doc) => {
             if(err){
                 res.json({success: false})
@@ -29,13 +31,14 @@ exports.send=function(req,res){
 
 exports.retrieve=function(req,res){
     console.log("retrieving "+req.params.id);
-    MongoClient.connect('mongodb://localhost:27017/tld', function (err, db) {
+    MongoClient.connect(MONGO_URL, function (err, client) {
         if (err){
-            res.json({error: 'unable to connect'});
+            res.json({error: err});
             return;
         } 
 
-        var coll=db.collection('letters');
+        const db=client.db('tld')
+        const coll=db.collection('letters');
         const tldid=req.params.id;
         coll.findOne({tldid: tldid}, (err, doc) => {
             if(err){
