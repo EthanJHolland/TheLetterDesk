@@ -19,7 +19,6 @@ export class HomeComponent{
     pause = false;
     totalString = ""; //what is outputted
     i=0; //what array index we are on
-    //output = document.getElementsByClassName("words")[0]; //what div the letter is typed into
     shift = false; //if the shift key was pressed down 1 keypress ago
 
     constructor(private route: ActivatedRoute, private router: Router){}
@@ -153,8 +152,6 @@ export class HomeComponent{
 
     //progress (time) bar
     getCharCount(){
-        //TODO: 1 when space bar is pressed before the first letter appears counter is off
-        //TODO: 2 pressing spacebar toggles back to blue
         return this.i + " / " + this.order.length;
     }       
         
