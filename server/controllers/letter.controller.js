@@ -6,18 +6,18 @@ exports.test=function(req,res){
     res.json({success: true})
 }
 
-exports.create=function(req,res){
-    console.log("create");
+exports.send=function(req,res){
+    console.log("sending "+req.body.doc.tldid);
 
     MongoClient.connect('mongodb://localhost:27017/tld', function (err, db) {
         if (err){
-            res.json({error: 'unable to connect'});
+            res.json({error: 'unable to connect', success: false});
             return;
         } 
 
         var coll=db.collection('letters');
-        var letter=req.body.letter;
-        coll.insertOne(letter,  (err, doc) => {
+        var letter=req.body.doc;
+        coll.replaceOne({tldid: letter.tldid}, letter, {upsert: true}, (err, doc) => {
             if(err){
                 res.json({success: false})
             }else{
@@ -28,7 +28,7 @@ exports.create=function(req,res){
 }
 
 exports.retrieve=function(req,res){
-    console.log("retrieve");
+    console.log("retrieving "+req.params.id);
     MongoClient.connect('mongodb://localhost:27017/tld', function (err, db) {
         if (err){
             res.json({error: 'unable to connect'});
@@ -36,8 +36,8 @@ exports.retrieve=function(req,res){
         } 
 
         var coll=db.collection('letters');
-        var id=req.params.id;
-        var item=coll.findOne({_id: id}, (err, doc) => {
+        const tldid=req.params.id;
+        coll.findOne({tldid: tldid}, (err, doc) => {
             if(err){
                 res.json({error: err});
             }else{

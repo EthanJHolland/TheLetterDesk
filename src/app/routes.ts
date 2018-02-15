@@ -2,12 +2,19 @@ import { Routes } from '@angular/router';
 import { ComposePageComponent } from './containers/compose.container';
 import { ViewPageComponent } from './containers/view.container';
 import { RedirectPageComponent } from './containers/redirect.container';
-import { RecievePageComponent } from './containers/recieve.container';
-import { SendPageComponent } from './containers/send.container';
+import { HomeComponent } from './components/home.component';
 
+//Automatically redirect to the homepage unless
+//1. trying to compose but no id included in which case redirect to a new compose page
+//2. compose with id included in which case allow for letter composition
+//3. view with id included in which case show letter 
 export const routes: Routes = [
     {
-        path: '',
+        path: 'home',
+        component: HomeComponent
+    },
+    {
+        path: 'compose',
         component: RedirectPageComponent
     },
     {
@@ -19,15 +26,12 @@ export const routes: Routes = [
         component: ViewPageComponent
     },
     {
-        path: 'send/:id',
-        component: SendPageComponent
-    },
-    {
-        path: 'recieve/:id',
-        component: RecievePageComponent
+        path: 'preview/:id',
+        component: ViewPageComponent
     },
     {
         path: '**',
-        component: RedirectPageComponent
+        redirectTo: 'home',
+        pathMatch: 'full'
     }
 ];
