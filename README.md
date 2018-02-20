@@ -10,3 +10,8 @@ To start the server use ```pm2 start processes.json --watch```. The watch flag f
 Ports currently in use:
 - 3000 - API
 - 27017 - MongoDB
+
+### //TODO:
+- Navigate away from about page
+- Prevent short letters
+- Better icon?

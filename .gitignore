@@ -6,7 +6,7 @@
 
 #dont track constants so that can use dev constants locally and deploy constants when deployed
 **/constants.*
-!/src/app/constants.ts
+!/src/app/constants.ts #exccept for this constants
 
 # aws secret and api key
 /aws.config.json
