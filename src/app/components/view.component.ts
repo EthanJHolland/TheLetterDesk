@@ -15,7 +15,7 @@ export class ViewComponent{
     @Input() set preview(preview: boolean){
         //if this letter is being viewed in preview mode skip open scene and just show text
         if(preview){
-            this.openLetter()
+            this.openLetterInPreview()
         }
     }
 
@@ -36,6 +36,25 @@ export class ViewComponent{
     //if the user wants to reply open a compose page in a new screen
     openReplyWindow(){
         window.open(Constants.URL+'/compose')
+    }
+
+    openLetterInPreview(){
+        //turn off all transitions before opening letter
+        //$(".wrapper").addClass("notransition");
+        $(".wrapper").hide(); //hide open letter button
+        $(".body").addClass("notransition");
+        $(".menu").addClass("notransition");
+        $(".details").addClass("notransition");
+        $(".letter").addClass("notransition");
+
+        //finally open the letter
+        this.openLetter()
+
+        //turn transitions back on after typing has begun
+        $(".body").removeClass("notransition");
+        $(".menu").removeClass("notransition");
+        $(".details").removeClass("notransition");
+        $(".letter").removeClass("notransition");
     }
 
     openLetter(){
