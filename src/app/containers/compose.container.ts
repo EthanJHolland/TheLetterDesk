@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ReadWriteService } from '../services/readwrite.service';
 
 import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/switchMap';
 
 @Component({
@@ -23,7 +24,17 @@ export class ComposePageComponent implements OnInit {
          private router: Router){}
 
     ngOnInit(){
-        this.route.paramMap.subscribe((params: ParamMap) => this.tldid=params.get('id'));
+        this.route.paramMap.subscribe((params: ParamMap) => {
+            this.tldid=params.get('id');
+            //check if letter exists
+            this.readwriteService.retrieve(this.tldid)
+                .then((letter) => {
+                    if(letter){
+                        //if letter already exists reroute to new compose page
+                        this.router.navigate(['/compose'])
+                    }
+                }); 
+        });
     }
 
     send(doc){
