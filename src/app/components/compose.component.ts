@@ -89,7 +89,9 @@ export class ComposeComponent{
 
     //get url for previewing
     getPreviewUrl(){
-        return Constants.URL+'/preview/'+this.tldid
+        // return Constants.URL+'/preview/'+this.tldid
+        //for now, make preview same as view
+        return Constants.URL+'/view/'+this.tldid
     }
 
     //preview -- go to link in new tab
