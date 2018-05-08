@@ -170,4 +170,14 @@ export class HomeComponent{
         $(".details").toggleClass("typing"); //get rid of pause, fastfor, location, time details
         $(".letter").toggleClass("typing"); //get rid of letter
     }
+
+    backToHome(){
+        window.location.reload();
+    }
+
+    // back(){
+    //     $(".wrapper").fadeOut(400); //fade out the start button (using a wrapper div)
+    //     $(".menu").toggleClass("typing"); //fade out the logo and other starting menu links
+    //     $(".write").toggleClass("typing"); //fade out write letter icon;
+    // }
 }
