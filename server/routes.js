@@ -4,6 +4,8 @@ module.exports = function(app) {
 
   // routes
   app.route('/test').get(letterController.test); //for testing if the api is running
-  app.route('/retrieve/:id').get(letterController.retrieve);
-  app.route('/send').post(letterController.send);
+  app.route('/retrieve/:id').get(letterController.retrieve); //for retrieving letters
+  app.route('/send').post(letterController.send); //for sending letters
+
+  app.route('/retrieve/:id').post(letterController.retrieveWithPassword); //retreve a password protected letter
 };
