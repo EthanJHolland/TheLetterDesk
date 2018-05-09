@@ -70,7 +70,7 @@ export class ComposeComponent{
 
             //tell container to send letter
             console.log('sending1')
-            this.sendEmitter.emit({tldid: this.tldid, location: this.location.toLowerCase(), order: this.order, down: this.down, duration: this.duration, times: this.times});
+            this.sendEmitter.emit({tldid: this.tldid, location: this.location.toLowerCase(), order: this.order, down: this.down, duration: this.duration, times: this.times, text: this.text});
         }
     };
         
