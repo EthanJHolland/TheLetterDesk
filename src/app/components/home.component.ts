@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import * as $ from 'jquery';
@@ -9,7 +9,7 @@ import { Constants } from '../constants';
     templateUrl: './templates/home.html',
     styleUrls: ['./templates/home.css']
 })
-export class HomeComponent{
+export class HomeComponent implements OnInit{
     //feed in data
     letter=Constants.ABOUT; //get about letter
     messageComplete = true; //true before letter starts or after entire message has been typed
@@ -21,6 +21,11 @@ export class HomeComponent{
     shift = false; //if the shift key was pressed down 1 keypress ago
 
     constructor(private route: ActivatedRoute, private router: Router){}
+
+    ngOnInit(){
+        //write version number so that it can be seen which git commit the website is up to
+        console.log('version '+Constants.VERSION);
+    }
     
     //when you click WHAT IS THIS, all this happens (it plays a letter for you)
     showAbout(){
