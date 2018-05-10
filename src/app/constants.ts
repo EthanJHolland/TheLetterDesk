@@ -1,7 +1,7 @@
 //note this file is git ignored
 
 export class Constants {
-    public static VERSION='0.0';
+    public static VERSION='0.1';
 
     //dev
     // public static URL='http://localhost:4200';
