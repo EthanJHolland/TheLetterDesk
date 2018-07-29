@@ -29,7 +29,7 @@ export class ComposePageComponent implements OnInit {
             //check if letter exists
             this.readwriteService.retrieve(this.tldid)
                 .then((letter) => {
-                    if(letter){
+                    if(letter && !letter.error){
                         //if letter already exists reroute to new compose page
                         this.router.navigate(['/compose'])
                     }
