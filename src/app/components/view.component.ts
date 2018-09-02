@@ -195,6 +195,11 @@ export class ViewComponent{
             return this.totalString+"|";
         }
     }
+
+    //go to homepage
+    navigateHome(){
+        this.router.navigate(['/home'])
+    }
         
     toEnd() {
         //toggle everything back to the original (gray) display

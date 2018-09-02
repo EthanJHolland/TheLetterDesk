@@ -99,6 +99,11 @@ export class ComposeComponent{
         //router can't navigate in new tab so need to use traditional html methods
         window.open(this.getPreviewUrl());
     }
+
+    //go to homepage
+    navigateHome(){
+        this.router.navigate(['/home'])
+    }
         
     //close -- go back to editing letter if you wish
     close(){
