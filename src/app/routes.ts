@@ -8,6 +8,7 @@ import { HomeComponent } from './components/home.component';
 //1. trying to compose but no id included in which case redirect to a new compose page
 //2. compose with id included in which case allow for letter composition
 //3. view with id included in which case show letter 
+//4. preview with id included in which case show letter preview
 export const routes: Routes = [
     {
         path: 'home',
