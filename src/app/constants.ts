@@ -1,4 +1,4 @@
-//note this file may be git ignored
+//note this file might be git ignored
 
 export class Constants {
     public static VERSION='0.1';
@@ -9,7 +9,7 @@ export class Constants {
 
     //deploy
     public static URL='http://theletterdesk.com';
-    public static API_URL='http://ec2-54-208-75-189.compute-1.amazonaws.com:3000' //note this changes every time the ec2 instance is stopped and restarted
+    public static API_URL='http://theletterdesk.com:3000';
 
     public static ABOUT={
         "order":[16,87,69,76,67,79,77,69,32,84,79,32,84,72,69,32,16,76,69,84,84,69,82,68,69,83,75,188,32,65,32,80,76,65,67,69,32,84,79,32,80,85,84,32,89,79,85,82,32,80,69,82,83,79,78,65,76,32,84,79,85,67,72,32,79,78,32,89,79,85,82,32,86,73,82,84,85,69,8,65,76,32,78,79,84,69,83,190],
