@@ -29,7 +29,6 @@ export class HomeComponent implements OnInit{
     
     //when you click WHAT IS THIS, all this happens (it plays a letter for you)
     showAbout(){
-        //document.getElementsByClassName("location")[0].innerHTML = this.locationString.toUpperCase();
         $(".wrapper").fadeOut(400); //fade out the start button (using a wrapper div)
         $(".body").toggleClass("typing"); //change the body background
         $(".menu").toggleClass("typing"); //fade out the logo and other starting menu links
@@ -115,7 +114,7 @@ export class HomeComponent implements OnInit{
         
         //special characters (anything that is not a letter)
         //stored in a dictionary that maps a keycode to the resulting character
-        var keyCodes ={32:" ", 188:",", 190:".", 49:"!", 191:"?",13:"<br>", 57:"(", 48:")", 222:"'", 189:"-", 186:":"};
+        var keyCodes ={32:" ", 188:",", 190:".", 49:"!", 191:"?",13:"\n", 57:"(", 48:")", 222:"'", 189:"-", 186:":"};
         
         //letters have keycodes from [65,90]
         if (c>=65 && c<=90) {

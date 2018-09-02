@@ -64,6 +64,10 @@
       width: 50%;
       transition: font-weight 0.5s;
   }
+
+  .words {
+    white-space: pre-line; /*treat \n as a newline rather than ignoring whitespace*/
+  }
   
   .wrapper {
       position: fixed;

@@ -7,6 +7,7 @@
       background: rgb(249,249,249);
       transition: background 2.5s, color 1.0s;
       color: black;
+      outline: none;
   }
   .body.typing {
       background: #232223;
@@ -47,6 +48,10 @@
       margin: 100px auto;
       width: 50%;
       transition: font-weight 0.5s;
+  }
+
+  .words {
+    white-space: pre-line; /*treat \n as a newline rather than ignoring whitespace*/
   }
   
   .postLetterWrite {
