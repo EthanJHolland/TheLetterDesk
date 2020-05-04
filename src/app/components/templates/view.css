@@ -1,0 +1,167 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  .body {
+      background: rgb(249,249,249);
+      transition: background 2.5s, color 1.0s;
+      color: black;
+      outline: none;
+  }
+  .body.typing {
+      background: #232223;
+      color: white; /*this is text color*/
+  }
+  .logo {
+      position: fixed;
+      left: 20px;
+      top: 15px;
+      font-family: 'Seaweed Script', cursive;
+      font-size: 1.5em;
+  }
+  .logo:hover {
+      cursor: pointer;
+  }
+  .logoTEXT {
+      font-family: 'Crimson Text', serif;
+      letter-spacing: 0.2em;
+      font-size: 0.8em;
+  }
+  
+  .about {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+  }
+  .about:hover {
+      cursor: pointer;
+  }
+  
+  .menu {transition: 1s ease-in-out}
+  .menu.typing {opacity: 0;}
+  
+  .letter {
+      font-family: 'Cormorant Garamond', serif;
+      letter-spacing: 0.04em;
+      font-size: 1.5em;
+      margin: 100px auto;
+      width: 50%;
+      transition: font-weight 0.5s;
+  }
+
+  .words {
+    white-space: pre-line; /*treat \n as a newline rather than ignoring whitespace*/
+  }
+  
+  .postLetterWrite {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      transition: all 0.5s;
+      opacity: 0;
+      z-index: -1; /*goes behind the WHAT IS THIS link at the beginning */
+  }
+  .postLetterWrite:hover {
+      color: rgb(71, 119, 198);
+      cursor: pointer;
+  }
+  .postLetterWrite.final {
+      opacity: 1;
+      z-index: 1; /*at the end we want this in the FRONT*/
+  }
+  
+  /*--------------------------------------no transition for preview--------------------------*/
+  /*when viewing in preview mode don't want any transitions*/
+  .notransition {
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important;
+  }
+  /*--------------------------------------no transition for preview--------------------------*/
+  
+  /*--------------------------------------Details (location and clock)--------------------------*/
+  .details {
+      position: fixed;
+      opacity: 0;
+      transition: color 0s, opacity 1.0s; 
+  }
+  .details.typing {opacity: 1;}
+  .location {
+      left: 20px;
+      top: 20px;
+  }
+  .time {
+      top: 20px;
+      right: 20px;
+      font-family: 'Crimson Text', serif;
+  }
+  
+  .pause {
+  /*    border: 0.5px solid #ffc8c8;*/
+      position: fixed;
+      width: 100px;
+      bottom: 30px;
+      left: 0;
+      right: 0;
+      margin: auto;
+  }
+  
+  .fastfor {
+  /*    border: 0.5px solid #ffc8c8;*/
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+  }
+  
+  /*------------------------------------------------------------------------------------------*/
+  
+  
+  
+  /*---------------"open" button and animation------------------*/
+  
+  .wrapper {
+  /*    border: 1px solid red;*/
+      width: 210px;
+      height: 60px;
+      margin: 0 auto;
+      
+      position: fixed;
+      top: 45%;
+      left: 0;
+      right: 0;
+      margin: auto;
+      
+      -webkit-transition: all 3s ease-out;
+      -moz-transition: all 3s ease-out;
+      -o-transition: all 3s ease-out;
+      transition: all 3s ease-out;
+  }
+  
+  .start {
+      border: 0.5px solid black;
+      font-size: 0.8em;
+      letter-spacing: 0.2em;
+      line-height: 1.5em;
+      font-family: 'Crimson Text', serif;
+      cursor: pointer;
+      transition: 0.6s; /*this transition is always looking for change*/
+      -webkit-transition: 0.6s;
+      
+      position: relative;
+      text-align: center; /*aligns text relative to start div*/
+      width: 210px;
+      height: auto;
+      padding: 19px;
+      margin: 0 auto; /*aligns start div relative to wrapper div*/
+  }
+  
+  .start:hover {
+      color: white;
+      background: #232223;
+  }
+  
+  
+  /*-------------------------------------------------------------------------------------------------------*/
+  

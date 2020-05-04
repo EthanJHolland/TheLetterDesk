@@ -1,14 +1,17 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
 #public key for SSH into AWS EC2 instance
 *.pem
 *.ppk
+
+#dont track constants so that can use dev constants locally and deploy constants when deployed
+**/constants.*
+!/src/app/constants.ts #exccept for this constants
 
 # aws secret and api key
 /aws.config.json
 
 # compiled output
 /dist
+/dist-nginx
 /tmp
 /out-tsc
 

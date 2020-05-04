@@ -1,0 +1,36 @@
+<link href="https://fonts.googleapis.com/css?family=Crimson+Text" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Seaweed+Script" rel="stylesheet">
+    
+<div class="body">
+    <p class="logo menu" (click)="navigateHome()">Letterdesk</p>
+    <p class="logoTEXT send" (click)="send()">   </p>
+    <input class="location logoTEXT" placeholder='WHERE ARE YOU WRITING FROM?' style='text-transform:uppercase' [(ngModel)]="location">
+    
+    <div class="textarea-container">
+        <textarea 
+            class="letter" 
+            id="LETTER" 
+            placeholder='write 280+ characters to send a letter' 
+            rows=20 
+            spellcheck="false" 
+            (keydown)="keyDown($event)"
+            (keyup)="keyUp($event)"
+            [(ngModel)]="text"
+            autofocus>
+        </textarea>
+        <div class="textarea-size">{{text+'\n'}}</div> <!-- naturally expanding text field-->
+    </div>
+    
+    <div id="stats" style="word-wrap: break-word;"></div>
+    
+    <!--below this is the "get the link to send it" page-->
+    <div class="getLink-container">
+        <div class="linkbox">
+            <div class="myurl">{{getUrl()}}</div>
+<!--            <div class="logoTEXT copylink" (click)="copyLink()">COPY</div>-->
+        </div>
+        <p class="logoTEXT preview" (click)="preview()">PREVIEW</p>
+        <p class="logoTEXT close" (click)="close()">CLOSE</p>
+    </div>
+</div>

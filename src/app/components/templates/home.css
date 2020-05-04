@@ -1,0 +1,118 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  a {
+    color: inherit;
+    text-decoration: none; /* no underline */
+  }
+  .body {
+    background: rgb(249,249,249);
+    transition: background 2.5s, color 1.0s;
+    color: black;
+  }
+  .body.typing {
+      background: #2f538e;
+      color: white; /*this is text color*/
+  }
+  
+  .logoTEXT {
+      font-family: 'Crimson Text', serif;
+      letter-spacing: 0.2em;
+      font-size: 0.8em;
+  }
+  .menu {
+      transition: 1s ease-in-out;
+      width: 30%;
+      text-align: center;
+      margin: 8px auto;
+  }
+  
+  .logo {
+      margin-top: 5%;
+      text-align: center;
+      font-family: 'Seaweed Script', cursive;
+      font-size: 3em;
+  }
+  
+  .cornerlogo {
+      opacity: 0;
+      position: fixed;
+      left: 20px;
+      top: 15px;
+      font-family: 'Seaweed Script', cursive;
+      font-size: 1.5em;
+      transition: 2s all ease-in-out;
+  }
+  .cornerlogo.final {
+      opacity: 1;
+      cursor: pointer;
+  }
+  
+  .write:hover, .about:hover {
+      cursor: pointer;
+      color: rgb(71, 119, 198);
+  }
+  .menu.typing {opacity: 0;}
+  
+  .letter {
+      font-family: 'Cormorant Garamond', serif;
+      letter-spacing: 0.04em;
+      font-size: 1.5em;
+      margin: 100px auto;
+      width: 50%;
+      transition: font-weight 0.5s;
+  }
+
+  .words {
+    white-space: pre-line; /*treat \n as a newline rather than ignoring whitespace*/
+  }
+  
+  .wrapper {
+      position: fixed;
+      height: 50%;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      margin: auto;
+  }
+  
+  
+  /*--------------------------------------Details (location and clock)--------------------------*/
+  .details {
+      position: fixed;
+      opacity: 0;
+      transition: color 0s, opacity 1.0s; 
+  }
+  .details.typing {opacity: 1;}
+  .location {
+      left: 20px;
+      top: 20px;
+  }
+  .time {
+      top: 20px;
+      right: 20px;
+      font-family: 'Crimson Text', serif;
+  }
+  
+  .pause {
+  /*    border: 0.5px solid #ffc8c8;*/
+      position: fixed;
+      width: 100px;
+      bottom: 30px;
+      left: 0;
+      right: 0;
+      margin: auto;
+      color: #ffdfdf;
+  }
+  
+  .fastfor {
+  /*    border: 0.5px solid #ffc8c8;*/
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      color: #ffdfdf;
+  }
+  
