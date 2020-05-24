@@ -32,6 +32,7 @@ export class ViewComponent{
     i=0; //what array index we are on
     shift = false; //if the shift key was pressed down 1 keypress ago
     messageComplete = true; //true before letter starts or after entire message has been typed
+    scrolledTo = 0; //used to automatically scroll down whenever the vertical height of the letter increases
 
     constructor(private router: Router){}
         
@@ -180,7 +181,12 @@ export class ViewComponent{
             setTimeout(this.toEnd,1000);
             
         }
-        window.scrollTo(0,50000); //automatic scrolling down for long letters
+
+        //automatically scroll down as letter appears
+        if (document.getElementById("body").scrollHeight > this.scrolledTo){
+            this.scrolledTo = document.getElementById("body").scrollHeight
+            document.getElementById("body").scrollTo(0, this.scrolledTo)
+        }
     }
 
     //progress (time) bar
