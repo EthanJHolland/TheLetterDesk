@@ -51,7 +51,7 @@
   }
 
   .words {
-    white-space: pre-line; /*treat \n as a newline rather than ignoring whitespace*/
+    white-space: pre-wrap; /* don't compress whitespace and wrap lines */
   }
   
   .postLetterWrite {

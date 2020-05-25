@@ -145,7 +145,7 @@ export class ViewComponent{
         
         //special characters (anything that is not a letter)
         //stored in a dictionary that maps a keycode to the resulting character
-        var keyCodes ={32:" ", 188:",", 190:".", 49:"!", 191:"?",13:"\n", 57:"(", 48:")", 222:"'", 189:"-", 186:":"};
+        var keyCodes ={9: "\t", 32:" ", 188:",", 190:".", 49:"!", 191:"?",13:"\n", 57:"(", 48:")", 222:"'", 189:"-", 186:":"};
         
         //letters have keycodes from [65,90]
         if (c>=65 && c<=90) {

@@ -38,6 +38,22 @@ export class ComposeComponent{
         this.duration[this.i] = -1;
         
         this.i++;
+
+        //handle tabs so that they insert a tab rather than moving the focus to the next focusable element
+        if (e.which === 9) {
+            var letterElem: HTMLTextAreaElement = <HTMLTextAreaElement> document.getElementById("LETTER"); //cast to HTMLTextAreaElement to access text area properties
+            const newCursorPos = letterElem.selectionStart + 1;
+
+            $("#LETTER").addClass("hide-text-cursor"); //hide cursor to avoid flash
+            this.text = this.text.slice(0, letterElem.selectionStart) + '\t' + this.text.slice(letterElem.selectionEnd);
+
+            setTimeout(() => { //allow new text to render then move cursor to desired position
+                letterElem.setSelectionRange(newCursorPos, newCursorPos);
+                $("#LETTER").removeClass("hide-text-cursor");
+            });
+           
+            return false; //return false to ignore default tab behaivor
+        }
     }
 
     keyUp(e) {

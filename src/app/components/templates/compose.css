@@ -102,8 +102,8 @@
       resize: none;
       border: 0.3px solid black;
       border: none;
+      caret-color: auto;
       
-  
       /*
       "pre" or "preline" or "normal" fixes Chrome issue where
       whitespace at end of lines does not trigger a line break.
@@ -112,6 +112,10 @@
       */
       white-space: normal;
       transition: all 2s ease;
+  }
+
+  .hide-text-cursor {
+    caret-color: transparent;
   }
   
   .location.sent, .send.sent, .letter.sent {
