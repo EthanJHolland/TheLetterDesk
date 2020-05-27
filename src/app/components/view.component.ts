@@ -27,6 +27,7 @@ export class ViewComponent{
     //locationString = "gothic reading room";
         
     //global variables
+    open = false; //whether or not the letter has been opened (becomes true when viewer clicks "open letter")
     pause = false;
     totalString = ""; //what is outputted
     i=0; //what array index we are on
@@ -61,6 +62,8 @@ export class ViewComponent{
     }
 
     openLetter(){
+        this.open = true;
+
         //when you click .start (the open letter button), all this happens:
         $(".wrapper").fadeOut(400); //fade out the start button (using a wrapper div)
         $(".body").toggleClass("typing"); //change the body background
@@ -76,35 +79,42 @@ export class ViewComponent{
     }
 
     //pause, fast forward, rewind
-    keyDown(e){
+    keyDown(e: KeyboardEvent){
         console.log(e)
-        if (e.which===32) {
-            //spacebar
-            if (this.pause===false) {
-                //if currently playing, then pause
+        if (!this.open) {
+            if (e.which === 32 || e.which === 13) {
+                //spacebar or enter
+                this.openLetter();
+            }
+        } else {
+            if (e.which===32) {
+                //spacebar
+                if (this.pause===false) {
+                    //if currently playing, then pause
+                    this.pause = true;
+                }
+                else {
+                    //if currently paused, then play
+                    this.pause = false;
+                    
+                    //keep typin'
+                    this.type();
+                }
+            }
+            if (e.which===39) {
+                //right arrow key
                 this.pause = true;
-            }
-            else {
-                //if currently paused, then play
-                this.pause = false;
                 
-                //keep typin'
-                this.type();
-            }
-        }
-        if (e.which===39) {
-            //right arrow key
-            this.pause = true;
-            
-            //update for any spaces
-            while (this.i < this.letter.order.length && ViewComponent.whitespaceChars.has(this.letter.order[this.i])) {
-                this.updateString(this.i);
-                this.i++;
-            }
-            //add next word
-            while (this.i<this.letter.order.length && !ViewComponent.whitespaceChars.has(this.letter.order[this.i])) {
-                this.updateString(this.i);
-                this.i++;
+                //update for any spaces
+                while (this.i < this.letter.order.length && ViewComponent.whitespaceChars.has(this.letter.order[this.i])) {
+                    this.updateString(this.i);
+                    this.i++;
+                }
+                //add next word
+                while (this.i<this.letter.order.length && !ViewComponent.whitespaceChars.has(this.letter.order[this.i])) {
+                    this.updateString(this.i);
+                    this.i++;
+                }
             }
         }
     }
