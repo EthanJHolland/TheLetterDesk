@@ -27,36 +27,38 @@ export class ComposeComponent{
 
     constructor(private router: Router, private readwriteService: ReadWriteService) {} //need the router for navigation
         
-    keyDown(e) {
-        this.order[this.i] = e.which;
-        this.down[this.i] = e.timeStamp;
-        this.times[this.i] = Math.floor((e.timeStamp - this.down[0]) * 1000) / 1000000;
-        
-        //press durations must be kept in the same order as other arrays to ensure it is parallel
-        //use -1 as a placeholder for now to keep parallel
-        //press durations will be updated when the key is released (onkeyup)
-        this.duration[this.i] = -1;
-        
-        this.i++;
-
-        //handle tabs so that they insert a tab rather than moving the focus to the next focusable element
-        if (e.which === 9) {
-            var letterElem: HTMLTextAreaElement = <HTMLTextAreaElement> document.getElementById("LETTER"); //cast to HTMLTextAreaElement to access text area properties
-            const newCursorPos = letterElem.selectionStart + 1;
-
-            $("#LETTER").addClass("hide-text-cursor"); //hide cursor to avoid flash
-            this.text = this.text.slice(0, letterElem.selectionStart) + '\t' + this.text.slice(letterElem.selectionEnd);
-
-            setTimeout(() => { //allow new text to render then move cursor to desired position
-                letterElem.setSelectionRange(newCursorPos, newCursorPos);
-                $("#LETTER").removeClass("hide-text-cursor");
-            });
-           
-            return false; //return false to ignore default tab behaivor
+    keyDown(e: KeyboardEvent) {
+        if (!e.ctrlKey && !e.altKey){ //ignore keystrokes where the ctrl key was pressed at the same time (for example, ctrl 0 should not result in a 0 in the final letter)
+            this.order[this.i] = e.which;
+            this.down[this.i] = e.timeStamp;
+            this.times[this.i] = Math.floor((e.timeStamp - this.down[0]) * 1000) / 1000000;
+            
+            //press durations must be kept in the same order as other arrays to ensure it is parallel
+            //use -1 as a placeholder for now to keep parallel
+            //press durations will be updated when the key is released (onkeyup)
+            this.duration[this.i] = -1;
+            
+            this.i++;
+    
+            //handle tabs so that they insert a tab rather than moving the focus to the next focusable element
+            if (e.which === 9) {
+                var letterElem: HTMLTextAreaElement = <HTMLTextAreaElement> document.getElementById("LETTER"); //cast to HTMLTextAreaElement to access text area properties
+                const newCursorPos = letterElem.selectionStart + 1;
+    
+                $("#LETTER").addClass("hide-text-cursor"); //hide cursor to avoid flash
+                this.text = this.text.slice(0, letterElem.selectionStart) + '\t' + this.text.slice(letterElem.selectionEnd);
+    
+                setTimeout(() => { //allow new text to render then move cursor to desired position
+                    letterElem.setSelectionRange(newCursorPos, newCursorPos);
+                    $("#LETTER").removeClass("hide-text-cursor");
+                });
+               
+                return false; //return false to ignore default tab behaivor
+            }
         }
     }
 
-    keyUp(e) {
+    keyUp(e: KeyboardEvent) {
         //find most recent (and only) occurence of e.which in duration for which the value is -1;
         for (var recent = this.i-1; recent>=0; recent--) {
             if ((this.duration[recent] === -1) && (this.order[recent]===e.which)) {                    
