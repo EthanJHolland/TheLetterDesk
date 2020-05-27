@@ -86,7 +86,7 @@ export class ViewComponent{
                 //spacebar or enter
                 this.openLetter();
             }
-        } else {
+        } else if (!this.messageComplete) {
             if (e.which===32) {
                 //spacebar
                 if (this.pause===false) {
