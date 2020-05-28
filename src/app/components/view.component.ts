@@ -32,6 +32,7 @@ export class ViewComponent{
     totalString = ""; //what is outputted
     i=0; //what array index we are on
     shift = false; //if the shift key was pressed down 1 keypress ago
+    capslock = false; 
     messageComplete = true; //true before letter starts or after entire message has been typed
     scrolledTo = 0; //used to automatically scroll down whenever the vertical height of the letter increases
 
@@ -155,11 +156,24 @@ export class ViewComponent{
         
         //special characters (anything that is not a letter)
         //stored in a dictionary that maps a keycode to the resulting character
-        var keyCodes ={9: "\t", 32:" ", 188:",", 190:".", 49:"!", 191:"?",13:"\n", 57:"(", 48:")", 222:"'", 189:"-", 186:":"};
+        var keyCodes = {32:" ", 13:"<br>"};
+        
+        var keyCodesSpecial ={49:"1", 50:"2", 51:"3", 52:"4", 53:"5", 54:"6", 55:"7", 56:"8", 57:"9", 48:"0", 189:"-", 187:"=", 219:"[", 221:"]", 220: "\\", 186:";", 222:"'", 188:",", 190:".", 191:"/", 192:"`"};
+        
+        var keyCodesSpecialShift = {49:"!", 50:"@", 51:"#", 52:"$", 53:"%", 54:"^", 55:"&", 56:"*", 57:"(", 48:")", 189:"_", 187:"+", 219:"{", 221:"}", 220:"|", 186:":", 222:'"', 188:"<", 190:">", 191:"?", 192:"~"};
+        
+        
+        //check if SHIFT is being held
+        if (c>1000) {
+            this.shift = true;
+            c = c/1000;
+        } else {
+            this.shift = false;
+        }
         
         //letters have keycodes from [65,90]
         if (c>=65 && c<=90) {
-            if (this.shift===true) {
+            if (this.shift===true || this.capslock===true) {
                 this.shift = false;
                 this.totalString += String.fromCharCode(c); //uppercase
             }
@@ -168,9 +182,19 @@ export class ViewComponent{
             }
         }
         else if (c in keyCodes) {
-            //special character (e.g. punctuation)
+            //special character WITHOUT Shift consideration
             this.totalString += keyCodes[c];
         }
+        else if (c in keyCodesSpecial) {
+            //special character WITH Shift consideration
+            if (this.shift===true) {
+                this.shift = false;
+                totalString += keyCodesSpecialShift[c];
+            } else {
+                totalString += keyCodesSpecial[c];
+            }
+        }
+        
         else if (c===8) {
             //backspace has keycode 8
             this.totalString = this.totalString.slice(0,-1);
@@ -178,6 +202,10 @@ export class ViewComponent{
         else if (c===16) {
             //shift has keycode 16
             this.shift = true;
+        }
+        else if (c===20) {
+            //toggle capslock
+            this.capslock = !this.capslock;
         }
         else {
             //for debugging only -- output the keycode if it's a character not accounted for

@@ -3,23 +3,23 @@
     margin: 0;
     box-sizing: border-box;
   }
-  
+
   body {
       background: rgb(249,249,249);
       transition: 1.5s all ease-in-out;
   }
-  
+
   .send {
       position: fixed;
       top: 20px;
       right: 20px;
   }
-  
+
   .send:hover {
       color: #c62f5a;
       cursor: pointer;
   }
-  
+
   .logo {
       position: fixed;
       left: 20px;
@@ -31,13 +31,13 @@
   .logo:hover {
       cursor: pointer;
   }
-  
+
   .logoTEXT {
       font-family: 'Crimson Text', serif;
       letter-spacing: 0.2em;
       font-size: 0.8em;
   }
-  
+
   .location {
       display: block;
       position: relative;
@@ -48,29 +48,29 @@
       border: none;
       outline: none;
   }
-  
+
   .textarea-container {
       z-index: -1;
       position: relative;
       /* you should change this*/
   }
-  
+
   textarea, .textarea-size {
       min-height: 25px;
       box-sizing: border-box;
       padding: 8px;
       overflow: hidden;
-      
+
       font-family: 'Cormorant Garamond', serif;
       font-weight: 100;
       letter-spacing: 0.06em;
       font-size: 1.4em;
       width: 50%;
-      margin: 50px 25% 0px 25%;
+      margin: 50px 25% 60px 25%;
       background: transparent;
       outline: none;
   }
-  
+
   .letter {
       height: 100%;
       position: absolute;
@@ -78,7 +78,7 @@
       border: 0.3px solid black;
       border: none;
       caret-color: auto;
-      
+
       /*
       "pre" or "preline" or "normal" fixes Chrome issue where
       whitespace at end of lines does not trigger a line break.
@@ -91,14 +91,14 @@
   .hide-text-cursor {
     caret-color: transparent;
   }
-  
+
   .textarea-size {
       visibility: hidden;
-  
+
       /*
       Pre-wrap: preserve spacing and newlines, but wrap text.
       Pre: preserve spacing and newlines but don't wrap text.
-  
+
       "pre" does not wrap well on Firefox, even with word-wrap:break-word.
       "pre" on Chrome works with word-wrap, but exhibits different behavior:
       Instead of entire words being moved to the next line for wrapping,
@@ -112,7 +112,7 @@
       word-wrap: break-word;
       overflow-wrap: break-word;
   }
-  
+
   /*placeholder text*/
   ::-webkit-input-placeholder {
       color: #c1c1c1;
@@ -120,10 +120,10 @@
   ::-moz-placeholder {
       color: #c1c1c1;
   }
-  :-ms-input-placeholder {  
+  :-ms-input-placeholder {
       color: #c1c1c1;
   }
-  
+
   /*send link*/
   .post-send-container {
   /*    border: 1px solid brown;*/
@@ -138,11 +138,11 @@
       visibility: hidden;
       opacity: 0;
   }
-  
+
   .pre-send-container, .post-send-container {
     transition: all 1s;
   }
-  
+
   .pre-send-container.sent {
       visibility: hidden;
       opacity: 0;
@@ -152,12 +152,12 @@
       visibility: visible;
       opacity: 1;
   }
-      
+
   a {
       text-decoration: none;
       color: black;
   }
-  
+
   .preview, .close {
       display: block;
       width: 200px;
@@ -165,7 +165,7 @@
       margin: 10px auto 10px auto;
       cursor: pointer;
   }
-  
+
   .linkbox {
       position: relative;
       height: 50px;
@@ -173,7 +173,7 @@
       margin: 0 auto 30px auto;
       width: 450px;
   }
-  
+
   .myurl {
   /*    border: 1px solid red;*/
       text-align: center;
@@ -182,7 +182,7 @@
       letter-spacing: 0.1em;
       padding: 12px 20px;
   }
-  
+
   .copylink {
       border-left: 0.5px solid black;
       position: absolute;
@@ -192,10 +192,8 @@
       padding: 14px 20px;
       cursor: pointer;
   }
-  
+
   .copylink:hover {
       color: white;
       background: #232223;
   }
-  
-  
