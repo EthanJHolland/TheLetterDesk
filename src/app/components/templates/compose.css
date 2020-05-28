@@ -9,17 +9,10 @@
       transition: 1.5s all ease-in-out;
   }
   
-  body.typing {
-      background: #232223;
-      color: white;
-  }
-  
   .send {
       position: absolute;
       top: 20px;
       right: 20px;
-      transition: all 1s;
-      opacity: 1;
   }
   
   .send:hover {
@@ -34,6 +27,7 @@
       font-family: 'Seaweed Script', cursive;
       font-size: 1.5em;
   }
+
   .logo:hover {
       cursor: pointer;
   }
@@ -42,22 +36,6 @@
       font-family: 'Crimson Text', serif;
       letter-spacing: 0.2em;
       font-size: 0.8em;
-  }
-  
-  .stamp {
-      border: 0.5px solid black;
-      text-align: center;
-      line-height: 1.8em;
-      padding-top: 14px;
-      width: 100px;
-      height: 80px;
-      transition: all 1s ease-out;
-  }
-  
-  .stamp:hover {
-      background: #232223;
-      color: white;
-      cursor: pointer;
   }
   
   .location {
@@ -92,10 +70,6 @@
       outline: none;
   }
   
-  textarea.typing, input.typing {
-      color: white;
-  }
-  
   .letter {
       height: 100%;
       position: absolute;
@@ -111,17 +85,11 @@
       "pre" that is described below.
       */
       white-space: normal;
-      transition: all 2s ease;
   }
 
   .hide-text-cursor {
     caret-color: transparent;
   }
-  
-  .location.sent, .send.sent, .letter.sent {
-      opacity: 0;
-  }
-  
   
   .textarea-size {
       visibility: hidden;
@@ -156,7 +124,7 @@
   }
   
   /*send link*/
-  .getLink-container {
+  .post-send-container {
   /*    border: 1px solid brown;*/
       position: fixed;
       width: 50%;
@@ -166,15 +134,24 @@
       right: 0;
       bottom: 0;
       margin: auto;
+      visibility: hidden;
       opacity: 0;
-      transition: opacity 0.5s ease-in-out;
   }
   
-  .getLink-container.sent {
+  .pre-send-container, .post-send-container {
+    transition: all 1s;
+  }
+  
+  .pre-send-container.sent {
+      visibility: hidden;
+      opacity: 0;
+  }
+
+  .post-send-container.sent {
+      visibility: visible;
       opacity: 1;
   }
       
-  
   a {
       text-decoration: none;
       color: black;

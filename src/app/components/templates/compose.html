@@ -4,30 +4,33 @@
     
 <div class="body">
     <p class="logo menu" (click)="navigateHome()">Letterdesk</p>
-    <p class="logoTEXT send" (click)="send()">   </p>
-    <input class="location logoTEXT" placeholder='WHERE ARE YOU WRITING FROM?' style='text-transform:uppercase' [(ngModel)]="location">
-    
-    <div class="textarea-container">
-        <textarea 
-            class="letter" 
-            id="LETTER" 
-            placeholder='write 280+ characters to send a letter' 
-            rows=20 
-            spellcheck="false" 
-            (keydown)="keyDown($event)"
-            (keyup)="keyUp($event)"
-            [(ngModel)]="text"
-            onDrop="return false"
-            onPaste="return false"
-            autofocus>
-        </textarea>
-        <div class="textarea-size">{{text+'\n'}}</div> <!-- naturally expanding text field-->
+
+    <div class="pre-send-container">
+        <p class="logoTEXT send" (click)="send()">   </p>
+        <input class="location logoTEXT" placeholder='WHERE ARE YOU WRITING FROM?' style='text-transform:uppercase' [(ngModel)]="location">
+        
+        <div class="textarea-container">
+            <textarea 
+                class="letter" 
+                id="LETTER" 
+                placeholder='write 280+ characters to send a letter' 
+                rows=20 
+                spellcheck="false" 
+                (keydown)="keyDown($event)"
+                (keyup)="keyUp($event)"
+                [(ngModel)]="text"
+                onDrop="return false"
+                onPaste="return false"
+                autofocus>
+            </textarea>
+            <div class="textarea-size">{{text+'\n'}}</div> <!-- naturally expanding text field-->
+        </div>
+        
+        <div id="stats" style="word-wrap: break-word;"></div>
     </div>
     
-    <div id="stats" style="word-wrap: break-word;"></div>
-    
     <!--below this is the "get the link to send it" page-->
-    <div class="getLink-container">
+    <div class="post-send-container">
         <div class="linkbox">
             <div class="myurl">{{getUrl()}}</div>
 <!--            <div class="logoTEXT copylink" (click)="copyLink()">COPY</div>-->

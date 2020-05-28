@@ -79,15 +79,10 @@ export class ComposeComponent{
     send() {
         if (this.y>=2) {
             //if character count is satisfied (280), then proceed.
-            //fade OUT letter writing stuff
-            $('.letter').toggleClass('sent');
-            $('.send').toggleClass('sent');
-            $('.location').toggleClass('sent');
-            //fade in new stuff
-            $('.getLink-container').toggleClass('sent');
+            $('.pre-send-container').toggleClass('sent');  //fade out letter writing elements
+            $('.post-send-container').toggleClass('sent');  //fade in letter sending elements
 
             //tell container to send letter
-            console.log('sending1')
             this.sendEmitter.emit({tldid: this.tldid, location: this.location.toLowerCase(), order: this.order, down: this.down, duration: this.duration, times: this.times, text: this.text});
         }
     };
@@ -125,11 +120,7 @@ export class ComposeComponent{
         
     //close -- go back to editing letter if you wish
     close(){
-        //fade out link stuff
-        $('.getLink-container').toggleClass('sent');
-        //fade in old letter writing stuff
-        $('.letter').toggleClass('sent');
-        $('.send').toggleClass('sent');
-        $('.location').toggleClass('sent');   
+        $('.pre-send-container').toggleClass('sent');  //fade in old letter writing elements
+        $('.post-send-container').toggleClass('sent');  //fade out letter sending elements
     }
 }
