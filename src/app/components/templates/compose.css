@@ -50,6 +50,7 @@
   }
   
   .textarea-container {
+      z-index: -1;
       position: relative;
       /* you should change this*/
   }
