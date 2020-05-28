@@ -17,6 +17,8 @@
             (keydown)="keyDown($event)"
             (keyup)="keyUp($event)"
             [(ngModel)]="text"
+            onDrop="return false"
+            onPaste="return false"
             autofocus>
         </textarea>
         <div class="textarea-size">{{text+'\n'}}</div> <!-- naturally expanding text field-->
