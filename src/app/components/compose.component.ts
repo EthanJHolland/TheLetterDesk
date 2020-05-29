@@ -28,15 +28,15 @@ export class ComposeComponent{
     constructor(private router: Router, private readwriteService: ReadWriteService) {} //need the router for navigation
         
     keyDown(e: KeyboardEvent) {
-        if (!e.ctrlKey && !e.altKey){ //ignore keystrokes where the ctrl key was pressed at the same time (for example, ctrl 0 should not result in a 0 in the final letter)
+        if (!e.ctrlKey && !e.altKey && e.which != 16){ //ignore control sequences, shift key
             
             //check to see if SHIFT is being held
-            if (e.shiftKey===true && e.which !=16) {
+            if (e.shiftKey) {
                 //if shift is being held while another key is pressed, store 1000X the normal keyCode
-                this.order[i] = e.which*1000;
+                this.order[this.i] = e.which*1000;
             }
             else {
-                this.order[i] = e.which;
+                this.order[this.i] = e.which;
             }
             
             this.down[this.i] = e.timeStamp;
