@@ -1,8 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Constants } from '../constants'
-
-import { ReadWriteService } from '../services/readwrite.service'
 
 import * as $ from 'jquery';
 
@@ -20,12 +18,20 @@ export class ComposeComponent{
     down = []; //down times
     duration = []; //press duration times
     times = []; //absolute continuous times starting from 0
+
+    debugMode = false; //debug mode indicates letter is being written for debugging/testing purposes
     i = 0; //currently on the ith element of all these parallel arrays
     y = 0; //how many characters in the textarea?
     text: string = ''; //store the text itself for sizing purposes
     location: string = ''; //store location
 
-    constructor(private router: Router, private readwriteService: ReadWriteService) {} //need the router for navigation
+    constructor(private router: Router, private route: ActivatedRoute) {} //need the router for navigation
+
+    ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+            this.debugMode = 'debug' in params && params['debug'].toLowerCase() == 'true';
+        });
+    }
         
     keyDown(e: KeyboardEvent) {
         if (!e.ctrlKey && !e.altKey && e.which != 16){ //ignore control sequences, shift key
@@ -92,7 +98,7 @@ export class ComposeComponent{
             $('.post-send-container').toggleClass('sent');  //fade in letter sending elements
 
             //tell container to send letter
-            this.sendEmitter.emit({tldid: this.tldid, location: this.location.toLowerCase(), order: this.order, down: this.down, duration: this.duration, times: this.times, text: this.text});
+            this.sendEmitter.emit({debug: this.debugMode, tldid: this.tldid, location: this.location.toLowerCase(), order: this.order, down: this.down, duration: this.duration, times: this.times, text: this.text});
         }
     };
         
