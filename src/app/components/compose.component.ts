@@ -21,7 +21,6 @@ export class ComposeComponent{
 
     debugMode = false; //debug mode indicates letter is being written for debugging/testing purposes
     i = 0; //currently on the ith element of all these parallel arrays
-    y = 0; //how many characters in the textarea?
     text: string = ''; //store the text itself for sizing purposes
     location: string = ''; //store location
 
@@ -82,18 +81,17 @@ export class ComposeComponent{
             }
         }
         
-        //count how many characters until you can send (280+)!
-        this.y = this.text.length;
-        document.getElementsByClassName('send')[0].innerHTML = "<span style='color: #c62f5a; font-size: 1.15em;'>" + (280-this.y).toString() + "+ </span><span style=''> </span>";
-        if (this.y>=280) {
+        //count how many characters until you can send!
+        document.getElementsByClassName('send')[0].innerHTML = "<span style='color: #c62f5a; font-size: 1.15em;'>" + (Constants.MIN_LETTER_LEN - this.text.length).toString() + "+ </span><span style=''> </span>";
+        if (this.text.length >= Constants.MIN_LETTER_LEN) {
             document.getElementsByClassName('send')[0].innerHTML = "SEND LETTER";
         }
     }
         
     //show stats
     send() {
-        if (this.y>=2) {
-            //if character count is satisfied (280), then proceed.
+        if (this.debugMode || this.text.length >= Constants.MIN_LETTER_LEN) {
+            //if character count is satisfied or in debug mode, then proceed.
             $('.pre-send-container').toggleClass('sent');  //fade out letter writing elements
             $('.post-send-container').toggleClass('sent');  //fade in letter sending elements
 
