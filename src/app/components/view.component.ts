@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
+import { GoogleAnalyticsService } from '../services/google-analytics.service';
 
 import { Constants } from '../constants';
 
@@ -35,10 +36,11 @@ export class ViewComponent{
     messageComplete = true; //true before letter starts or after entire message has been typed
     scrolledTo = 0; //used to automatically scroll down whenever the vertical height of the letter increases
 
-    constructor(private router: Router){}
+    constructor(private googleanalyticsService: GoogleAnalyticsService, private router: Router){}
         
     //if the user wants to reply open a compose page in a new screen
     openReplyWindow(){
+        this.googleanalyticsService.logEvent('view', 'navigate to compose from view');
         window.open(Constants.URL+'/compose')
     }
 
@@ -62,6 +64,8 @@ export class ViewComponent{
     }
 
     openLetter(){
+        this.googleanalyticsService.logEvent('view', 'opened letter');
+
         this.open = true;
 
         //when you click .start (the open letter button), all this happens:
@@ -238,6 +242,8 @@ export class ViewComponent{
 
     //go to homepage
     navigateHome(){
+        this.googleanalyticsService.logEvent('view', 'navigate to home page');
+
         this.router.navigate(['/home'])
     }
         

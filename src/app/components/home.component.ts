@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit{
     letter=Constants.ABOUT; //get about letter
     messageComplete = true; //true before letter starts or after entire message has been typed
 
-    //global variables
+    //global variabless
     pause = false;
     totalString = ""; //what is outputted
     i=0; //what array index we are on
@@ -31,6 +31,8 @@ export class HomeComponent implements OnInit{
     
     //when you click WHAT IS THIS, all this happens (it plays a letter for you)
     showAbout(){
+        this.googleanalyticsService.logEvent('home', 'view about page');
+
         $(".wrapper").fadeOut(400); //fade out the start button (using a wrapper div)
         $(".body").toggleClass("typing"); //change the body background
         $(".menu").toggleClass("typing"); //fade out the logo and other starting menu links

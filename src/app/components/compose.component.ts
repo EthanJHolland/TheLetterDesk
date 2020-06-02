@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { GoogleAnalyticsService } from '../services/google-analytics.service';
 import { Constants } from '../constants'
 
 import * as $ from 'jquery';
@@ -24,7 +25,7 @@ export class ComposeComponent{
     text: string = ''; //store the text itself for sizing purposes
     location: string = ''; //store location
 
-    constructor(private router: Router, private route: ActivatedRoute) {} //need the router for navigation
+    constructor(private googleanalyticsService: GoogleAnalyticsService, private router: Router, private route: ActivatedRoute) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -91,6 +92,8 @@ export class ComposeComponent{
     //show stats
     send() {
         if (this.debugMode || this.text.length >= Constants.MIN_LETTER_LEN) {
+            this.googleanalyticsService.logEvent('compose', 'letter sent');
+
             //if character count is satisfied or in debug mode, then proceed.
             $('.pre-send-container').toggleClass('sent');  //fade out letter writing elements
             $('.post-send-container').toggleClass('sent');  //fade in letter sending elements
@@ -122,6 +125,8 @@ export class ComposeComponent{
 
     //preview -- go to link in new tab
     preview(){
+        this.googleanalyticsService.logEvent('compose', 'preview just written letter');
+
         //router can't navigate in new tab so need to use traditional html methods
         window.open(this.getPreviewUrl());
     }
@@ -133,6 +138,8 @@ export class ComposeComponent{
         
     //close -- go back to editing letter if you wish
     close(){
+        this.googleanalyticsService.logEvent('compose', 'return to editing letter');
+
         $('.pre-send-container').toggleClass('sent');  //fade in old letter writing elements
         $('.post-send-container').toggleClass('sent');  //fade out letter sending elements
     }

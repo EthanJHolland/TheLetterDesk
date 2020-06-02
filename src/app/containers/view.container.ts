@@ -49,8 +49,10 @@ export class ViewPageComponent implements OnInit{
             this.readWriteService.retrieve(params.get('id'))
                 .then((letter) => {
                     if(letter){
+                        this.googleanalyticsService.logEvent('view', 'existing letter');
                         this.letter=letter;
                     }else{
+                        this.googleanalyticsService.logEvent('view', 'non-existent letter');
                         //letter does not exist so redirect to compose page for now
                         //this.router.navigate(['/compose']);
                         this.letter=Constants.LETTER_NOT_FOUND;
