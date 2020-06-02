@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { PasswordService } from '../services/password.service';
 import { Constants } from '../constants'
 
 import * as $ from 'jquery';
@@ -23,8 +24,9 @@ export class ComposeComponent{
     i = 0; //currently on the ith element of all these parallel arrays
     text: string = ''; //store the text itself for sizing purposes
     location: string = ''; //store location
+    password: string = ''; //optional password added to the letter
 
-    constructor(private router: Router, private route: ActivatedRoute) {} //need the router for navigation
+    constructor(private passwordService: PasswordService, private router: Router, private route: ActivatedRoute) {} //need the router for navigation
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -96,10 +98,28 @@ export class ComposeComponent{
             $('.post-send-container').toggleClass('sent');  //fade in letter sending elements
 
             //tell container to send letter
-            this.sendEmitter.emit({debug: this.debugMode, tldid: this.tldid, location: this.location.toLowerCase(), order: this.order, down: this.down, duration: this.duration, times: this.times, text: this.text});
+            this.emitLetter();
         }
     };
-        
+
+    //add password
+    addPassword() {
+        this.emitLetter(this.passwordService.hash(this.password, this.tldid));
+    }
+
+    emitLetter(hashedPassword: string = null) {
+        var letterObj: any = {
+            debug: this.debugMode,
+            tldid: this.tldid,
+            location: this.location.toLowerCase(),
+            order: this.order, down: this.down, duration: this.duration, times: this.times,
+            text: this.text
+        }
+        if (hashedPassword) letterObj.password = hashedPassword;
+
+        this.sendEmitter.emit(letterObj);
+    }
+
     // //copy button -- doesn't work :(
     // copyLink(){
     //     var copyText = document.getElementsByClassName("myurl")[0];

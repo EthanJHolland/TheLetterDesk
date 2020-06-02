@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Constants } from '../constants';
 
 import * as $ from 'jquery';
+import { PasswordService } from '../services/password.service';
 
 @Component({
     selector: 'view-component',
@@ -27,6 +28,7 @@ export class ViewComponent{
     //locationString = "gothic reading room";
         
     //global variables
+    passwordAttempt = '';
     open = false; //whether or not the letter has been opened (becomes true when viewer clicks "open letter")
     pause = false;
     totalString = ""; //what is outputted
@@ -35,11 +37,15 @@ export class ViewComponent{
     messageComplete = true; //true before letter starts or after entire message has been typed
     scrolledTo = 0; //used to automatically scroll down whenever the vertical height of the letter increases
 
-    constructor(private router: Router){}
+    constructor(private passwordService: PasswordService, private router: Router){}
         
     //if the user wants to reply open a compose page in a new screen
     openReplyWindow(){
         window.open(Constants.URL+'/compose')
+    }
+
+    verifyPassword(): boolean {
+        return this.passwordService.verify(this.letter.password, this.passwordAttempt, this.letter.tldid);
     }
 
     openLetterInPreview(){

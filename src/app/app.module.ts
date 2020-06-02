@@ -17,6 +17,7 @@ import { ComposeComponent } from './components/compose.component';
 import { ViewComponent } from './components/view.component';
 
 //import services
+import { PasswordService } from './services/password.service';
 import { ReadWriteService } from './services/readwrite.service';
 
 //routes
@@ -39,6 +40,7 @@ import { routes } from './routes';
     RouterModule.forRoot(routes)
   ],
   providers: [
+    PasswordService,
     ReadWriteService
   ],
   bootstrap: [AppComponent]
