@@ -13,7 +13,7 @@
             <textarea 
                 class="letter" 
                 id="LETTER" 
-                (placeholder)="'write ' + Constants.MIN_LETTER_LEN + '+ characters to send a letter'" 
+                [placeholder]="placeholderText()" 
                 rows=20 
                 spellcheck="false" 
                 (keydown)="keyDown($event)"
