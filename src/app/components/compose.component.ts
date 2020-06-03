@@ -32,6 +32,10 @@ export class ComposeComponent{
             this.debugMode = 'debug' in params && params['debug'].toLowerCase() == 'true';
         });
     }
+
+    placeholderText () {
+        return 'write ' + Constants.MIN_LETTER_LEN + '+ characters to send a letter';
+    }
         
     keyDown(e: KeyboardEvent) {
         if (!e.ctrlKey && !e.altKey && e.which != 16){ //ignore control sequences, shift key
