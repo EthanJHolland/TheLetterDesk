@@ -12,7 +12,8 @@ import * as $ from 'jquery';
 export class ComposeComponent{
     @Input() tldid: string;
     @Output() sendEmitter: EventEmitter<any> = new EventEmitter();
-        
+    
+    cursor_placement = 0; //updates on send, so it can refocus appropriately if you close the send screen 
     //parallel arrays
     order = []; //order of down presses
     down = []; //down times
@@ -98,19 +99,15 @@ export class ComposeComponent{
             //if character count is satisfied or in debug mode, then proceed.
             $('.pre-send-container').toggleClass('sent');  //fade out letter writing elements
             $('.post-send-container').toggleClass('sent');  //fade in letter sending elements
+            
+            //get cursor placement (for future autofocus)
+            var letterElem: HTMLTextAreaElement = <HTMLTextAreaElement> document.getElementById("LETTER");
+            this.cursor_placement = letterElem.selectionStart;
 
             //tell container to send letter
             this.sendEmitter.emit({debug: this.debugMode, tldid: this.tldid, location: this.location.toLowerCase(), order: this.order, down: this.down, duration: this.duration, times: this.times, text: this.text});
         }
     };
-        
-    // //copy button -- doesn't work :(
-    // copyLink(){
-    //     var copyText = document.getElementsByClassName("myurl")[0];
-    //     copyText.select();
-    //     document.execCommand('copy');
-    //     alert("Copied the text: " + copyText.value);
-    // }
         
     //generate the appropriate url
     getUrl(){
@@ -124,6 +121,23 @@ export class ComposeComponent{
         return Constants.URL+'/view/'+this.tldid
     }
 
+    //click button to copy link
+    copy() {
+        //var letterElem: HTMLTextAreaElement = <HTMLTextAreaElement> document.getElementById("LETTER");
+        
+        //put the URL in a hidden input because select+copy will not work for plain text in divs
+        document.getElementsByClassName('url_input')[0].value = document.getElementsByClassName('myurl')[0].innerHTML;
+        
+        //select text from the hidden input, then copy
+        document.getElementsByClassName('url_input')[0].select();
+        document.execCommand('copy');
+        //window.alert("Copied the text: " + copyText.value);
+            
+        //transition
+        document.getElementsByClassName('myurl')[0].classList.add('copied');
+        document.getElementsByClassName('copyalert')[0].innerHTML = "SUCCESS!";
+    } 
+     
     //preview -- go to link in new tab
     preview(){
         //router can't navigate in new tab so need to use traditional html methods
@@ -139,5 +153,10 @@ export class ComposeComponent{
     close(){
         $('.pre-send-container').toggleClass('sent');  //fade in old letter writing elements
         $('.post-send-container').toggleClass('sent');  //fade out letter sending elements
+        
+        //refocus cursor
+        var letterElem: HTMLTextAreaElement = <HTMLTextAreaElement> document.getElementById("LETTER");
+        letterElem.focus();
+        letterElem.selectionStart = this.cursor_placement;
     }
 }
