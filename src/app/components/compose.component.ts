@@ -123,16 +123,14 @@ export class ComposeComponent{
 
     //click button to copy link
     copy() {
-        //var letterElem: HTMLTextAreaElement = <HTMLTextAreaElement> document.getElementById("LETTER");
-        
         //put the URL in a hidden input because select+copy will not work for plain text in divs
-        document.getElementsByClassName('url_input')[0].value = document.getElementsByClassName('myurl')[0].innerHTML;
-        
+        var url_input = (<HTMLInputElement> document.getElementsByClassName('url_input')[0]);
+        url_input.value = document.getElementsByClassName('myurl')[0].innerHTML;
+
         //select text from the hidden input, then copy
-        document.getElementsByClassName('url_input')[0].select();
+        url_input.select();
         document.execCommand('copy');
-        //window.alert("Copied the text: " + copyText.value);
-            
+
         //transition
         document.getElementsByClassName('myurl')[0].classList.add('copied');
         document.getElementsByClassName('copyalert')[0].innerHTML = "SUCCESS!";
@@ -155,8 +153,10 @@ export class ComposeComponent{
         $('.post-send-container').toggleClass('sent');  //fade out letter sending elements
         
         //refocus cursor
-        var letterElem: HTMLTextAreaElement = <HTMLTextAreaElement> document.getElementById("LETTER");
-        letterElem.focus();
-        letterElem.selectionStart = this.cursor_placement;
+        setTimeout(() => { // need to wait for elements to reenter dom before focusing
+            var letterElem: HTMLTextAreaElement = <HTMLTextAreaElement> document.getElementById("LETTER");
+            letterElem.focus();
+            letterElem.selectionStart = this.cursor_placement;
+        }, 100);
     }
 }
