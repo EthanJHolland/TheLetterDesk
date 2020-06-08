@@ -8,8 +8,8 @@
     <p class="logo menu" (click)="navigateHome()">Letterdesk</p>
     <p class="logoTEXT about menu" (click)="navigateHome()">WHAT IS THIS?</p>
     
-    <p class="logoTEXT pause details"><span style="color: #ffc8c8;">SPACEBAR</span></p>
-    <p class="logoTEXT fastfor details"><span style="color: #ffc8c8;">RIGHT ARROW</span></p>
+    <p class="logoTEXT pause details" *ngIf="!deviceService.isMobile()"><span style="color: #ffc8c8;">SPACEBAR</span></p>
+    <p class="logoTEXT fastfor details" *ngIf="!deviceService.isMobile()"><span style="color: #ffc8c8;">RIGHT ARROW</span></p>
     
     <!--the location and time appear only when you click the letter-->
     <p class="logoTEXT location details">{{letter ? letter.location.toUpperCase() : ''}}</p>
