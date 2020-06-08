@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { PasswordService } from '../services/password.service';
 import { Constants } from '../constants'
 
+import { environment } from '../../environments/environment';
 import * as $ from 'jquery';
 
 @Component({
@@ -21,7 +22,7 @@ export class ComposeComponent{
     duration = []; //press duration times
     times = []; //absolute continuous times starting from 0
 
-    debugMode = false; //debug mode indicates letter is being written for debugging/testing purposes
+    debugMode = !environment.production; //debug mode indicates letter is being written for debugging/testing purposes
     i = 0; //currently on the ith element of all these parallel arrays
     text: string = ''; //store the text itself for sizing purposes
     location: string = ''; //store location
@@ -30,9 +31,11 @@ export class ComposeComponent{
     constructor(private passwordService: PasswordService, private router: Router, private route: ActivatedRoute) {} //need the router for navigation
 
     ngOnInit() {
-        this.route.queryParams.subscribe(params => {
-            this.debugMode = 'debug' in params && params['debug'].toLowerCase() == 'true';
-        });
+        if(environment.production) { // if in prod, look for query params to determine if debug mode
+            this.route.queryParams.subscribe(params => {
+                this.debugMode = 'debug' in params && params['debug'].toLowerCase() == 'true';
+            });
+        }
     }
 
     placeholderText () {
