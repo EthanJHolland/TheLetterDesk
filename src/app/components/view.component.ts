@@ -45,7 +45,11 @@ export class ViewComponent{
     passwordButtonText = 'password';
 
     constructor(private passwordService: PasswordService, private deviceService: DeviceService, private router: Router){}
-        
+
+    isMobile () {
+        return this.deviceService.isMobile();
+    }
+
     //if the user wants to reply open a compose page in a new screen
     openReplyWindow(){
         window.open(Constants.URL+'/compose')

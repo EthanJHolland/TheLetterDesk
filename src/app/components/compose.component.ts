@@ -39,6 +39,10 @@ export class ComposeComponent{
         }
     }
 
+    isMobile () {
+        return this.deviceService.isMobile();
+    }
+
     placeholderText () {
         return 'write ' + Constants.MIN_LETTER_LEN + '+ characters to send a letter';
     }
