@@ -46,11 +46,12 @@
             <button type="button" id="save" (click)="savePassword()" [disabled]="!password"><span>SAVE</span></button>
         </div>
 
+        <div class="copyalert logoTEXT" (click)="copy()">CLICK TO COPY LINK</div>
         <div class="linkbox">
             <div class="myurl">{{getUrl()}}</div>
-<!--            <div class="logoTEXT copylink" (click)="copyLink()">COPY</div>-->
         </div>
         <p class="logoTEXT preview" (click)="preview()">PREVIEW</p>
         <p class="logoTEXT close" (click)="close()">CONTINUE WRITING</p>
     </div>
+    <input class="hidden url_input">
 </div>
