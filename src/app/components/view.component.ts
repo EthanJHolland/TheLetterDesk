@@ -5,6 +5,7 @@ import { Constants } from '../constants';
 
 import * as $ from 'jquery';
 import { PasswordService } from '../services/password.service';
+import { DeviceService } from '../services/device.service';
 
 @Component({
     selector: 'view-component',
@@ -43,7 +44,7 @@ export class ViewComponent{
     scrolledTo = 0; //used to automatically scroll down whenever the vertical height of the letter increases
     passwordButtonText = 'password';
 
-    constructor(private passwordService: PasswordService, private router: Router){}
+    constructor(private passwordService: PasswordService, private deviceService: DeviceService, private router: Router){}
         
     //if the user wants to reply open a compose page in a new screen
     openReplyWindow(){
