@@ -93,6 +93,13 @@ export class ComposeComponent{
             document.getElementsByClassName('send')[0].innerHTML = "SEND LETTER";
         }
     }
+
+    passwordKeyUp(e: KeyboardEvent) {
+        if (e.which===13) {
+            //enter button on keyboard -> saves the password
+            this.savePassword();
+        }   
+    }
         
     //show stats
     send() {
@@ -159,5 +166,44 @@ export class ComposeComponent{
     close(){
         $('.pre-send-container').toggleClass('sent');  //fade in old letter writing elements
         $('.post-send-container').toggleClass('sent');  //fade out letter sending elements
+    }
+
+    //functions related to adding a password        
+    toggleEye() {
+        var x = <HTMLInputElement> document.getElementById("myPassword");
+        if (x.type === "text") {
+            x.type = "password";
+        } else {
+            x.type = "text";
+        }
+        document.getElementById("myPassword").focus(); //refocus the cursor
+    }
+
+    showPasswordField() {
+        var password_button = document.getElementById("password-button");
+        var element = document.getElementById("pw-set-container");
+
+        //to edit password: remove password button, show password element
+        password_button.classList.add("disabled");
+        element.classList.remove("disabled");
+        document.getElementById("myPassword").focus(); //focus the cursor
+        (<HTMLInputElement> document.getElementById("myPassword")).type = "password"; //mask password by default
+    }
+
+    savePassword() {
+        console.log(this.password);
+        var password_button = document.getElementById("password-button");
+        var element = document.getElementById("pw-set-container");
+        
+        //to save password: remove password element; show password button
+        password_button.classList.remove("disabled");
+        element.classList.add("disabled");
+        
+        //change "add password" to "edit password"
+        if (this.password.length !== 0) {
+            password_button.innerHTML = "EDIT PASSWORD";
+        } else {
+            password_button.innerHTML = "ADD PASSWORD";
+        }
     }
 }
