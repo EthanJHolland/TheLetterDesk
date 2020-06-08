@@ -15,6 +15,11 @@ export class ViewComponent{
     @Input() set letter(letter: any){
         this.locked = letter && 'password' in letter && letter.password; // locked iff letter has password which viewer has not yet entered (set in ngOnInit)
         this._letter = letter;
+
+        if (letter && !this.locked) {
+            // focus on body
+            document.getElementById("body").focus();
+        }
     }
     @Input() set preview(preview: boolean){
         //if this letter is being viewed in preview mode skip open scene and just show text
@@ -263,9 +268,10 @@ export class ViewComponent{
     submitPassword() {
         if (this.passwordService.verify(this._letter.password, this.passwordAttempt, this._letter.tldid)) {
             this.locked = false;
+            document.getElementById("body").focus(); // focus on body so space/enter can be used to open letter without having to click on page
         } else {
             //password is wrong; reset password field
-            this.passwordAttempt = "";
+            this.passwordAttempt = '';
             document.getElementById("password").focus();
         }
     }

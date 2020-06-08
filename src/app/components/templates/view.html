@@ -18,7 +18,7 @@
     <!-- password field -->
     <div id="pw-container" *ngIf="locked">
         <button type="button" id="enter" (click)="submitPassword()"><span>PASSWORD</span></button>
-        <input type="text" id="password" autocomplete="off" autofocus="true">
+        <input type="text" [(ngModel)]="passwordAttempt" id="password" autocomplete="off" autofocus="true">
     </div>
 
     <!--open letter button: to move this around relative to the page, move wrapper div-->
