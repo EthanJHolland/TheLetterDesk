@@ -41,6 +41,7 @@ export class ViewComponent{
     capslock = false; 
     messageComplete = true; //true before letter starts or after entire message has been typed
     scrolledTo = 0; //used to automatically scroll down whenever the vertical height of the letter increases
+    passwordButtonText = 'password';
 
     constructor(private passwordService: PasswordService, private router: Router){}
         
@@ -265,6 +266,16 @@ export class ViewComponent{
         $(".postLetterLocation").toggleClass("final"); //still show the location
     }
 
+    mouseEnter() {
+        this.passwordButtonText = 'enter';
+    }
+
+    mouseExit() {
+        if(this.passwordButtonText === 'enter') {
+            this.passwordButtonText = 'password';
+        }
+    }
+
     submitPassword() {
         if (this.passwordService.verify(this._letter.password, this.passwordAttempt, this._letter.tldid)) {
             this.locked = false;
@@ -272,6 +283,7 @@ export class ViewComponent{
         } else {
             //password is wrong; reset password field
             this.passwordAttempt = '';
+            this.passwordButtonText = 'try again';
             document.getElementById("password").focus();
         }
     }

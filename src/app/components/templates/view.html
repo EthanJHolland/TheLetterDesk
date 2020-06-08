@@ -17,7 +17,7 @@
 
     <!-- password field -->
     <div id="pw-container" *ngIf="locked">
-        <button type="button" id="enter" (click)="submitPassword()"><span>PASSWORD</span></button>
+        <button type="button" id="enter" (click)="submitPassword()" (mouseenter)="mouseEnter()" (mouseleave)="mouseExit()">{{passwordButtonText}}</button>
         <input type="text" [(ngModel)]="passwordAttempt" id="password" autocomplete="off" autofocus="true">
     </div>
 

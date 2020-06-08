@@ -200,10 +200,8 @@
   background: none;
   border: none;
   border-bottom: 0.5px solid black !important;
+  text-transform: uppercase;
 }
-
-#enter:hover span {display: none;}
-#enter:hover:before {content: "ENTER";}
 
 #password:focus, #enter:focus, #save:focus, #myPassword:focus {
   outline: none;
