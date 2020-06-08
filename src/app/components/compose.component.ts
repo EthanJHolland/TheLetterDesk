@@ -113,11 +113,6 @@ export class ComposeComponent{
         }
     };
 
-    //add password
-    addPassword() {
-        this.emitLetter(this.passwordService.hash(this.password, this.tldid));
-    }
-
     emitLetter(hashedPassword: string = null) {
         var letterObj: any = {
             debug: this.debugMode,
@@ -191,19 +186,21 @@ export class ComposeComponent{
     }
 
     savePassword() {
-        console.log(this.password);
         var password_button = document.getElementById("password-button");
         var element = document.getElementById("pw-set-container");
-        
+
         //to save password: remove password element; show password button
         password_button.classList.remove("disabled");
         element.classList.add("disabled");
-        
+
         //change "add password" to "edit password"
         if (this.password.length !== 0) {
             password_button.innerHTML = "EDIT PASSWORD";
         } else {
             password_button.innerHTML = "ADD PASSWORD";
         }
+
+        //reemit letter with password
+        this.emitLetter(this.passwordService.hash(this.password, this.tldid));
     }
 }
