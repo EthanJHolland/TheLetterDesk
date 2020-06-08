@@ -1,10 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PasswordService } from '../services/password.service';
-<<<<<<< HEAD
 import { DeviceService } from '../services/device.service';
-=======
->>>>>>> f1b09937296442a70120af4beba9cf84fae2b52d
 import { Constants } from '../constants'
 
 import { environment } from '../../environments/environment';
@@ -32,11 +29,7 @@ export class ComposeComponent{
     location: string = ''; //store location
     password: string = ''; //optional password added to the letter
 
-<<<<<<< HEAD
     constructor(private passwordService: PasswordService, private deviceService: DeviceService, private router: Router, private route: ActivatedRoute) {} //need the router for navigation
-=======
-    constructor(private passwordService: PasswordService, private router: Router, private route: ActivatedRoute) {} //need the router for navigation
->>>>>>> f1b09937296442a70120af4beba9cf84fae2b52d
 
     ngOnInit() {
         if(environment.production) { // if in prod, look for query params to determine if debug mode
