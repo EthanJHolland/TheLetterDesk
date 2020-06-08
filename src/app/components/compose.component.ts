@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { PasswordService } from '../services/password.service';
 import { Constants } from '../constants'
 
 import * as $ from 'jquery';
@@ -24,8 +25,9 @@ export class ComposeComponent{
     i = 0; //currently on the ith element of all these parallel arrays
     text: string = ''; //store the text itself for sizing purposes
     location: string = ''; //store location
+    password: string = ''; //optional password added to the letter
 
-    constructor(private router: Router, private route: ActivatedRoute) {} //need the router for navigation
+    constructor(private passwordService: PasswordService, private router: Router, private route: ActivatedRoute) {} //need the router for navigation
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -92,6 +94,13 @@ export class ComposeComponent{
             document.getElementsByClassName('send')[0].innerHTML = "SEND LETTER";
         }
     }
+
+    passwordKeyUp(e: KeyboardEvent) {
+        if (e.which===13) {
+            //enter button on keyboard -> saves the password
+            this.savePassword();
+        }   
+    }
         
     //show stats
     send() {
@@ -105,9 +114,22 @@ export class ComposeComponent{
             this.cursor_placement = letterElem.selectionStart;
 
             //tell container to send letter
-            this.sendEmitter.emit({debug: this.debugMode, tldid: this.tldid, location: this.location.toLowerCase(), order: this.order, down: this.down, duration: this.duration, times: this.times, text: this.text});
+            this.emitLetter();
         }
     };
+
+    emitLetter(hashedPassword: string = null) {
+        var letterObj: any = {
+            debug: this.debugMode,
+            tldid: this.tldid,
+            location: this.location.toLowerCase(),
+            order: this.order, down: this.down, duration: this.duration, times: this.times,
+            text: this.text
+        }
+        if (hashedPassword) letterObj.password = hashedPassword;
+
+        this.sendEmitter.emit(letterObj);
+    }
         
     //generate the appropriate url
     getUrl(){
@@ -158,5 +180,46 @@ export class ComposeComponent{
             letterElem.focus();
             letterElem.selectionStart = this.cursor_placement;
         }, 100);
+    }
+
+    //functions related to adding a password        
+    toggleEye() {
+        var x = <HTMLInputElement> document.getElementById("myPassword");
+        if (x.type === "text") {
+            x.type = "password";
+        } else {
+            x.type = "text";
+        }
+        document.getElementById("myPassword").focus(); //refocus the cursor
+    }
+
+    showPasswordField() {
+        var password_button = document.getElementById("password-button");
+        var element = document.getElementById("pw-set-container");
+
+        //to edit password: remove password button, show password element
+        password_button.classList.add("disabled");
+        element.classList.remove("disabled");
+        document.getElementById("myPassword").focus(); //focus the cursor
+        (<HTMLInputElement> document.getElementById("myPassword")).type = "password"; //mask password by default
+    }
+
+    savePassword() {
+        var password_button = document.getElementById("password-button");
+        var element = document.getElementById("pw-set-container");
+
+        //to save password: remove password element; show password button
+        password_button.classList.remove("disabled");
+        element.classList.add("disabled");
+
+        //change "add password" to "edit password"
+        if (this.password.length !== 0) {
+            password_button.innerHTML = "EDIT PASSWORD";
+        } else {
+            password_button.innerHTML = "ADD PASSWORD";
+        }
+
+        //reemit letter with password
+        this.emitLetter(this.passwordService.hash(this.password, this.tldid));
     }
 }

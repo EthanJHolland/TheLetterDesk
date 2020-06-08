@@ -172,6 +172,51 @@
       color: white;
       background: #232223;
   }
+/*-------------------------------------------------------------------------------------------------------*/
+
+/*--------------- password ------------------*/
+#password {
+  background: rgb(249,249,249);
+  width: 7em;
+  margin: 0;
+  font-size: 1.25em;
+  font-family: 'Cormorant Garamond', serif;
+  display: block;
+  text-align: center;
+  border: none;
+  padding: 10px;
+}
+
+#enter {
+  width: 11em;  /* CHANGE WIDTH FROM PX */
+  padding: 10px;
+  position: relative;
+  cursor: pointer;
+  border-radius: 0;
+  font-size: 0.8em;
+  font-family: 'Crimson Text', serif;
+  letter-spacing: 0.2em;
+  margin: 0 auto;
+  background: none;
+  border: none;
+  border-bottom: 0.5px solid black !important;
+  text-transform: uppercase;
+}
+
+#password:focus, #enter:focus, #save:focus, #myPassword:focus {
+  outline: none;
+}
+
+#pw-container {
+  border: none; /* for debugging */
+  position: fixed;
+  width: 8.8em;
+  top: 42%;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+/*-------------------------------------------------------------------------------------------------------*/
 
 
   /*-------------------------------------------------------------------------------------------------------*/

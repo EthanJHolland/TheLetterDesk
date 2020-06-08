@@ -195,11 +195,60 @@
     opacity: 0;
 }
 
+/*-----------------password styles, compose page---------------------*/
+#pw-set-container {
+    position: fixed;
+    top: 13px;
+    right: 16px;
+}
+
+#save, #password-button {
+    border: none;
+    border-radius: 0;
+    font-size: 0.8em;
+    font-family: 'Crimson Text', serif;
+    letter-spacing: 0.2em;
+    background: transparent;
+}
+
+#password-button {
+    position: fixed;
+    font-size: 0.75em;
+    top: 4px;
+    right: 20px;
+}
+
+#eye:hover, #save:hover, #password-button:hover {
+    cursor: pointer;
+}
+
+#myPassword {
+    border: none;
+    outline: none;
+    text-align: right;
+    font-size: 1em;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+#eye {
+    border: none;
+    margin-right: 5px;
+    height: 1em;
+    position: relative; /*adjust position from its default layout*/
+    top: 3.5px;
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0;
+}
+
+
+/**************** copying ****************/
 .copyalert {
     margin-bottom: 15px;
     cursor: pointer;
 }
-
 
 .copied {
     color: white;

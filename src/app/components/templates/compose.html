@@ -31,6 +31,21 @@
     
     <!--below this is the "get the link to send it" page-->
     <div class="post-send-container">
+        <p id="password-button" (click)="showPasswordField()">ADD PASSWORD</p>
+
+        <!--the class is changed to "enabled" after you click #password-button -->
+        <div id="pw-set-container" class="disabled">
+            <input type="password"
+                id="myPassword"
+                [(ngModel)]="password"
+                (keyup)="passwordKeyUp($event)"
+                autofocus="true"
+                autocomplete="off" 
+                data-lpignore="true"> <!-- data-lpignore prevents the lastpass password fill box from appearing -->
+            <img id="eye" (click)="toggleEye()" src="assets/eye.png"/>
+            <button type="button" id="save" (click)="savePassword()" [disabled]="!password"><span>SAVE</span></button>
+        </div>
+
         <div class="copyalert logoTEXT" (click)="copy()">CLICK TO COPY LINK</div>
         <div class="linkbox">
             <div class="myurl">{{getUrl()}}</div>
