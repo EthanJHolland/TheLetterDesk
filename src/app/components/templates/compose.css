@@ -198,8 +198,8 @@
 /*-----------------password styles, compose page---------------------*/
 #pw-set-container {
     position: fixed;
-    top: 13px;
-    right: 16px;
+    top: 17px;
+    right: 20px;
 }
 
 #save, #password-button {
@@ -214,7 +214,7 @@
 #password-button {
     position: fixed;
     font-size: 0.75em;
-    top: 4px;
+    top: 20px;
     right: 20px;
 }
 
@@ -232,7 +232,7 @@
 
 #eye {
     border: none;
-    margin-right: 5px;
+    margin-right: 10px;
     height: 1em;
     position: relative; /*adjust position from its default layout*/
     top: 3.5px;

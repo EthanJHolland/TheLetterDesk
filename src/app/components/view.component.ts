@@ -37,7 +37,8 @@ export class ViewComponent{
     passwordAttempt = '';
     open = false; //whether or not the letter has been opened (becomes true when viewer clicks "open letter")
     pause = false;
-    totalString = ""; //what is outputted
+    pre_cursor = ""; //everything before the cursor
+    post_cursor = ""; //everything after the cursor, which is nothing unless the cursor is refocused
     i=0; //what array index we are on
     capslock = false; 
     messageComplete = true; //true before letter starts or after entire message has been typed
@@ -180,6 +181,16 @@ export class ViewComponent{
         var keyCodesSpecialShift = {49:"!", 50:"@", 51:"#", 52:"$", 53:"%", 54:"^", 55:"&", 56:"*", 57:"(", 48:")", 189:"_", 187:"+", 219:"{", 221:"}", 220:"|", 186:":", 222:'"', 188:"<", 190:">", 191:"?", 192:"~"};
         
         
+        //check to see if cursor was moved
+        if (c<0) {
+            if (c == -0.1) {c = 0;} //cursor moves to the top of the letter
+            
+            var totalstring = this.pre_cursor.replace("|","") + this.post_cursor; //remove cursor before slicing
+            totalstring = totalstring.replace(/<br>/g, "☻"); //replace line breaks with a single character
+            this.pre_cursor = totalstring.slice(0,-c).replace(/☻/g, "<br>");
+            this.post_cursor = totalstring.slice(-c, totalstring.length).replace(/☻/g, "<br>");
+        }
+        
         //check if SHIFT is being held
         var shift: boolean;
         if (c>1000) {
@@ -192,28 +203,28 @@ export class ViewComponent{
         //letters have keycodes from [65,90]
         if (c>=65 && c<=90) {
             if ((shift || this.capslock) && !(shift && this.capslock)) { //uppercase if shift or capslock but not both
-                this.totalString += String.fromCharCode(c); //uppercase
+                this.pre_cursor += String.fromCharCode(c); //uppercase
             }
             else {
-                this.totalString += String.fromCharCode(c).toLowerCase(); //lowercase
+                this.pre_cursor += String.fromCharCode(c).toLowerCase(); //lowercase
             }
         }
         else if (c in keyCodes) {
             //special character WITHOUT Shift consideration
-            this.totalString += keyCodes[c];
+            this.pre_cursor += keyCodes[c];
         }
         else if (c in keyCodesSpecial) {
             //special character WITH Shift consideration
             if (shift) {
-                this.totalString += keyCodesSpecialShift[c];
+                this.pre_cursor += keyCodesSpecialShift[c];
             } else {
-                this.totalString += keyCodesSpecial[c];
+                this.pre_cursor += keyCodesSpecial[c];
             }
         }
         
         else if (c===8) {
             //backspace has keycode 8
-            this.totalString = this.totalString.slice(0,-1);
+            this.pre_cursor = this.pre_cursor.slice(0,-1);
         }
         else if (c===20) {
             //toggle capslock
@@ -221,7 +232,7 @@ export class ViewComponent{
         }
         else {
             //for debugging only -- output the keycode if it's a character not accounted for
-            //totalString += c;
+            //pre_cursor += c;
         }
         
         if (index>=this._letter.order.length-1) {
@@ -247,10 +258,10 @@ export class ViewComponent{
     }       
        
     getPartialString(){
-        if(this.messageComplete || this.totalString==''){
-            return this.totalString;
+        if(this.messageComplete || this.pre_cursor==''){
+            return this.pre_cursor + this.post_cursor;
         }else{
-            return this.totalString+"|";
+            return this.pre_cursor+"|" + this.post_cursor;
         }
     }
 

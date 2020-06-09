@@ -25,6 +25,7 @@ export class ComposeComponent{
 
     debugMode = !environment.production; //debug mode indicates letter is being written for debugging/testing purposes
     i = 0; //currently on the ith element of all these parallel arrays
+    pos = -1; //textcursor position (updates on mouseup event)
     text: string = ''; //store the text itself for sizing purposes
     location: string = ''; //store location
     password: string = ''; //optional password added to the letter
@@ -46,7 +47,32 @@ export class ComposeComponent{
     placeholderText () {
         return 'write ' + Constants.MIN_LETTER_LEN + '+ characters to send a letter';
     }
-        
+    
+    //possible events that can trigger a textcursor change
+    letterElem: HTMLTextAreaElement = <HTMLTextAreaElement> document.getElementById("LETTER"); 
+    letterElem.addEventListener('mouseup', checkcaret); // click
+    letterElem.addEventListener('touchend', checkcaret); // mobile click
+     
+    function checkcaret(event) {
+        const newPos = letterElem.selectionStart;
+        if (newPos !== this.pos) { 
+            
+            //signal a new cursor position with a negative number
+            if (newPos == 0) {
+                this.order[this.i] =  -0.1; //0 can't be negative so use -0.1 instead
+            } else {
+                this.order[this.i] =  -newPos;
+            }
+            
+            //fill in parallel arrays for timing
+            this.down[this.i] = event.timeStamp;
+            this.times[this.i] = Math.floor((event.timeStamp - this.down[0]) * 1000) / 1000000;
+            
+            i++;
+            this.pos = newPos;
+        }
+    }
+     
     keyDown(e: KeyboardEvent) {
         if (!e.ctrlKey && !e.altKey && e.which != 16){ //ignore control sequences, shift key
             
