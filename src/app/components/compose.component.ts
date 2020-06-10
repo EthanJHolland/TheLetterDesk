@@ -110,7 +110,6 @@ export class ComposeComponent{
         }   
     }
         
-    //show stats
     send() {
         if (this.debugMode || this.text.length >= Constants.MIN_LETTER_LEN) {
             //if character count is satisfied or in debug mode, then proceed.
@@ -164,6 +163,7 @@ export class ComposeComponent{
         //transition
         document.getElementsByClassName('myurl')[0].classList.add('copied');
         document.getElementsByClassName('copyalert')[0].innerHTML = "SUCCESS!";
+        document.getElementsByClassName('copyalert')[0].classList.remove('clickable');
     } 
      
     //preview -- go to link in new tab
