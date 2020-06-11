@@ -50,31 +50,42 @@ export class ComposeComponent{
     
     //possible events that can trigger a textcursor change
     letterElem: HTMLTextAreaElement = <HTMLTextAreaElement> document.getElementById("LETTER"); 
-    letterElem.addEventListener('mouseup', checkcaret); // click
+    letterElem.addEventListener('click', checkcaret); // click
     letterElem.addEventListener('touchend', checkcaret); // mobile click
      
     function checkcaret(event) {
-        const newPos = letterElem.selectionStart;
-        if (newPos !== this.pos) { 
-            
-            //signal a new cursor position with a negative number
-            if (newPos == 0) {
-                this.order[this.i] =  -0.1; //0 can't be negative so use -0.1 instead
-            } else {
-                this.order[this.i] =  -newPos;
+        if (letterElem.selectionStart == letterElem.selectionEnd) {
+            //only check caret if nothing is higlighted
+            const newPos = letterElem.selectionStart;
+            if (newPos !== this.pos) { 
+
+                //signal a new cursor position with a negative number
+                if (newPos == 0) {
+                    this.order[this.i] =  -0.1; //0 can't be negative so use -0.1 instead
+                } else {
+                    this.order[this.i] =  -newPos;
+                }
+
+                //fill in parallel arrays for timing
+                this.down[this.i] = event.timeStamp;
+                this.times[this.i] = Math.floor((event.timeStamp - this.down[0]) * 1000) / 1000000;
+
+                i++;
+                this.pos = newPos;
             }
-            
-            //fill in parallel arrays for timing
-            this.down[this.i] = event.timeStamp;
-            this.times[this.i] = Math.floor((event.timeStamp - this.down[0]) * 1000) / 1000000;
-            
-            i++;
-            this.pos = newPos;
         }
     }
      
     keyDown(e: KeyboardEvent) {
         if (!e.ctrlKey && !e.altKey && e.which != 16){ //ignore control sequences, shift key
+            
+            //check to see if anything is highlighted
+            if (letterElem.selectionStart != letterElem.selectionEnd) {
+                this.order[this.i] = -((letterElem.selectionEnd*1000000) + letterElem.selectionStart);
+                this.down[this.i] = e.timeStamp;
+                this.times[this.i] = Math.floor((e.timeStamp - this.down[0]) * 1000) / 1000000;
+                this.i++;
+            }
             
             //check to see if SHIFT is being held
             if (e.shiftKey) {
@@ -114,6 +125,12 @@ export class ComposeComponent{
     }
 
     keyUp(e: KeyboardEvent) {
+        if (e.which==37 || e.which==38 || e.which==39 || e.which==40) {
+            //if an arrow key is lifted up -> check the new index
+            checkcaret(event);
+        }
+        pos = textarea.selectionStart; //update cursor position at every keyup
+        
         //find most recent (and only) occurence of e.which in duration for which the value is -1;
         for (var recent = this.i-1; recent>=0; recent--) {
             if ((this.duration[recent] === -1) && (this.order[recent]===e.which)) {                    

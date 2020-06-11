@@ -187,8 +187,18 @@ export class ViewComponent{
             
             var totalstring = this.pre_cursor.replace("|","") + this.post_cursor; //remove cursor before slicing
             totalstring = totalstring.replace(/<br>/g, "☻"); //replace line breaks with a single character
-            this.pre_cursor = totalstring.slice(0,-c).replace(/☻/g, "<br>");
-            this.post_cursor = totalstring.slice(-c, totalstring.length).replace(/☻/g, "<br>");
+            
+            if (c<-1000000) {
+                //delete highlighted text
+                var start = -(c % 1000000);
+                var end = (c + start) / -1000000;
+                this.pre_cursor = totalstring.slice(0,start).replace(/☻/g, "<br>");
+                this.post_cursor = totalstring.slice(end).replace(/☻/g, "<br>");
+            else {
+                //move the cursor
+                this.pre_cursor = totalstring.slice(0,-c).replace(/☻/g, "<br>");
+                this.post_cursor = totalstring.slice(-c, totalstring.length).replace(/☻/g, "<br>");
+            }
         }
         
         //check if SHIFT is being held
@@ -222,10 +232,14 @@ export class ViewComponent{
             }
         }
         
-        else if (c===8) {
-            //backspace has keycode 8
+        else if (c===8 && order[i-1] > -1000000) {
+            //backspace
             this.pre_cursor = this.pre_cursor.slice(0,-1);
         }
+        else if (c===46 && order[i-1] > -1000000) {
+            //delete
+            post_cursor = post_cursor.slice(1);
+        }    
         else if (c===20) {
             //toggle capslock
             this.capslock = !this.capslock;
