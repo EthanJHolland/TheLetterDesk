@@ -1,6 +1,6 @@
 <div id="body" class="body" tabindex="0" (keydown)="keyDown($event)">
-    <p id="logo" class="logo-text top-left-corner clickable menu" (click)="navigateHome()">Letterdesk</p>
-    <p id="about" class="button-text clickable menu" (click)="navigateHome()">WHAT IS THIS?</p>
+    <p id="logo" class="logo-text top-left-corner clickable menu" routerLink="/home">Letterdesk</p>
+    <p id="about" class="button-text clickable menu" routerLink="/home">WHAT IS THIS?</p>
 
     <div *ngIf="!isMobile()">
         <p id="pause" class="button-text clickable details">SPACEBAR</p>

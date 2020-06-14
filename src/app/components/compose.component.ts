@@ -176,11 +176,6 @@ export class ComposeComponent{
         window.open(this.getPreviewUrl());
     }
 
-    //go to homepage
-    navigateHome(){
-        this.router.navigate(['/home'])
-    }
-        
     //close -- go back to editing letter if you wish
     close(){
         $('#pre-send-container').toggleClass('sent');  //fade in old letter writing elements

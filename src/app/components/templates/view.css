@@ -5,7 +5,6 @@
 #body {
     transition: background 2.5s, color 1.0s;
     color: black;
-    outline: none;
 }
 
 #body.typing {

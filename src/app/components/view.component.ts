@@ -254,11 +254,6 @@ export class ViewComponent{
         }
     }
 
-    //go to homepage
-    navigateHome(){
-        this.router.navigate(['/home'])
-    }
-        
     toEnd() {
         //toggle everything back to the original (gray) display
         $("#body").toggleClass("typing");
