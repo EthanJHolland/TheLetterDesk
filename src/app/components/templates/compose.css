@@ -20,7 +20,6 @@ body {
 }
 
 .textarea-container {
-    z-index: -1;
     position: relative;
     /* you should change this*/
 }
@@ -44,7 +43,6 @@ textarea, .textarea-size {
     height: 100%;
     position: absolute;
     resize: none;
-    border: 0.3px solid black;
     border: none;
     caret-color: auto;
 

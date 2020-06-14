@@ -4,15 +4,14 @@
     <p class="body-text letter" *ngIf="isMobile()" style="font-size: larger; text-align: center; margin: 50px 25% 0px 25%;">Currently, letters cannot be written on mobile!</p>
 
     <div class="pre-send-container" *ngIf="!isMobile()">
-        <p class="button-text send clickable" (click)="send()"></p>
         <input class="location button-text" placeholder='WHERE ARE YOU WRITING FROM?' [(ngModel)]="location">
-        
+        <p class="button-text send clickable" (click)="send()"></p>
+
         <div class="textarea-container">
             <textarea 
                 class="body-text letter" 
                 id="LETTER" 
                 [placeholder]="placeholderText()" 
-                rows=20 
                 spellcheck="false" 
                 (keydown)="keyDown($event)"
                 (keyup)="keyUp($event)"
@@ -21,7 +20,7 @@
                 onPaste="return false"
                 autofocus>
             </textarea>
-            <div class="textarea-size">{{text+'\n'}}</div> <!-- naturally expanding text field-->
+            <div class="body-text textarea-size">{{text+'\n'}}</div> <!-- naturally expanding text field-->
         </div>
     </div>
     
