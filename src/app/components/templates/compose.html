@@ -26,10 +26,10 @@
     
     <!--below this is the "get the link to send it" page-->
     <div id="post-send-container" *ngIf="!isMobile()">
-        <p id="password-button" class="button-text top-right-corner clickable" (click)="showPasswordField()">ADD PASSWORD</p>
+        <p id="password-button" class="button-text clickable" (click)="showPasswordField()">ADD PASSWORD</p>
 
         <!--the class is changed to "enabled" after you click #password-button -->
-        <div id="pw-set-container" class="top-right-corner disabled">
+        <div id="pw-set-container" class="disabled">
             <input type="password"
                 id="myPassword"
                 class="body-text"
