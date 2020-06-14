@@ -12,6 +12,7 @@ import { ComposePageComponent } from './containers/compose.container';
 import { ViewPageComponent } from './containers/view.container';
 
 //import components
+import { LoadingComponent } from './components/loading.component';
 import { HomeComponent } from './components/home.component';
 import { ComposeComponent } from './components/compose.component';
 import { ViewComponent } from './components/view.component';
@@ -30,6 +31,7 @@ import { routes } from './routes';
     RedirectPageComponent,
     ComposePageComponent,
     ViewPageComponent,
+    LoadingComponent,
     HomeComponent,
     ComposeComponent,
     ViewComponent
