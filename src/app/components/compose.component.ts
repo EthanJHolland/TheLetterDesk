@@ -97,9 +97,9 @@ export class ComposeComponent{
         }
         
         //count how many characters until you can send!
-        document.getElementsByClassName('send')[0].innerHTML = "<span style='color: #c62f5a; font-size: 1.15em;'>" + (Constants.MIN_LETTER_LEN - this.text.length).toString() + "+ </span><span style=''> </span>";
+        document.getElementById('send').innerHTML = "<span style='color: #c62f5a; font-size: 1.15em;'>" + (Constants.MIN_LETTER_LEN - this.text.length).toString() + "+ </span>";
         if (this.text.length >= Constants.MIN_LETTER_LEN) {
-            document.getElementsByClassName('send')[0].innerHTML = "SEND LETTER";
+            document.getElementById('send').innerHTML = "SEND LETTER";
         }
     }
 
@@ -109,12 +109,16 @@ export class ComposeComponent{
             this.savePassword();
         }   
     }
-        
+
+    canSend (): boolean {
+        return this.debugMode || this.text.length >= Constants.MIN_LETTER_LEN;
+    }
+
     send() {
-        if (this.debugMode || this.text.length >= Constants.MIN_LETTER_LEN) {
+        if (this.canSend()) {
             //if character count is satisfied or in debug mode, then proceed.
-            $('.pre-send-container').toggleClass('sent');  //fade out letter writing elements
-            $('.post-send-container').toggleClass('sent');  //fade in letter sending elements
+            $('#pre-send-container').toggleClass('sent');  //fade out letter writing elements
+            $('#post-send-container').toggleClass('sent');  //fade in letter sending elements
             
             //get cursor placement (for future autofocus)
             var letterElem: HTMLTextAreaElement = <HTMLTextAreaElement> document.getElementById("LETTER");
@@ -153,17 +157,17 @@ export class ComposeComponent{
     //click button to copy link
     copy() {
         //put the URL in a hidden input because select+copy will not work for plain text in divs
-        var url_input = (<HTMLInputElement> document.getElementsByClassName('url_input')[0]);
-        url_input.value = document.getElementsByClassName('myurl')[0].innerHTML;
+        var url_input = (<HTMLInputElement> document.getElementById('url_input'));
+        url_input.value = document.getElementById('myurl').innerHTML;
 
         //select text from the hidden input, then copy
         url_input.select();
         document.execCommand('copy');
 
         //transition
-        document.getElementsByClassName('myurl')[0].classList.add('copied');
-        document.getElementsByClassName('copyalert')[0].innerHTML = "SUCCESS!";
-        document.getElementsByClassName('copyalert')[0].classList.remove('clickable');
+        document.getElementById('myurl').classList.add('copied');
+        document.getElementById('copyalert').innerHTML = "SUCCESS!";
+        document.getElementById('copyalert').classList.remove('clickable');
     } 
      
     //preview -- go to link in new tab
@@ -179,8 +183,8 @@ export class ComposeComponent{
         
     //close -- go back to editing letter if you wish
     close(){
-        $('.pre-send-container').toggleClass('sent');  //fade in old letter writing elements
-        $('.post-send-container').toggleClass('sent');  //fade out letter sending elements
+        $('#pre-send-container').toggleClass('sent');  //fade in old letter writing elements
+        $('#post-send-container').toggleClass('sent');  //fade out letter sending elements
         
         //refocus cursor
         setTimeout(() => { // need to wait for elements to reenter dom before focusing

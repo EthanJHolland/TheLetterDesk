@@ -2,13 +2,13 @@ body {
     transition: 1.5s all ease-in-out;
 }
 
-.send {
+#send {
     position: fixed;
     top: 20px;
     right: 20px;
 }
 
-.location {
+#location {
     display: block;
     position: relative;
     text-align: center;
@@ -19,12 +19,11 @@ body {
     outline: none;
 }
 
-.textarea-container {
+#textarea-container {
     position: relative;
-    /* you should change this*/
 }
 
-textarea, .textarea-size {
+#LETTER, #textarea-size {
     min-height: 25px;
     box-sizing: border-box;
     padding: 8px;
@@ -59,7 +58,7 @@ textarea, .textarea-size {
   caret-color: transparent;
 }
 
-.textarea-size {
+#textarea-size {
     visibility: hidden;
 
     /*
@@ -92,7 +91,7 @@ textarea, .textarea-size {
 }
 
 /*send link*/
-.post-send-container {
+#post-send-container {
 /*    border: 1px solid brown;*/
     position: fixed;
     width: 70%;
@@ -107,28 +106,28 @@ textarea, .textarea-size {
     text-align: center;
 }
 
-.pre-send-container, .post-send-container {
+#pre-send-container, #post-send-container {
   transition: all 1s;
 }
 
-.pre-send-container.sent {
+#pre-send-container.sent {
     visibility: hidden;
     opacity: 0;
 }
 
-.post-send-container.sent {
+#post-send-container.sent {
     visibility: visible;
     opacity: 1;
 }
 
-.preview, .close {
+#preview, #close {
     display: block;
     width: 200px;
     text-align: center;
     margin: 10px auto 10px auto;
 }
 
-.linkbox {
+#linkbox {
     position: relative;
     height: 50px;
     margin: 0 auto 30px auto;
@@ -136,7 +135,7 @@ textarea, .textarea-size {
     display: inline-block;
 }
 
-.myurl {
+#myurl {
     height: 100%;
     letter-spacing: 0.1em;
     padding: 16px 16px;
@@ -157,6 +156,7 @@ textarea, .textarea-size {
 }
 
 #save, #password-button {
+    outline: none;
     border: none;
     border-radius: 0;
     background: transparent;
@@ -191,7 +191,7 @@ textarea, .textarea-size {
 
 
 /**************** copying ****************/
-.copyalert {
+#copyalert {
     margin-bottom: 15px;
 }
 
