@@ -58,8 +58,8 @@ export class ViewComponent{
     openLetterInPreview(){
         //turn off all transitions before opening letter
         //$(".wrapper").addClass("notransition");
-        $(".wrapper").hide(); //hide open letter button
-        $(".body").addClass("notransition");
+        $("#wrapper").hide(); //hide open letter button
+        $("#body").addClass("notransition");
         $(".menu").addClass("notransition");
         $(".details").addClass("notransition");
         $(".letter").addClass("notransition");
@@ -68,7 +68,7 @@ export class ViewComponent{
         this.openLetter()
 
         //turn transitions back on after typing has begun
-        $(".body").removeClass("notransition");
+        $("#body").removeClass("notransition");
         $(".menu").removeClass("notransition");
         $(".details").removeClass("notransition");
         $(".letter").removeClass("notransition");
@@ -78,8 +78,8 @@ export class ViewComponent{
         this.open = true;
 
         //when you click .start (the open letter button), all this happens:
-        $(".wrapper").fadeOut(400); //fade out the start button (using a wrapper div)
-        $(".body").toggleClass("typing"); //change the body background
+        $("#wrapper").fadeOut(400); //fade out the start button (using a wrapper div)
+        $("#body").toggleClass("typing"); //change the body background
         $(".menu").toggleClass("typing"); //fade out the logo
         $(".details").toggleClass("typing"); //fade in the details (i.e. the clock)
         $(".letter").toggleClass("typing"); //allow the letter to be visible
@@ -261,14 +261,13 @@ export class ViewComponent{
         
     toEnd() {
         //toggle everything back to the original (gray) display
-        $(".body").toggleClass("typing");
-        $(".logo").toggleClass("typing");
+        $("#body").toggleClass("typing");
+        $("#logo").toggleClass("typing");
         $(".details").toggleClass("typing");
         $(".letter").toggleClass("typing");
-        
+
         //add new some new details
-        $(".postLetterWrite").toggleClass("final"); //show WRITE LETTER option (they want to reply!)
-        $(".postLetterLocation").toggleClass("final"); //still show the location
+        $("#reply").toggleClass("final"); //show WRITE LETTER option (they want to reply!)
     }
 
     mouseEnter() {

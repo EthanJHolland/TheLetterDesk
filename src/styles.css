@@ -25,6 +25,7 @@
     /* a clickable item should turn a color and get the pointer cursor unless disabled */
     cursor: pointer;
     color: #580000;
+    transition: color 0s;
 }
 
 /***** text styles *****/
