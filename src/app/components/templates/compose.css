@@ -2,12 +2,6 @@ body {
     transition: 1.5s all ease-in-out;
 }
 
-#send {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-}
-
 #location {
     display: block;
     position: relative;
@@ -149,12 +143,6 @@ body {
 }
 
 /*-----------------password styles, compose page---------------------*/
-#pw-set-container {
-    position: fixed;
-    top: 13px;
-    right: 16px;
-}
-
 #save, #password-button {
     outline: none;
     border: none;
@@ -166,7 +154,6 @@ body {
     position: fixed;
     font-size: 0.75em;
     top: 4px;
-    right: 20px;
 }
 
 #myPassword {

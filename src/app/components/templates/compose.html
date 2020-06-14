@@ -5,7 +5,7 @@
 
     <div id="pre-send-container" *ngIf="!isMobile()">
         <input id="location" class="button-text" placeholder='WHERE ARE YOU WRITING FROM?' [(ngModel)]="location">
-        <p id="send" class="button-text" [ngClass]="{'clickable': canSend()}" (click)="send()"></p>
+        <p id="send" class="button-text top-right-corner" [ngClass]="{'clickable': canSend()}" (click)="send()"></p>
 
         <div id="textarea-container">
             <textarea 
@@ -26,10 +26,10 @@
     
     <!--below this is the "get the link to send it" page-->
     <div id="post-send-container" *ngIf="!isMobile()">
-        <p id="password-button" class="button-text clickable" (click)="showPasswordField()">ADD PASSWORD</p>
+        <p id="password-button" class="button-text top-right-corner clickable" (click)="showPasswordField()">ADD PASSWORD</p>
 
         <!--the class is changed to "enabled" after you click #password-button -->
-        <div id="pw-set-container" class="disabled">
+        <div id="pw-set-container" class="top-right-corner disabled">
             <input type="password"
                 id="myPassword"
                 class="body-text"

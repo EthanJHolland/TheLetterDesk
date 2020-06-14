@@ -61,3 +61,9 @@
     left: 20px;
     top: 15px;
 }
+
+.top-right-corner {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+}
