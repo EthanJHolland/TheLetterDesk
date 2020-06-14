@@ -59,8 +59,8 @@ export class ViewComponent{
     openLetterInPreview(){
         //turn off all transitions before opening letter
         //$(".wrapper").addClass("notransition");
-        $(".wrapper").hide(); //hide open letter button
-        $(".body").addClass("notransition");
+        $("#wrapper").hide(); //hide open letter button
+        $("#body").addClass("notransition");
         $(".menu").addClass("notransition");
         $(".details").addClass("notransition");
         $(".letter").addClass("notransition");
@@ -69,7 +69,7 @@ export class ViewComponent{
         this.openLetter()
 
         //turn transitions back on after typing has begun
-        $(".body").removeClass("notransition");
+        $("#body").removeClass("notransition");
         $(".menu").removeClass("notransition");
         $(".details").removeClass("notransition");
         $(".letter").removeClass("notransition");
@@ -79,8 +79,8 @@ export class ViewComponent{
         this.open = true;
 
         //when you click .start (the open letter button), all this happens:
-        $(".wrapper").fadeOut(400); //fade out the start button (using a wrapper div)
-        $(".body").toggleClass("typing"); //change the body background
+        $("#wrapper").fadeOut(400); //fade out the start button (using a wrapper div)
+        $("#body").toggleClass("typing"); //change the body background
         $(".menu").toggleClass("typing"); //fade out the logo
         $(".details").toggleClass("typing"); //fade in the details (i.e. the clock)
         $(".letter").toggleClass("typing"); //allow the letter to be visible
@@ -181,86 +181,82 @@ export class ViewComponent{
         var keyCodesSpecialShift = {49:"!", 50:"@", 51:"#", 52:"$", 53:"%", 54:"^", 55:"&", 56:"*", 57:"(", 48:")", 189:"_", 187:"+", 219:"{", 221:"}", 220:"|", 186:":", 222:'"', 188:"<", 190:">", 191:"?", 192:"~"};
         
         
-        //check to see if cursor was moved
-        if (c<0) {
+        if (c<0) { // cursor moved
             if (c == -0.1) {c = 0;} //cursor moves to the top of the letter
-            
-            var totalstring = this.pre_cursor.replace("|","") + this.post_cursor; //remove cursor before slicing
-            totalstring = totalstring.replace(/<br>/g, "☻"); //replace line breaks with a single character
-            
+            var totalstring = this.pre_cursor + this.post_cursor; //remove cursor before slicing
+
             if (c<-1000000) {
                 //delete highlighted text
                 var start = -(c % 1000000);
                 var end = (c + start) / -1000000;
-                this.pre_cursor = totalstring.slice(0,start).replace(/☻/g, "<br>");
-                this.post_cursor = totalstring.slice(end).replace(/☻/g, "<br>");
-            else {
-                //move the cursor
-                this.pre_cursor = totalstring.slice(0,-c).replace(/☻/g, "<br>");
-                this.post_cursor = totalstring.slice(-c, totalstring.length).replace(/☻/g, "<br>");
-            }
-        }
-        
-        //check if SHIFT is being held
-        var shift: boolean;
-        if (c>1000) {
-            shift = true;
-            c = c/1000;
-        } else {
-            shift = false;
-        }
-        
-        //letters have keycodes from [65,90]
-        if (c>=65 && c<=90) {
-            if ((shift || this.capslock) && !(shift && this.capslock)) { //uppercase if shift or capslock but not both
-                this.pre_cursor += String.fromCharCode(c); //uppercase
-            }
-            else {
-                this.pre_cursor += String.fromCharCode(c).toLowerCase(); //lowercase
-            }
-        }
-        else if (c in keyCodes) {
-            //special character WITHOUT Shift consideration
-            this.pre_cursor += keyCodes[c];
-        }
-        else if (c in keyCodesSpecial) {
-            //special character WITH Shift consideration
-            if (shift) {
-                this.pre_cursor += keyCodesSpecialShift[c];
+                this.pre_cursor = totalstring.slice(0,start);
+                this.post_cursor = totalstring.slice(end);
             } else {
-                this.pre_cursor += keyCodesSpecial[c];
+                //move the cursor
+                this.pre_cursor = totalstring.slice(0,-c);
+                this.post_cursor = totalstring.slice(-c, totalstring.length);
             }
-        }
-        
-        else if (c===8 && order[i-1] > -1000000) {
-            //backspace
-            this.pre_cursor = this.pre_cursor.slice(0,-1);
-        }
-        else if (c===46 && order[i-1] > -1000000) {
-            //delete
-            post_cursor = post_cursor.slice(1);
-        }    
-        else if (c===20) {
-            //toggle capslock
-            this.capslock = !this.capslock;
-        }
-        else {
-            //for debugging only -- output the keycode if it's a character not accounted for
-            //pre_cursor += c;
-        }
-        
-        if (index>=this._letter.order.length-1) {
-            //indicate message is complete so no longer show cursor
-            this.messageComplete=true
-            //wait 1 second before transitioning out
-            setTimeout(this.toEnd,1000);
-            
-        }
+        } else { // character typed
+            //check if SHIFT is being held
+            var shift: boolean;
+            if (c>1000) {
+                shift = true;
+                c = c/1000;
+            } else {
+                shift = false;
+            }
 
-        //automatically scroll down as letter appears
-        if (document.getElementById("body").scrollHeight > this.scrolledTo){
-            this.scrolledTo = document.getElementById("body").scrollHeight
-            document.getElementById("body").scrollTo(0, this.scrolledTo)
+            //letters have keycodes from [65,90]
+            if (c>=65 && c<=90) {
+                if ((shift || this.capslock) && !(shift && this.capslock)) { //uppercase if shift or capslock but not both
+                    this.pre_cursor += String.fromCharCode(c); //uppercase
+                }
+                else {
+                    this.pre_cursor += String.fromCharCode(c).toLowerCase(); //lowercase
+                }
+            }
+            else if (c in keyCodes) {
+                //special character WITHOUT Shift consideration
+                this.pre_cursor += keyCodes[c];
+            }
+            else if (c in keyCodesSpecial) {
+                //special character WITH Shift consideration
+                if (shift) {
+                    this.pre_cursor += keyCodesSpecialShift[c];
+                } else {
+                    this.pre_cursor += keyCodesSpecial[c];
+                }
+            }
+
+            else if (c===8 && this._letter.order[this.i-1] > -1000000) {
+                //backspace
+                this.pre_cursor = this.pre_cursor.slice(0,-1);
+            }
+            else if (c===46 && this._letter.order[this.i-1] > -1000000) {
+                //delete
+                this.post_cursor = this.post_cursor.slice(1);
+            }
+            else if (c===20) {
+                //toggle capslock
+                this.capslock = !this.capslock;
+            }
+            else {
+                //for debugging only -- output the keycode if it's a character not accounted for
+                //pre_cursor += c;
+            }
+
+            if (index>=this._letter.order.length-1) {
+                //indicate message is complete so no longer show cursor
+                this.messageComplete=true
+                //wait 1 second before transitioning out
+                setTimeout(this.toEnd,1000);
+            }
+
+            //automatically scroll down as letter appears
+            if (document.getElementById("body").scrollHeight > this.scrolledTo){
+                this.scrolledTo = document.getElementById("body").scrollHeight
+                document.getElementById("body").scrollTo(0, this.scrolledTo)
+            }
         }
     }
 
@@ -272,28 +268,22 @@ export class ViewComponent{
     }       
        
     getPartialString(){
-        if(this.messageComplete || this.pre_cursor==''){
+        if(this.messageComplete || (this.pre_cursor + this.post_cursor) == ''){
             return this.pre_cursor + this.post_cursor;
         }else{
             return this.pre_cursor+"|" + this.post_cursor;
         }
     }
 
-    //go to homepage
-    navigateHome(){
-        this.router.navigate(['/home'])
-    }
-        
     toEnd() {
         //toggle everything back to the original (gray) display
-        $(".body").toggleClass("typing");
-        $(".logo").toggleClass("typing");
+        $("#body").toggleClass("typing");
+        $("#logo").toggleClass("typing");
         $(".details").toggleClass("typing");
         $(".letter").toggleClass("typing");
-        
+
         //add new some new details
-        $(".postLetterWrite").toggleClass("final"); //show WRITE LETTER option (they want to reply!)
-        $(".postLetterLocation").toggleClass("final"); //still show the location
+        $("#reply").toggleClass("final"); //show WRITE LETTER option (they want to reply!)
     }
 
     mouseEnter() {

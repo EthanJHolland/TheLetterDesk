@@ -11,11 +11,59 @@
     left: 0;
     top: 0;
     overflow-y: auto;
-    position: fixed;    
+    position: fixed;
+    background: rgb(249,249,249);
 }
 
 /* hide scrollbar */
 ::-webkit-scrollbar {
     width: 0px;
     background: transparent;
+}
+
+/* styling for elements which trigger an action when clicked */
+.clickable:hover:not([disabled]) {
+    /* a clickable item should turn a color and get the pointer cursor unless disabled */
+    cursor: pointer;
+    color: #580000;
+    transition: color 0s;
+}
+
+.clickable:active, .clickable:focus {
+    outline: 0;
+    border: none;
+}
+
+/***** text styles *****/
+.logo-text { /* for the letterdesk logo */
+    font-family: 'Seaweed Script', cursive;
+    font-size: 1.5em;
+    z-index: 5;
+}
+
+.button-text { /* for buttons such as "send letter" or "save" */
+    font-family: 'Crimson Text', serif;
+    font-size: 0.8em;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    z-index: 3;
+}
+
+.body-text { /* for normal text such as the letters themselves */
+    font-size: 1em;
+    font-family: 'Cormorant Garamond', serif;
+    z-index: 1;
+}
+
+/***** placement styles *****/
+.top-left-corner {
+    position: fixed;
+    left: 20px;
+    top: 15px;
+}
+
+.top-right-corner {
+    position: fixed;
+    right: 20px;
+    top: 20px;
 }

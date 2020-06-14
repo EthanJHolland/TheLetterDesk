@@ -47,17 +47,14 @@ export class ComposeComponent{
     placeholderText () {
         return 'write ' + Constants.MIN_LETTER_LEN + '+ characters to send a letter';
     }
-    
-    //possible events that can trigger a textcursor change
-    letterElem: HTMLTextAreaElement = <HTMLTextAreaElement> document.getElementById("LETTER"); 
-    letterElem.addEventListener('click', checkcaret); // click
-    letterElem.addEventListener('touchend', checkcaret); // mobile click
-     
-    function checkcaret(event) {
+
+    checkcaret (event) {
+        var letterElem: HTMLTextAreaElement = <HTMLTextAreaElement> document.getElementById("LETTER");
+
         if (letterElem.selectionStart == letterElem.selectionEnd) {
             //only check caret if nothing is higlighted
             const newPos = letterElem.selectionStart;
-            if (newPos !== this.pos) { 
+            if (newPos !== this.pos) {
 
                 //signal a new cursor position with a negative number
                 if (newPos == 0) {
@@ -70,13 +67,15 @@ export class ComposeComponent{
                 this.down[this.i] = event.timeStamp;
                 this.times[this.i] = Math.floor((event.timeStamp - this.down[0]) * 1000) / 1000000;
 
-                i++;
+                this.i++;
                 this.pos = newPos;
             }
         }
     }
      
     keyDown(e: KeyboardEvent) {
+        var letterElem: HTMLTextAreaElement = <HTMLTextAreaElement> document.getElementById("LETTER");
+
         if (!e.ctrlKey && !e.altKey && e.which != 16){ //ignore control sequences, shift key
             
             //check to see if anything is highlighted
@@ -127,10 +126,11 @@ export class ComposeComponent{
     keyUp(e: KeyboardEvent) {
         if (e.which==37 || e.which==38 || e.which==39 || e.which==40) {
             //if an arrow key is lifted up -> check the new index
-            checkcaret(event);
+            this.checkcaret(event);
         }
-        pos = textarea.selectionStart; //update cursor position at every keyup
-        
+
+        this.pos = (<HTMLTextAreaElement> document.getElementById("LETTER")).selectionStart; //update cursor position at every keyup
+
         //find most recent (and only) occurence of e.which in duration for which the value is -1;
         for (var recent = this.i-1; recent>=0; recent--) {
             if ((this.duration[recent] === -1) && (this.order[recent]===e.which)) {                    
@@ -140,9 +140,9 @@ export class ComposeComponent{
         }
         
         //count how many characters until you can send!
-        document.getElementsByClassName('send')[0].innerHTML = "<span style='color: #c62f5a; font-size: 1.15em;'>" + (Constants.MIN_LETTER_LEN - this.text.length).toString() + "+ </span><span style=''> </span>";
+        document.getElementById('send').innerHTML = "<span style='color: #c62f5a; font-size: 1.15em;'>" + (Constants.MIN_LETTER_LEN - this.text.length).toString() + "+ </span>";
         if (this.text.length >= Constants.MIN_LETTER_LEN) {
-            document.getElementsByClassName('send')[0].innerHTML = "SEND LETTER";
+            document.getElementById('send').innerHTML = "SEND LETTER";
         }
     }
 
@@ -152,13 +152,16 @@ export class ComposeComponent{
             this.savePassword();
         }   
     }
-        
-    //show stats
+
+    canSend (): boolean {
+        return this.debugMode || this.text.length >= Constants.MIN_LETTER_LEN;
+    }
+
     send() {
-        if (this.debugMode || this.text.length >= Constants.MIN_LETTER_LEN) {
+        if (this.canSend()) {
             //if character count is satisfied or in debug mode, then proceed.
-            $('.pre-send-container').toggleClass('sent');  //fade out letter writing elements
-            $('.post-send-container').toggleClass('sent');  //fade in letter sending elements
+            $('#pre-send-container').toggleClass('sent');  //fade out letter writing elements
+            $('#post-send-container').toggleClass('sent');  //fade in letter sending elements
             
             //get cursor placement (for future autofocus)
             var letterElem: HTMLTextAreaElement = <HTMLTextAreaElement> document.getElementById("LETTER");
@@ -197,16 +200,17 @@ export class ComposeComponent{
     //click button to copy link
     copy() {
         //put the URL in a hidden input because select+copy will not work for plain text in divs
-        var url_input = (<HTMLInputElement> document.getElementsByClassName('url_input')[0]);
-        url_input.value = document.getElementsByClassName('myurl')[0].innerHTML;
+        var url_input = (<HTMLInputElement> document.getElementById('url_input'));
+        url_input.value = document.getElementById('myurl').innerHTML;
 
         //select text from the hidden input, then copy
         url_input.select();
         document.execCommand('copy');
 
         //transition
-        document.getElementsByClassName('myurl')[0].classList.add('copied');
-        document.getElementsByClassName('copyalert')[0].innerHTML = "SUCCESS!";
+        document.getElementById('myurl').classList.add('copied');
+        document.getElementById('copyalert').innerHTML = "SUCCESS!";
+        document.getElementById('copyalert').classList.remove('clickable');
     } 
      
     //preview -- go to link in new tab
@@ -215,15 +219,10 @@ export class ComposeComponent{
         window.open(this.getPreviewUrl());
     }
 
-    //go to homepage
-    navigateHome(){
-        this.router.navigate(['/home'])
-    }
-        
     //close -- go back to editing letter if you wish
     close(){
-        $('.pre-send-container').toggleClass('sent');  //fade in old letter writing elements
-        $('.post-send-container').toggleClass('sent');  //fade out letter sending elements
+        $('#pre-send-container').toggleClass('sent');  //fade in old letter writing elements
+        $('#post-send-container').toggleClass('sent');  //fade out letter sending elements
         
         //refocus cursor
         setTimeout(() => { // need to wait for elements to reenter dom before focusing

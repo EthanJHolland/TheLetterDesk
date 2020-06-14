@@ -1,225 +1,162 @@
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
     word-wrap: break-word;
-  }
-  .body {
-      background: rgb(249,249,249);
-      transition: background 2.5s, color 1.0s;
-      color: black;
-      outline: none;
-  }
-  .body.typing {
-      background: #232223;
-      color: white; /*this is text color*/
-  }
-  .logo {
-      position: fixed;
-      left: 20px;
-      top: 15px;
-      font-family: 'Seaweed Script', cursive;
-      font-size: 1.5em;
-  }
-  .logo:hover {
-      cursor: pointer;
-  }
-  .logoTEXT {
-      font-family: 'Crimson Text', serif;
-      letter-spacing: 0.2em;
-      font-size: 0.8em;
-  }
+}
 
-  .about {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-  }
-  .about:hover {
-      cursor: pointer;
-  }
+#body {
+    transition: background 2.5s, color 1.0s;
+    color: black;
+}
 
-  .menu {transition: 1s ease-in-out}
-  .menu.typing {
-      visibility: hidden;
-      opacity: 0;
-  }
+#body.typing {
+    background: #232223;
+    color: white; /* this is text color */
+}
 
-  .letter {
-      font-family: 'Cormorant Garamond', serif;
-      letter-spacing: 0.04em;
-      font-size: 1.5em;
-      margin: 100px auto;
-      width: 50%;
-      transition: font-weight 0.5s;
-  }
+.menu {transition: opacity 1s ease-in-out}
+.menu.typing {
+    visibility: hidden;
+    opacity: 0;
+}
 
-  .words {
+#letter {
+    letter-spacing: 0.04em;
+    font-size: 1.5em;
+    margin: 100px auto;
+    width: 50%;
+    transition: font-weight 0.5s;
     white-space: pre-wrap; /* don't compress whitespace and wrap lines */
-  }
+}
 
-  .postLetterWrite {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      transition: all 0.5s;
-      visibility: hidden;
-      opacity: 0;
-      z-index: -1; /*goes behind the WHAT IS THIS link at the beginning */
-  }
-  .postLetterWrite:hover {
-      color: rgb(71, 119, 198);
-      cursor: pointer;
-  }
-  .postLetterWrite.final {
-      visibility: visible;
-      opacity: 1;
-      z-index: 1; /*at the end we want this in the FRONT*/
-  }
+#reply {
+    transition: opacity 0.5s;
+    visibility: hidden;
+    opacity: 0;
+}
 
-  /*--------------------------------------no transition for preview--------------------------*/
-  /*when viewing in preview mode don't want any transitions*/
-  .notransition {
-    -webkit-transition: none !important;
-    -moz-transition: none !important;
-    -o-transition: none !important;
-    transition: none !important;
-  }
-  /*--------------------------------------no transition for preview--------------------------*/
-
-  /*--------------------------------------Details (location and clock)--------------------------*/
-  .details {
-      position: fixed;
-      visibility: hidden;
-      opacity: 0;
-      transition: color 0s, opacity 1.0s;
-  }
-  .details.typing {
+#reply.final {
     visibility: visible;
     opacity: 1;
-  }
+}
 
-  .location {
-      left: 20px;
-      top: 20px;
-  }
-  .time {
-      top: 20px;
-      right: 20px;
-      font-family: 'Crimson Text', serif;
-  }
+/*--------------------------------------no transition for preview--------------------------*/
+/*when viewing in preview mode don't want any transitions*/
+.notransition {
+-webkit-transition: none !important;
+-moz-transition: none !important;
+-o-transition: none !important;
+transition: none !important;
+}
 
-  .pause {
-  /*    border: 0.5px solid #ffc8c8;*/
-      position: fixed;
-      width: 100px;
-      bottom: 30px;
-      left: 0;
-      right: 0;
-      margin: auto;
-  }
+/*--------------------------------------Details (location and clock)--------------------------*/
+.details {
+    position: fixed;
+    visibility: hidden;
+    opacity: 0;
+    transition: color 0s, opacity 1.0s;
+}
+.details.typing {
+    visibility: visible;
+    opacity: 1;
+}
 
-  .fastfor {
-  /*    border: 0.5px solid #ffc8c8;*/
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-  }
+#location {
+    left: 20px;
+    top: 20px;
+}
 
-  /*------------------------------------------------------------------------------------------*/
+#pause, #fastfor {
+    color: #ffc8c8;
+}
 
+#pause {
+    position: fixed;
+    width: 100px;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
 
+#fastfor {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+}
 
-  /*---------------"open" button and animation------------------*/
+/*---------------"open" button and animation------------------*/
+#wrapper {
+    width: 210px;
+    height: 60px;
+    margin: 0 auto;
 
-  .wrapper {
-  /*    border: 1px solid red;*/
-      width: 210px;
-      height: 60px;
-      margin: 0 auto;
+    position: fixed;
+    top: 45%;
+    left: 0;
+    right: 0;
+    margin: auto;
 
-      position: fixed;
-      top: 45%;
-      left: 0;
-      right: 0;
-      margin: auto;
+    -webkit-transition: all 3s ease-out;
+    -moz-transition: all 3s ease-out;
+    -o-transition: all 3s ease-out;
+    transition: all 3s ease-out;
+}
 
-      -webkit-transition: all 3s ease-out;
-      -moz-transition: all 3s ease-out;
-      -o-transition: all 3s ease-out;
-      transition: all 3s ease-out;
-  }
+#start {
+    border: 0.5px solid black;
+    line-height: 1.5em;
+    transition: 0.6s; /*this transition is always looking for change*/
+    -webkit-transition: 0.6s;
 
-  .start {
-      border: 0.5px solid black;
-      font-size: 0.8em;
-      letter-spacing: 0.2em;
-      line-height: 1.5em;
-      font-family: 'Crimson Text', serif;
-      cursor: pointer;
-      transition: 0.6s; /*this transition is always looking for change*/
-      -webkit-transition: 0.6s;
+    position: relative;
+    text-align: center; /*aligns text relative to start div*/
+    width: 210px;
+    height: auto;
+    padding: 19px;
+    margin: 0 auto; /*aligns start div relative to wrapper div*/
+}
 
-      position: relative;
-      text-align: center; /*aligns text relative to start div*/
-      width: 210px;
-      height: auto;
-      padding: 19px;
-      margin: 0 auto; /*aligns start div relative to wrapper div*/
-  }
-
-  .start:hover {
-      color: white;
-      background: #232223;
-  }
-/*-------------------------------------------------------------------------------------------------------*/
+#start:hover {
+    color: white;
+    background: #232223;
+}
 
 /*--------------- password ------------------*/
 #password {
-  background: rgb(249,249,249);
-  width: 7em;
-  margin: 0;
-  font-size: 1.25em;
-  font-family: 'Cormorant Garamond', serif;
-  display: block;
-  text-align: center;
-  border: none;
-  padding: 10px;
+    background: transparent;
+    width: 7em;
+    margin: 0;
+    font-size: 1.25em;
+    display: block;
+    text-align: center;
+    border: none;
+    padding: 10px;
 }
 
 #enter {
-  width: 11em;  /* CHANGE WIDTH FROM PX */
-  padding: 10px;
-  position: relative;
-  cursor: pointer;
-  border-radius: 0;
-  font-size: 0.8em;
-  font-family: 'Crimson Text', serif;
-  letter-spacing: 0.2em;
-  margin: 0 auto;
-  background: none;
-  border: none;
-  border-bottom: 0.5px solid black !important;
-  text-transform: uppercase;
+    width: 11em;  /* CHANGE WIDTH FROM PX */
+    padding: 10px;
+    position: relative;
+    border-radius: 0;
+    font-size: 0.8em;
+    margin: 0 auto;
+    background: none;
+    border: none;
+    border-bottom: 0.5px solid black !important;
 }
 
 #password:focus, #enter:focus, #save:focus, #myPassword:focus {
-  outline: none;
+    outline: none;
 }
 
 #pw-container {
-  border: none; /* for debugging */
-  position: fixed;
-  width: 8.8em;
-  top: 42%;
-  left: 0;
-  right: 0;
-  margin: auto;
+    border: none; /* for debugging */
+    position: fixed;
+    width: 8.8em;
+    top: 42%;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
-/*-------------------------------------------------------------------------------------------------------*/
-
-
-  /*-------------------------------------------------------------------------------------------------------*/
 
 .hidden {
     pointer-events: none;
