@@ -47,17 +47,14 @@ export class ComposeComponent{
     placeholderText () {
         return 'write ' + Constants.MIN_LETTER_LEN + '+ characters to send a letter';
     }
-    
-    //possible events that can trigger a textcursor change
-    letterElem: HTMLTextAreaElement = <HTMLTextAreaElement> document.getElementById("LETTER"); 
-    letterElem.addEventListener('click', checkcaret); // click
-    letterElem.addEventListener('touchend', checkcaret); // mobile click
-     
-    function checkcaret(event) {
+
+    checkcaret (event) {
+        var letterElem: HTMLTextAreaElement = <HTMLTextAreaElement> document.getElementById("LETTER");
+
         if (letterElem.selectionStart == letterElem.selectionEnd) {
             //only check caret if nothing is higlighted
             const newPos = letterElem.selectionStart;
-            if (newPos !== this.pos) { 
+            if (newPos !== this.pos) {
 
                 //signal a new cursor position with a negative number
                 if (newPos == 0) {
@@ -70,13 +67,15 @@ export class ComposeComponent{
                 this.down[this.i] = event.timeStamp;
                 this.times[this.i] = Math.floor((event.timeStamp - this.down[0]) * 1000) / 1000000;
 
-                i++;
+                this.i++;
                 this.pos = newPos;
             }
         }
     }
      
     keyDown(e: KeyboardEvent) {
+        var letterElem: HTMLTextAreaElement = <HTMLTextAreaElement> document.getElementById("LETTER");
+
         if (!e.ctrlKey && !e.altKey && e.which != 16){ //ignore control sequences, shift key
             
             //check to see if anything is highlighted
@@ -127,10 +126,11 @@ export class ComposeComponent{
     keyUp(e: KeyboardEvent) {
         if (e.which==37 || e.which==38 || e.which==39 || e.which==40) {
             //if an arrow key is lifted up -> check the new index
-            checkcaret(event);
+            this.checkcaret(event);
         }
-        pos = textarea.selectionStart; //update cursor position at every keyup
-        
+
+        this.pos = (<HTMLTextAreaElement> document.getElementById("LETTER")).selectionStart; //update cursor position at every keyup
+
         //find most recent (and only) occurence of e.which in duration for which the value is -1;
         for (var recent = this.i-1; recent>=0; recent--) {
             if ((this.duration[recent] === -1) && (this.order[recent]===e.which)) {                    
