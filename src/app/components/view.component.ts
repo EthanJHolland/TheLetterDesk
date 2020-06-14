@@ -183,7 +183,7 @@ export class ViewComponent{
         
         if (c<0) { // cursor moved
             if (c == -0.1) {c = 0;} //cursor moves to the top of the letter
-            var totalstring = this.pre_cursor.replace("|","") + this.post_cursor; //remove cursor before slicing
+            var totalstring = this.pre_cursor + this.post_cursor; //remove cursor before slicing
 
             if (c<-1000000) {
                 //delete highlighted text
@@ -194,7 +194,7 @@ export class ViewComponent{
             } else {
                 //move the cursor
                 this.pre_cursor = totalstring.slice(0,-c);
-                this.post_cursor = totalstring.slice(-c, totalstring.length).replace(/☻/g, "<br>");
+                this.post_cursor = totalstring.slice(-c, totalstring.length);
             }
         } else { // character typed
             //check if SHIFT is being held
@@ -268,7 +268,7 @@ export class ViewComponent{
     }       
        
     getPartialString(){
-        if(this.messageComplete || this.pre_cursor==''){
+        if(this.messageComplete || (this.pre_cursor + this.post_cursor) == ''){
             return this.pre_cursor + this.post_cursor;
         }else{
             return this.pre_cursor+"|" + this.post_cursor;
