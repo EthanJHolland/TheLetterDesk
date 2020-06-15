@@ -265,6 +265,8 @@ export class ComposeComponent{
     }
 
     savePassword() {
+        this.googleanalyticsService.logEvent('compose', 'saved password');
+
         var password_button = document.getElementById("password-button");
         var element = document.getElementById("pw-set-container");
 

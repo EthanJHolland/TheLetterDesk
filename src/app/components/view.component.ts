@@ -281,6 +281,8 @@ export class ViewComponent{
     }
 
     toEnd() {
+        this.googleanalyticsService.logEvent('view', 'viewed to end of letter');
+
         //toggle everything back to the original (gray) display
         $("#body").toggleClass("typing");
         $("#logo").toggleClass("typing");
@@ -303,9 +305,13 @@ export class ViewComponent{
 
     submitPassword() {
         if (this.passwordService.verify(this._letter.password, this.passwordAttempt, this._letter.tldid)) {
+            this.googleanalyticsService.logEvent('view', 'entered correct password');
+            
             this.locked = false;
             document.getElementById("body").focus(); // focus on body so space/enter can be used to open letter without having to click on page
         } else {
+            this.googleanalyticsService.logEvent('view', 'entered incorrect password');
+
             //password is wrong; reset password field
             this.passwordAttempt = '';
             this.passwordButtonText = 'try again';
