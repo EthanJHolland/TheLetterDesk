@@ -1,15 +1,11 @@
-//note this file might be git ignored
+import { environment } from "../environments/environment";
 
 export class Constants {
-    public static VERSION='0.1';
+    public static VERSION='0.2';
 
-    //dev
-    // public static URL='http://localhost:4200';
-    // public static API_URL='http://localhost:3000';
-
-    //deploy
-    public static URL='http://letterdesk.ethanjholland.com';
-    public static API_URL='http://letterdesk.ethanjholland.com:3000';
+    //urls
+    public static URL = environment.production ? 'http://letterdesk.ethanjholland.com' : 'http://localhost:4200';
+    public static API_URL = environment.production ?'http://letterdesk.ethanjholland.com:3000' : 'http://localhost:3000';
 
     public static MIN_LETTER_LEN = 280; //a letter cannot be sent until it is at least this many characters
 

@@ -1,29 +1,20 @@
-<!--these are links to Google Font CDNs-->
-<link href="https://fonts.googleapis.com/css?family=Crimson+Text" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Seaweed+Script" rel="stylesheet">
-
-<div class="body" tabindex="0" (keydown)="keyDown($event)">
-    
+<div id="body" class="body" tabindex="0" (keydown)="keyDown($event)">
     <!--certain details appear only when you see the letter-->
-    <p class="logoTEXT pause details"><span>SPACEBAR</span></p>
-    <p class="logoTEXT fastfor details"><span>RIGHT ARROW</span></p>
-    <p class="logoTEXT location details">DURHAM, NC</p>
-    <p class="logoTEXT time details">{{getCharCount()}}</p>
+    <p id="pause" class="button-text details"><span>SPACEBAR</span></p>
+    <p id="fastfor" class="button-text details"><span>RIGHT ARROW</span></p>
+    <p id="location" class="button-text details">DURHAM, NC</p>
+    <p id="time" class="button-text top-right-corner details">{{getCharCount()}}</p>
     
     <!--open letter button: to move this around relative to the page, move wrapper div-->
-    <div class="wrapper">
-        <p class="logo menu">Letterdesk</p>
-        <p class="logoTEXT about menu" (click)="showAbout()">WHAT IS THIS?</p>
-        <p class="logoTEXT write menu"><a routerLink="/compose">WRITE A LETTER</a></p>
+    <div id="wrapper">
+        <p id="centerlogo" class="logo-text menu">Letterdesk</p>
+        <p id="about" class="button-text clickable menu" (click)="showAbout()">WHAT IS THIS?</p>
+        <p id="write" class="button-text clickable menu" routerLink="/compose">WRITE A LETTER</p>
     </div>
     
     <!--the letter itself (after you open the letter)-->
-    <div class="letter">
-        <div class=letterHEADER></div>
-        <div class="words">{{getPartialString()}}</div>
-    </div>
+    <div id="letter">{{getPartialString()}}</div>
     
     <!--certain details appear only after you see the intro letter-->
-    <p class="cornerlogo" (click)="backToHome()">Letterdesk</p>
+    <p id="cornerlogo" class="logo-text top-left-corner clickable" (click)="backToHome()">Letterdesk</p>
 </div>

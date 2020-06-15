@@ -33,7 +33,7 @@ export class ComposePageComponent implements OnInit {
                 .then((letter) => {
                     if(letter && !letter.error){
                         //if letter already exists reroute to new compose page
-                        this.router.navigate(['/compose'])
+                        this.router.navigate(['/compose'], {queryParamsHandling: 'preserve'})
                     } else {
                         this.googleanalyticsService.logPage('compose');
                     }

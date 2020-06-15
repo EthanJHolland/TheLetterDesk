@@ -1,199 +1,196 @@
-* {
-    padding: 0;
-    margin: 0;
+body {
+    transition: 1.5s all ease-in-out;
+}
+
+#location {
+    display: block;
+    position: relative;
+    text-align: center;
+    width: 300px;
+    margin: 25px auto -25px auto;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+#textarea-container {
+    position: relative;
+}
+
+#LETTER, #textarea-size {
+    min-height: 25px;
     box-sizing: border-box;
-  }
+    padding: 8px;
+    overflow: hidden;
 
-  body {
-      background: rgb(249,249,249);
-      transition: 1.5s all ease-in-out;
-  }
+    font-weight: 100;
+    letter-spacing: 0.06em;
+    font-size: 1.4em;
+    width: 50%;
+    margin: 50px 25% 0px 25%;
+    background: transparent;
+    outline: none;
+}
 
-  .send {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-  }
+.letter {
+    height: 100%;
+    position: absolute;
+    resize: none;
+    border: none;
+    caret-color: auto;
 
-  .send:hover {
-      color: #c62f5a;
-      cursor: pointer;
-  }
+    /*
+    "pre" or "preline" or "normal" fixes Chrome issue where
+    whitespace at end of lines does not trigger a line break.
+    However, it causes the text to exhibit the behavior seen with
+    "pre" that is described below.
+    */
+    white-space: normal;
+}
 
-  .logo {
-      position: fixed;
-      left: 20px;
-      top: 15px;
-      font-family: 'Seaweed Script', cursive;
-      font-size: 1.5em;
-  }
+.hide-text-cursor {
+  caret-color: transparent;
+}
 
-  .logo:hover {
-      cursor: pointer;
-  }
+#textarea-size {
+    visibility: hidden;
 
-  .logoTEXT {
-      font-family: 'Crimson Text', serif;
-      letter-spacing: 0.2em;
-      font-size: 0.8em;
-  }
+    /*
+    Pre-wrap: preserve spacing and newlines, but wrap text.
+    Pre: preserve spacing and newlines but don't wrap text.
 
-  .location {
-      display: block;
-      position: relative;
-      text-align: center;
-      width: 300px;
-      margin: 25px auto -25px auto;
-      background: transparent;
-      border: none;
-      outline: none;
-  }
+    "pre" does not wrap well on Firefox, even with word-wrap:break-word.
+    "pre" on Chrome works with word-wrap, but exhibits different behavior:
+    Instead of entire words being moved to the next line for wrapping,
+    the browser will cut words in the middle for wrapping.
+    "pre-line" has Firefox issues
+    */
+    white-space: pre-wrap;
+    /* Required for wrapping lines in Webkit,
+    but not necessary in Firefox if you have white-space wrapping
+    (pre-wrap, normal, pre-line) already set */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
 
-  .textarea-container {
-      z-index: -1;
-      position: relative;
-      /* you should change this*/
-  }
+/*placeholder text*/
+::-webkit-input-placeholder {
+    color: #c1c1c1;
+}
+::-moz-placeholder {
+    color: #c1c1c1;
+}
+:-ms-input-placeholder {
+    color: #c1c1c1;
+}
 
-  textarea, .textarea-size {
-      min-height: 25px;
-      box-sizing: border-box;
-      padding: 8px;
-      overflow: hidden;
+/*send link*/
+#post-send-container {
+/*    border: 1px solid brown;*/
+    position: fixed;
+    width: 70%;
+    height: 30%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    visibility: hidden;
+    opacity: 0;
+    text-align: center;
+}
 
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 100;
-      letter-spacing: 0.06em;
-      font-size: 1.4em;
-      width: 50%;
-      margin: 50px 25% 0px 25%;
-      background: transparent;
-      outline: none;
-  }
+#pre-send-container, #post-send-container {
+  transition: all 1s;
+}
 
-  .letter {
-      height: 100%;
-      position: absolute;
-      resize: none;
-      border: 0.3px solid black;
-      border: none;
-      caret-color: auto;
+#pre-send-container.sent {
+    visibility: hidden;
+    opacity: 0;
+}
 
-      /*
-      "pre" or "preline" or "normal" fixes Chrome issue where
-      whitespace at end of lines does not trigger a line break.
-      However, it causes the text to exhibit the behavior seen with
-      "pre" that is described below.
-      */
-      white-space: normal;
-  }
+#post-send-container.sent {
+    visibility: visible;
+    opacity: 1;
+}
 
-  .hide-text-cursor {
-    caret-color: transparent;
-  }
+#preview, #close {
+    display: block;
+    width: 200px;
+    text-align: center;
+    margin: 10px auto 10px auto;
+}
 
-  .textarea-size {
-      visibility: hidden;
+#linkbox {
+    position: relative;
+    height: 50px;
+    margin: 0 auto 30px auto;
+    width: auto;
+    display: inline-block;
+}
 
-      /*
-      Pre-wrap: preserve spacing and newlines, but wrap text.
-      Pre: preserve spacing and newlines but don't wrap text.
+#myurl {
+    height: 100%;
+    letter-spacing: 0.1em;
+    padding: 16px 16px;
+    border-bottom: 0.5px solid #151515;
+    transition: 1s all ease-out;
+}
 
-      "pre" does not wrap well on Firefox, even with word-wrap:break-word.
-      "pre" on Chrome works with word-wrap, but exhibits different behavior:
-      Instead of entire words being moved to the next line for wrapping,
-      the browser will cut words in the middle for wrapping.
-      "pre-line" has Firefox issues
-      */
-      white-space: pre-wrap;
-      /* Required for wrapping lines in Webkit,
-      but not necessary in Firefox if you have white-space wrapping
-      (pre-wrap, normal, pre-line) already set */
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-  }
+.hidden {
+    pointer-events: none;
+    opacity: 0;
+}
 
-  /*placeholder text*/
-  ::-webkit-input-placeholder {
-      color: #c1c1c1;
-  }
-  ::-moz-placeholder {
-      color: #c1c1c1;
-  }
-  :-ms-input-placeholder {
-      color: #c1c1c1;
-  }
+/*-----------------password styles, compose page---------------------*/
+#pw-set-container {
+    position: fixed;
+    top: 17px;
+    right: 20px;
+}
 
-  /*send link*/
-  .post-send-container {
-  /*    border: 1px solid brown;*/
-      position: fixed;
-      width: 50%;
-      height: 30%;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      margin: auto;
-      visibility: hidden;
-      opacity: 0;
-  }
+#save, #password-button {
+    outline: none;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+}
 
-  .pre-send-container, .post-send-container {
-    transition: all 1s;
-  }
+#password-button {
+    position: fixed;
+    font-size: 0.75em;
+    top: 20px;
+    right: 20px;
+}
 
-  .pre-send-container.sent {
-      visibility: hidden;
-      opacity: 0;
-  }
+#myPassword {
+    border: none;
+    outline: none;
+    text-align: right;
+    background: transparent;
+}
 
-  .post-send-container.sent {
-      visibility: visible;
-      opacity: 1;
-  }
+#eye {
+    border: none;
+    margin-right: 10px;
+    height: 1em;
+    position: relative; /*adjust position from its default layout*/
+    top: 3.5px;
+}
 
-  a {
-      text-decoration: none;
-      color: black;
-  }
+.disabled {
+    pointer-events: none;
+    opacity: 0;
+}
 
-  .preview, .close {
-      display: block;
-      width: 200px;
-      text-align: center;
-      margin: 10px auto 10px auto;
-      cursor: pointer;
-  }
 
-  .linkbox {
-      position: relative;
-      height: 50px;
-      border-bottom: 0.5px solid black;
-      margin: 0 auto 30px auto;
-      width: 450px;
-  }
+/**************** copying ****************/
+#copyalert {
+    margin-bottom: 15px;
+}
 
-  .myurl {
-  /*    border: 1px solid red;*/
-      text-align: center;
-      height: 100%;
-      font-family: 'Cormorant Garamond', serif;
-      letter-spacing: 0.1em;
-      padding: 12px 20px;
-  }
-
-  .copylink {
-      border-left: 0.5px solid black;
-      position: absolute;
-      right: 0;
-      height: 100%;
-      transition: 0.5s all ease-out;
-      padding: 14px 20px;
-      cursor: pointer;
-  }
-
-  .copylink:hover {
-      color: white;
-      background: #232223;
-  }
+.copied {
+    color: white;
+    background: #343434;
+    margin-top: 4px;
+}
