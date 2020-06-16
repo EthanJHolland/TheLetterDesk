@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { GoogleAnalyticsService } from '../services/google-analytics.service';
 
 import * as $ from 'jquery';
 import { Constants } from '../constants';
@@ -20,15 +21,18 @@ export class HomeComponent implements OnInit{
     i=0; //what array index we are on
     shift = false; //if the shift key was pressed down 1 keypress ago
 
-    constructor(private route: ActivatedRoute, private router: Router){}
+    constructor(private googleanalyticsService: GoogleAnalyticsService, private route: ActivatedRoute, private router: Router){}
 
     ngOnInit(){
         //write version number so that it can be seen which git commit the website is up to
+        this.googleanalyticsService.logPage('home');
         console.log('version', Constants.VERSION);
     }
-    
+
     //when you click WHAT IS THIS, all this happens (it plays a letter for you)
     showAbout(){
+        this.googleanalyticsService.logEvent('home', 'view about page');
+
         $("#wrapper").fadeOut(400); //fade out the start button (using a wrapper div)
         $("#body").toggleClass("typing"); //change the body background
         $(".details").toggleClass("typing"); //fade in the details (i.e. the clock)

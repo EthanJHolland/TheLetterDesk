@@ -1,6 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import { Router,ActivatedRoute,ParamMap } from '@angular/router';
 
+import { GoogleAnalyticsService } from '../services/google-analytics.service';
 import { ReadWriteService } from '../services/readwrite.service';
 
 import 'rxjs/add/operator/filter';
@@ -21,6 +22,7 @@ export class ViewPageComponent implements OnInit{
     constructor(
         private route: ActivatedRoute,
         private router: Router,
+        private googleanalyticsService: GoogleAnalyticsService,
         private readWriteService: ReadWriteService 
       ) {}
 
@@ -29,19 +31,23 @@ export class ViewPageComponent implements OnInit{
         //if the path starts with /preview set preview mode to true
         this.preview=this.router.url.startsWith('/preview')
 
+        this.googleanalyticsService.logPage(this.preview ? 'preview' : 'view');
+
         this.route.paramMap.subscribe((params: ParamMap) => {
             //get letter based on id
             this.readWriteService.retrieve(params.get('id'))
                 .then((letter) => {
                     if(letter){
+                        this.googleanalyticsService.logEvent('view', 'existing letter');
                         this.letter=letter;
                     }else{
+                        this.googleanalyticsService.logEvent('view', 'non-existent letter');
                         //letter does not exist so redirect to compose page for now
                         //this.router.navigate(['/compose']);
                         this.letter=Constants.LETTER_NOT_FOUND;
                     }
                 });
         });
-
+        
     }
 }

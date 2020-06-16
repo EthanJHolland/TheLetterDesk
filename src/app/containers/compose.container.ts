@@ -1,6 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
+import { GoogleAnalyticsService } from '../services/google-analytics.service';
 import { ReadWriteService } from '../services/readwrite.service';
 
 import 'rxjs/add/operator/do';
@@ -19,9 +20,10 @@ export class ComposePageComponent implements OnInit {
     tldid: string = 'new';
 
     constructor(
+        private googleanalyticsService: GoogleAnalyticsService,
         private readwriteService: ReadWriteService,
-         private route: ActivatedRoute, 
-         private router: Router){}
+        private route: ActivatedRoute, 
+        private router: Router){}
 
     ngOnInit(){
         this.route.paramMap.subscribe((params: ParamMap) => {
@@ -32,6 +34,8 @@ export class ComposePageComponent implements OnInit {
                     if(letter && !letter.error){
                         //if letter already exists reroute to new compose page
                         this.router.navigate(['/compose'], {queryParamsHandling: 'preserve'})
+                    } else {
+                        this.googleanalyticsService.logPage('compose');
                     }
                 }); 
         });
