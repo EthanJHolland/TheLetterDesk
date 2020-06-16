@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { GoogleAnalyticsService } from '../services/google-analytics.service';
 import { PasswordService } from '../services/password.service';
 import { DeviceService } from '../services/device.service';
 import { Constants } from '../constants'
@@ -30,7 +31,10 @@ export class ComposeComponent{
     location: string = ''; //store location
     password: string = ''; //optional password added to the letter
 
-    constructor(private passwordService: PasswordService, private deviceService: DeviceService, private router: Router, private route: ActivatedRoute) {} //need the router for navigation
+    constructor(private googleanalyticsService: GoogleAnalyticsService,
+                private passwordService: PasswordService,
+                private deviceService: DeviceService,
+                private route: ActivatedRoute) {}
 
     ngOnInit() {
         if(environment.production) { // if in prod, look for query params to determine if debug mode
@@ -159,6 +163,8 @@ export class ComposeComponent{
 
     send() {
         if (this.canSend()) {
+            this.googleanalyticsService.logEvent('compose', 'letter sent');
+
             //if character count is satisfied or in debug mode, then proceed.
             $('#pre-send-container').toggleClass('sent');  //fade out letter writing elements
             $('#post-send-container').toggleClass('sent');  //fade in letter sending elements
@@ -215,12 +221,16 @@ export class ComposeComponent{
      
     //preview -- go to link in new tab
     preview(){
+        this.googleanalyticsService.logEvent('compose', 'preview just written letter');
+
         //router can't navigate in new tab so need to use traditional html methods
         window.open(this.getPreviewUrl());
     }
 
     //close -- go back to editing letter if you wish
     close(){
+        this.googleanalyticsService.logEvent('compose', 'return to editing letter');
+
         $('#pre-send-container').toggleClass('sent');  //fade in old letter writing elements
         $('#post-send-container').toggleClass('sent');  //fade out letter sending elements
         
@@ -255,6 +265,8 @@ export class ComposeComponent{
     }
 
     savePassword() {
+        this.googleanalyticsService.logEvent('compose', 'saved password');
+
         var password_button = document.getElementById("password-button");
         var element = document.getElementById("pw-set-container");
 

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
+import { GoogleAnalyticsService } from '../services/google-analytics.service';
 
 import { Constants } from '../constants';
 
@@ -44,8 +44,11 @@ export class ViewComponent{
     messageComplete = true; //true before letter starts or after entire message has been typed
     scrolledTo = 0; //used to automatically scroll down whenever the vertical height of the letter increases
     passwordButtonText = 'password';
+    letter_seen = false; //changes permanently to 'true' after the final word is played; prevents retoggle
 
-    constructor(private passwordService: PasswordService, private deviceService: DeviceService, private router: Router){}
+    constructor(private googleanalyticsService: GoogleAnalyticsService,
+                private passwordService: PasswordService,
+                private deviceService: DeviceService) {}
 
     isMobile () {
         return this.deviceService.isMobile();
@@ -53,6 +56,7 @@ export class ViewComponent{
 
     //if the user wants to reply open a compose page in a new screen
     openReplyWindow(){
+        this.googleanalyticsService.logEvent('view', 'navigate to compose from view');
         window.open(Constants.URL+'/compose')
     }
 
@@ -76,6 +80,8 @@ export class ViewComponent{
     }
 
     openLetter(){
+        this.googleanalyticsService.logEvent('view', 'opened letter');
+
         this.open = true;
 
         //when you click .start (the open letter button), all this happens:
@@ -249,7 +255,7 @@ export class ViewComponent{
                 //indicate message is complete so no longer show cursor
                 this.messageComplete=true
                 //wait 1 second before transitioning out
-                setTimeout(this.toEnd,1000);
+                setTimeout(() => this.toEnd(),1000);
             }
 
             //automatically scroll down as letter appears
@@ -276,14 +282,20 @@ export class ViewComponent{
     }
 
     toEnd() {
-        //toggle everything back to the original (gray) display
-        $("#body").toggleClass("typing");
-        $("#logo").toggleClass("typing");
-        $(".details").toggleClass("typing");
-        $(".letter").toggleClass("typing");
+        if (!this.letter_seen) {
+            this.googleanalyticsService.logEvent('view', 'viewed to end of letter');
 
-        //add new some new details
-        $("#reply").toggleClass("final"); //show WRITE LETTER option (they want to reply!)
+            this.letter_seen = true; //prevent retoggling into darkness from multiple events
+
+            //toggle everything back to the original (gray) display
+            $("#body").toggleClass("typing");
+            $("#logo").toggleClass("typing");
+            $(".details").toggleClass("typing");
+            $(".letter").toggleClass("typing");
+
+            //add new some new details
+            $("#reply").toggleClass("final"); //show WRITE LETTER option (they want to reply!)
+        }
     }
 
     mouseEnter() {
@@ -298,9 +310,13 @@ export class ViewComponent{
 
     submitPassword() {
         if (this.passwordService.verify(this._letter.password, this.passwordAttempt, this._letter.tldid)) {
+            this.googleanalyticsService.logEvent('view', 'entered correct password');
+            
             this.locked = false;
             document.getElementById("body").focus(); // focus on body so space/enter can be used to open letter without having to click on page
         } else {
+            this.googleanalyticsService.logEvent('view', 'entered incorrect password');
+
             //password is wrong; reset password field
             this.passwordAttempt = '';
             this.passwordButtonText = 'try again';
