@@ -76,3 +76,42 @@ exports.retrieveWithPassword=function(req,res){
         });
     })  
 }
+
+exports.getStats = function(req, res) {
+    console.log('collecting stats');
+
+        MongoClient.connect(MONGO_URL, function (err, client) {
+        if (err){
+            res.json({error: err});
+            return;
+        }
+
+        const db=client.db('tld')
+        const coll=db.collection('letters');
+        const nonDebug = {$or: [{debug: false}, {debug: {$exists: false}}]}; //exclude letters with debug flag true
+
+        coll.count(nonDebug, (err, total) => {
+            if(err){
+                res.json({error: err});
+            }else{
+                coll.count({$and: [nonDebug, {password: {$exists: true}}]}, (err, with_pass) => {
+                    if(err){
+                        res.json({error: err});
+                    }else{
+                        coll.count({$and: [nonDebug, {location: {$ne: ""}}]}, (err, with_loc) => {
+                            if(err){
+                                res.json({error: err});
+                            }else{
+                                res.json({
+                                    total: total,
+                                    'with location': with_loc,
+                                    'with password': with_pass
+                                })
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+}

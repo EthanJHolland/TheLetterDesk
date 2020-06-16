@@ -3,6 +3,7 @@ import { ComposePageComponent } from './containers/compose.container';
 import { ViewPageComponent } from './containers/view.container';
 import { RedirectPageComponent } from './containers/redirect.container';
 import { HomeComponent } from './components/home.component';
+import { StatsPageComponent } from './containers/stats.container';
 
 //Automatically redirect to the homepage unless
 //1. trying to compose but no id included in which case redirect to a new compose page
@@ -29,6 +30,10 @@ export const routes: Routes = [
     {
         path: 'preview/:id',
         component: ViewPageComponent
+    },
+    {
+        path: 'stats',
+        component: StatsPageComponent
     },
     {
         path: '**',

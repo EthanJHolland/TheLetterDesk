@@ -10,6 +10,7 @@ import { AppComponent } from './containers/app';
 import { RedirectPageComponent } from './containers/redirect.container';
 import { ComposePageComponent } from './containers/compose.container';
 import { ViewPageComponent } from './containers/view.container';
+import { StatsPageComponent } from './containers/stats.container';
 
 //import components
 import { LoadingComponent } from './components/loading.component';
@@ -32,6 +33,7 @@ import { routes } from './routes';
     RedirectPageComponent,
     ComposePageComponent,
     ViewPageComponent,
+    StatsPageComponent,
     LoadingComponent,
     HomeComponent,
     ComposeComponent,
