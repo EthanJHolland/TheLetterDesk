@@ -277,9 +277,9 @@ export class ViewComponent{
     }
 
     toEnd() {
-        if (letter_seen===false) {
+        if (this.letter_seen===false) {
             
-            letter_seen = true; //prevent retoggling into darkness from multiple events
+            this.letter_seen = true; //prevent retoggling into darkness from multiple events
             
             //toggle everything back to the original (gray) display
             $("#body").toggleClass("typing");
