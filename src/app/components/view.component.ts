@@ -44,6 +44,7 @@ export class ViewComponent{
     messageComplete = true; //true before letter starts or after entire message has been typed
     scrolledTo = 0; //used to automatically scroll down whenever the vertical height of the letter increases
     passwordButtonText = 'password';
+    letter_seen = false; //changes permanently to 'true' after the final word is played; prevents retoggle
 
     constructor(private googleanalyticsService: GoogleAnalyticsService,
                 private passwordService: PasswordService,
@@ -281,16 +282,20 @@ export class ViewComponent{
     }
 
     toEnd() {
-        this.googleanalyticsService.logEvent('view', 'viewed to end of letter');
+        if (this.letter_seen===false) {
+            this.googleanalyticsService.logEvent('view', 'viewed to end of letter');
 
-        //toggle everything back to the original (gray) display
-        $("#body").toggleClass("typing");
-        $("#logo").toggleClass("typing");
-        $(".details").toggleClass("typing");
-        $(".letter").toggleClass("typing");
+            this.letter_seen = true; //prevent retoggling into darkness from multiple events
 
-        //add new some new details
-        $("#reply").toggleClass("final"); //show WRITE LETTER option (they want to reply!)
+            //toggle everything back to the original (gray) display
+            $("#body").toggleClass("typing");
+            $("#logo").toggleClass("typing");
+            $(".details").toggleClass("typing");
+            $(".letter").toggleClass("typing");
+
+            //add new some new details
+            $("#reply").toggleClass("final"); //show WRITE LETTER option (they want to reply!)
+        }
     }
 
     mouseEnter() {
