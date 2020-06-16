@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit{
     letter=Constants.ABOUT; //get about letter
     messageComplete = true; //true before letter starts or after entire message has been typed
 
-    //global variabless
+    //global variables
     pause = false;
     totalString = ""; //what is outputted
     i=0; //what array index we are on

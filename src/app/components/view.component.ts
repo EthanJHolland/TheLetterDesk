@@ -255,7 +255,7 @@ export class ViewComponent{
                 //indicate message is complete so no longer show cursor
                 this.messageComplete=true
                 //wait 1 second before transitioning out
-                setTimeout(this.toEnd,1000);
+                setTimeout(() => this.toEnd(),1000);
             }
 
             //automatically scroll down as letter appears
@@ -282,7 +282,7 @@ export class ViewComponent{
     }
 
     toEnd() {
-        if (this.letter_seen===false) {
+        if (!this.letter_seen) {
             this.googleanalyticsService.logEvent('view', 'viewed to end of letter');
 
             this.letter_seen = true; //prevent retoggling into darkness from multiple events
