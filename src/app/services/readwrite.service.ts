@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
+import { Letter } from '../models/letter.model';
+import { DBError } from '../models/dberror.model';
 import { Constants } from '../constants';
  
 import 'rxjs/add/operator/toPromise';
@@ -13,7 +15,7 @@ export class ReadWriteService {
 
     constructor(private http: Http) { }
 
-    send(doc: any): Promise<boolean> {
+    send(doc: Letter): Promise<boolean> {
         const url = `${this.apiUrl}/send`;//${letter._id}`;
         return this.http.post(url, JSON.stringify({doc: doc}), {headers: this.headers}) 
           .toPromise()      //makes the server wait until information is returned
@@ -21,7 +23,7 @@ export class ReadWriteService {
           .catch(this.handleError);     //catches an error if no letter class object exists
     }
 
-    retrieve(tldid: string): Promise<any> {
+    retrieve(tldid: string): Promise<Letter | DBError> {
         const url = `${this.apiUrl}/retrieve/${tldid}`;
         return this.http.get(url)
             .toPromise()

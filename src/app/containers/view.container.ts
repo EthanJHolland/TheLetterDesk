@@ -4,6 +4,9 @@ import { Router,ActivatedRoute,ParamMap } from '@angular/router';
 import { GoogleAnalyticsService } from '../services/google-analytics.service';
 import { ReadWriteService } from '../services/readwrite.service';
 
+import { Letter } from '../models/letter.model';
+import { DBError, isDBError } from '../models/dberror.model';
+
 import 'rxjs/add/operator/filter';
 import { Constants } from '../constants';
 
@@ -16,7 +19,7 @@ import { Constants } from '../constants';
     `,
 })
 export class ViewPageComponent implements OnInit{
-    letter: any;
+    letter: Letter;
     preview: boolean;
 
     constructor(
@@ -36,15 +39,17 @@ export class ViewPageComponent implements OnInit{
         this.route.paramMap.subscribe((params: ParamMap) => {
             //get letter based on id
             this.readWriteService.retrieve(params.get('id'))
-                .then((letter) => {
-                    if(letter){
+                .then((letter: Letter | DBError) => {
+                    if (isDBError(letter)) {
+                        //db error
+                        this.letter = Constants.LETTER_NOT_FOUND;
+                    } else if (letter) {
                         this.googleanalyticsService.logEvent('view', 'existing letter');
                         this.letter=letter;
-                    }else{
+                    } else {
+                        //letter does not exist
                         this.googleanalyticsService.logEvent('view', 'non-existent letter');
-                        //letter does not exist so redirect to compose page for now
-                        //this.router.navigate(['/compose']);
-                        this.letter=Constants.LETTER_NOT_FOUND;
+                        this.letter = Constants.LETTER_NOT_FOUND;
                     }
                 });
         });

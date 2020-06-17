@@ -7,6 +7,7 @@ import { ReadWriteService } from '../services/readwrite.service';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/switchMap';
+import { isDBError } from '../models/dberror.model';
 
 @Component({
     selector: 'compose-page',
@@ -31,10 +32,13 @@ export class ComposePageComponent implements OnInit {
             //check if letter exists
             this.readwriteService.retrieve(this.tldid)
                 .then((letter) => {
-                    if(letter && !letter.error){
+                    if(isDBError (letter)) {
+                        this.googleanalyticsService.logError('checking if tldid is taken', letter.error);
+                    } else if (letter) {
                         //if letter already exists reroute to new compose page
                         this.router.navigate(['/compose'], {queryParamsHandling: 'preserve'})
                     } else {
+                        // letter does not exist so can compose
                         this.googleanalyticsService.logPage('compose');
                     }
                 }); 

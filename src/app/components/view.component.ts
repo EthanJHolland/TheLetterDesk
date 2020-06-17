@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { GoogleAnalyticsService } from '../services/google-analytics.service';
 
+import { isEncrypted, Letter } from '../models/letter.model';
 import { Constants } from '../constants';
 
 import * as $ from 'jquery';
@@ -13,8 +14,8 @@ import { DeviceService } from '../services/device.service';
     styleUrls: ['./templates/view.css']
 })
 export class ViewComponent{
-    @Input() set letter(letter: any){
-        this.locked = letter && 'password' in letter && letter.password; // locked iff letter has password which viewer has not yet entered (set in ngOnInit)
+    @Input() set letter(letter: Letter){
+        this.locked = isEncrypted(letter); // locked iff letter has password which viewer has not yet entered (set in ngOnInit)
         this._letter = letter;
 
         if (letter && !this.locked) {
@@ -309,18 +310,20 @@ export class ViewComponent{
     }
 
     submitPassword() {
-        if (this.passwordService.verify(this._letter.password, this.passwordAttempt, this._letter.tldid)) {
-            this.googleanalyticsService.logEvent('view', 'entered correct password');
-            
-            this.locked = false;
-            document.getElementById("body").focus(); // focus on body so space/enter can be used to open letter without having to click on page
-        } else {
-            this.googleanalyticsService.logEvent('view', 'entered incorrect password');
+        if (isEncrypted(this._letter)) {
+            if (this.passwordService.verify(this.passwordAttempt, this._letter)) {
+                this.googleanalyticsService.logEvent('view', 'entered correct password');
 
-            //password is wrong; reset password field
-            this.passwordAttempt = '';
-            this.passwordButtonText = 'try again';
-            document.getElementById("password").focus();
+                this.locked = false;
+                document.getElementById("body").focus(); // focus on body so space/enter can be used to open letter without having to click on page
+            } else {
+                this.googleanalyticsService.logEvent('view', 'entered incorrect password');
+
+                //password is wrong; reset password field
+                this.passwordAttempt = '';
+                this.passwordButtonText = 'try again';
+                document.getElementById("password").focus();
+            }
         }
     }
 }

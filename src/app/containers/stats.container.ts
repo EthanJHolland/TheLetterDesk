@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { GoogleAnalyticsService } from '../services/google-analytics.service';
 import { ReadWriteService } from '../services/readwrite.service';
-
+import { isDBError } from '../models/dberror.model';
 
 @Component({
     selector: 'stats-page',
@@ -24,13 +24,16 @@ export class StatsPageComponent implements OnInit{
 
         this.readWriteService.getStats()
             .then((stats) => {
-                if(stats){
+                if (isDBError(stats)){
+                    this.googleanalyticsService.logError('getting stats', stats.error);
+                    this.stats = {error: stats.error};
+                } else {
                     this.stats = stats;
                 }
             });
     }
 
-    keys (obj) {
+    keys (obj: any) {
         return obj ? Object.keys(obj): [];
     }
 }
