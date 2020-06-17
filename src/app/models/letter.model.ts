@@ -1,17 +1,17 @@
 export interface BasicLetter {
     tldid: string;
+    debug?: boolean;
     location: string;
     order: number[];
     times: number[];
     down?: number[];
     duration?: number[];
     text?: string;
-    debug?: boolean;
 }
 
 export interface EncryptedLetter {
     tldid: string;
-    debug: boolean;
+    debug?: boolean;
     password: string;
     encrypted_letter: string;
 }

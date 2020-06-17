@@ -8,6 +8,7 @@ export class PasswordService {
     encrypt (letter: BasicLetter, password: string): EncryptedLetter {
         return {
             tldid: letter.tldid,
+            debug: letter.debug,
             password: this.hash(password, letter.tldid),
             encrypted_letter: JSON.stringify(letter)
         }

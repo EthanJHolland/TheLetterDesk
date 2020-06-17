@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { GoogleAnalyticsService } from '../services/google-analytics.service';
 
-import { isEncrypted, Letter } from '../models/letter.model';
+import { isEncrypted, EncryptedLetter, BasicLetter } from '../models/letter.model';
 import { Constants } from '../constants';
 
 import * as $ from 'jquery';
@@ -14,7 +14,7 @@ import { DeviceService } from '../services/device.service';
     styleUrls: ['./templates/view.css']
 })
 export class ViewComponent{
-    @Input() set letter(letter: Letter){
+    @Input() set letter(letter: EncryptedLetter | BasicLetter){
         this.locked = isEncrypted(letter); // locked iff letter has password which viewer has not yet entered (set in ngOnInit)
         this._letter = letter;
 
