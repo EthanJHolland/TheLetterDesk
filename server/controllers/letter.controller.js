@@ -40,7 +40,7 @@ exports.retrieve=function(req,res){
         const db=client.db('tld')
         const coll=db.collection('letters');
         const tldid=req.params.id;
-        coll.findOne({tldid: tldid}, {fields: {_id: -1}}, (err, doc) => {
+        coll.findOne({tldid: tldid}, {fields: {_id: 0}}, (err, doc) => {
             if(err){
                 res.json({error: err});
             }else{

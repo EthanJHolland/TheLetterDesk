@@ -314,6 +314,7 @@ export class ViewComponent{
             if (this.passwordService.verify(this.passwordAttempt, this._letter)) {
                 this.googleanalyticsService.logEvent('view', 'entered correct password');
 
+                this._letter = this.passwordService.decrypt(this._letter, this.passwordAttempt);
                 this.locked = false;
                 document.getElementById("body").focus(); // focus on body so space/enter can be used to open letter without having to click on page
             } else {
