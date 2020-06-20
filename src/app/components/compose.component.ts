@@ -182,7 +182,8 @@ export class ComposeComponent{
             debug: this.debugMode,
             tldid: this.tldid,
             location: this.location.toLowerCase(),
-            order: this.order, down: this.down, duration: this.duration, times: this.times,
+            order: this.order,
+            times: this.times,
             text: this.text
         }
 
