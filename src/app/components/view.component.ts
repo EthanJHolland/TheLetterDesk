@@ -1,11 +1,14 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { GoogleAnalyticsService } from '../services/google-analytics.service';
 
+import { DeviceService } from '../services/device.service';
+import { ReadWriteService } from '../services/readwrite.service';
+
+import { Letter, PasswordRequired, passwordRequired, RetrieveResponse, doesNotExist } from '../models/letter.model';
 import { Constants } from '../constants';
 
 import * as $ from 'jquery';
-import { PasswordService } from '../services/password.service';
-import { DeviceService } from '../services/device.service';
+import { DBError, isDBError } from '../models/dberror.model';
 
 @Component({
     selector: 'view-component',
@@ -13,15 +16,13 @@ import { DeviceService } from '../services/device.service';
     styleUrls: ['./templates/view.css']
 })
 export class ViewComponent{
-    @Input() set letter(letter: any){
-        this.locked = letter && 'password' in letter && letter.password; // locked iff letter has password which viewer has not yet entered (set in ngOnInit)
-        this._letter = letter;
-
-        if (letter && !this.locked) {
-            // focus on body
-            document.getElementById("body").focus();
+    @Input() set tldid(tldid: string) {
+        if (tldid) {
+            this._tldid = tldid;
+            this.fetchLetter();
         }
     }
+
     @Input() set preview(preview: boolean){
         //if this letter is being viewed in preview mode skip open scene and just show text
         if(preview){
@@ -32,7 +33,8 @@ export class ViewComponent{
     static whitespaceChars = new Set([9, 13, 32]) //tab, enter, space
 
     //global variables
-    _letter = undefined; //the letter itself
+    _tldid = undefined; //the tldid
+    letter = undefined; //the letter itself
     locked = undefined; //indicates whether password is required (set in letter setter)
     passwordAttempt = '';
     open = false; //whether or not the letter has been opened (becomes true when viewer clicks "open letter")
@@ -47,8 +49,48 @@ export class ViewComponent{
     letter_seen = false; //changes permanently to 'true' after the final word is played; prevents retoggle
 
     constructor(private googleanalyticsService: GoogleAnalyticsService,
-                private passwordService: PasswordService,
+                private readwriteService: ReadWriteService,
                 private deviceService: DeviceService) {}
+
+    fetchLetter (password: string = undefined) {
+        if (!this.letter) {
+            this.readwriteService.retrieve(this._tldid, password).then((letter: RetrieveResponse | DBError) => {
+                if (!this.letter) {
+                    if (isDBError(letter)) {
+                        //db error
+                        this.googleanalyticsService.logError('retrieving letter', letter.error);
+                    } else if (doesNotExist(letter)) {
+                        //letter does not exist
+                        this.googleanalyticsService.logEvent('view', 'non-existent letter');
+                        this.letter = Constants.LETTER_NOT_FOUND;
+
+                        this.locked = false;
+                        document.getElementById("body").focus();  // focus on body
+                    } else {
+                        //letter exists
+                        this.locked = passwordRequired(letter); // locked iff letter has password which viewer has not yet entered (set in ngOnInit)
+
+                        if (password) {
+                            this.googleanalyticsService.logEvent('view', `entered ${this.locked ? "in" : ""}correct password`);
+                        } else {
+                            // first fetch
+                            this.googleanalyticsService.logEvent('view', 'existing letter');
+                        }
+
+                        if (!this.locked) {
+                            this.letter = letter;
+                            document.getElementById("body").focus();  // focus on body
+                        } else if (password) {
+                            // password was intered but is wrong; reset password field
+                            this.passwordAttempt = '';
+                            this.passwordButtonText = 'try again';
+                            document.getElementById("password").focus();
+                        }
+                    }
+                }
+            });
+        }
+    }
 
     isMobile () {
         return this.deviceService.isMobile();
@@ -131,12 +173,12 @@ export class ViewComponent{
                 this.pause = true;
                 
                 //update for any spaces
-                while (this.i < this._letter.order.length && ViewComponent.whitespaceChars.has(this._letter.order[this.i])) {
+                while (this.i < this.letter.order.length && ViewComponent.whitespaceChars.has(this.letter.order[this.i])) {
                     this.updateString(this.i);
                     this.i++;
                 }
                 //add next word
-                while (this.i<this._letter.order.length && !ViewComponent.whitespaceChars.has(this._letter.order[this.i])) {
+                while (this.i<this.letter.order.length && !ViewComponent.whitespaceChars.has(this.letter.order[this.i])) {
                     this.updateString(this.i);
                     this.i++;
                 }
@@ -154,7 +196,7 @@ export class ViewComponent{
             var delay = 3000;
         }
         else {
-            var delay = (this._letter.times[this.i]-this._letter.times[this.i-1])*1000;
+            var delay = (this.letter.times[this.i]-this.letter.times[this.i-1])*1000;
             if (delay > 2000) {delay = 2000;} //the reader doesn't want to wait forever
         }
         
@@ -167,7 +209,7 @@ export class ViewComponent{
         setTimeout(() => {
             this.updateString(this.i);
             this.i++;
-            if (this.i < this._letter.order.length) {
+            if (this.i < this.letter.order.length) {
             this.type();
             }
         }, delay);
@@ -176,7 +218,7 @@ export class ViewComponent{
     //each time this is called, one letter is added to the output (or backspaced)
     updateString(index) {
         //c is a keycode
-        var c = this._letter.order[index];
+        var c = this.letter.order[index];
         
         //special characters (anything that is not a letter)
         //stored in a dictionary that maps a keycode to the resulting character
@@ -234,11 +276,11 @@ export class ViewComponent{
                 }
             }
 
-            else if (c===8 && this._letter.order[this.i-1] > -1000000) {
+            else if (c===8 && this.letter.order[this.i-1] > -1000000) {
                 //backspace
                 this.pre_cursor = this.pre_cursor.slice(0,-1);
             }
-            else if (c===46 && this._letter.order[this.i-1] > -1000000) {
+            else if (c===46 && this.letter.order[this.i-1] > -1000000) {
                 //delete
                 this.post_cursor = this.post_cursor.slice(1);
             }
@@ -251,7 +293,7 @@ export class ViewComponent{
                 //pre_cursor += c;
             }
 
-            if (index>=this._letter.order.length-1) {
+            if (index>=this.letter.order.length-1) {
                 //indicate message is complete so no longer show cursor
                 this.messageComplete=true
                 //wait 1 second before transitioning out
@@ -270,7 +312,7 @@ export class ViewComponent{
     getCharCount(){
         //TODO: 1 when space bar is pressed before the first letter appears counter is off
         //TODO: 2 pressing spacebar toggles back to blue
-        return this.i + " / " + this._letter.order.length;
+        return this.i + " / " + this.letter.order.length;
     }       
        
     getPartialString(){
@@ -309,18 +351,6 @@ export class ViewComponent{
     }
 
     submitPassword() {
-        if (this.passwordService.verify(this._letter.password, this.passwordAttempt, this._letter.tldid)) {
-            this.googleanalyticsService.logEvent('view', 'entered correct password');
-            
-            this.locked = false;
-            document.getElementById("body").focus(); // focus on body so space/enter can be used to open letter without having to click on page
-        } else {
-            this.googleanalyticsService.logEvent('view', 'entered incorrect password');
-
-            //password is wrong; reset password field
-            this.passwordAttempt = '';
-            this.passwordButtonText = 'try again';
-            document.getElementById("password").focus();
-        }
+        this.fetchLetter(this.passwordAttempt);
     }
 }

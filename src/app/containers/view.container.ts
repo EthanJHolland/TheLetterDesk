@@ -4,26 +4,26 @@ import { Router,ActivatedRoute,ParamMap } from '@angular/router';
 import { GoogleAnalyticsService } from '../services/google-analytics.service';
 import { ReadWriteService } from '../services/readwrite.service';
 
+import { Letter, RetrieveResponse, doesNotExist, PasswordRequired } from '../models/letter.model';
+
 import 'rxjs/add/operator/filter';
-import { Constants } from '../constants';
 
 @Component({
     selector: 'view-page',
     template: `<view-component
-    [letter]=letter
+    [tldid]=tldid
     [preview]=preview>
     </view-component>
     `,
 })
 export class ViewPageComponent implements OnInit{
-    letter: any;
+    tldid: string;
     preview: boolean;
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private googleanalyticsService: GoogleAnalyticsService,
-        private readWriteService: ReadWriteService 
+        private googleanalyticsService: GoogleAnalyticsService
       ) {}
 
     ngOnInit(){
@@ -34,20 +34,7 @@ export class ViewPageComponent implements OnInit{
         this.googleanalyticsService.logPage(this.preview ? 'preview' : 'view');
 
         this.route.paramMap.subscribe((params: ParamMap) => {
-            //get letter based on id
-            this.readWriteService.retrieve(params.get('id'))
-                .then((letter) => {
-                    if(letter){
-                        this.googleanalyticsService.logEvent('view', 'existing letter');
-                        this.letter=letter;
-                    }else{
-                        this.googleanalyticsService.logEvent('view', 'non-existent letter');
-                        //letter does not exist so redirect to compose page for now
-                        //this.router.navigate(['/compose']);
-                        this.letter=Constants.LETTER_NOT_FOUND;
-                    }
-                });
+            this.tldid = params.get('id');
         });
-        
     }
 }

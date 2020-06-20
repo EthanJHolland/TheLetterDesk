@@ -18,4 +18,10 @@ export class GoogleAnalyticsService {
             gtag('event', eventName, {event_category: category});
         }
     }
+
+    public logError(triggeringAction: string, error: string) {
+        if (environment.production) { // only log errors in production mode
+            gtag('event', triggeringAction + ' - ' + error, {event_category: 'error'});
+        }
+    }
 }

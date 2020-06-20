@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GoogleAnalyticsService } from '../services/google-analytics.service';
-import { PasswordService } from '../services/password.service';
 import { DeviceService } from '../services/device.service';
+import { Letter } from '../models/letter.model';
 import { Constants } from '../constants'
 
 import { environment } from '../../environments/environment';
@@ -15,24 +15,23 @@ import * as $ from 'jquery';
 })
 export class ComposeComponent{
     @Input() tldid: string;
-    @Output() sendEmitter: EventEmitter<any> = new EventEmitter();
+    @Output() sendEmitter: EventEmitter<{letter: Letter} | {letter: Letter, password: string}> = new EventEmitter();
     
-    cursor_placement = 0; //updates on send, so it can refocus appropriately if you close the send screen 
+    cursor_placement: number = 0; //updates on send, so it can refocus appropriately if you close the send screen 
     //parallel arrays
-    order = []; //order of down presses
-    down = []; //down times
-    duration = []; //press duration times
-    times = []; //absolute continuous times starting from 0
+    order: number[] = []; //order of down presses
+    down: number[] = []; //down times
+    duration: number[] = []; //press duration times
+    times: number[] = []; //absolute continuous times starting from 0
 
-    debugMode = !environment.production; //debug mode indicates letter is being written for debugging/testing purposes
-    i = 0; //currently on the ith element of all these parallel arrays
-    pos = -1; //textcursor position (updates on mouseup event)
+    debugMode: boolean = !environment.production; //debug mode indicates letter is being written for debugging/testing purposes
+    i: number = 0; //currently on the ith element of all these parallel arrays
+    pos: number = -1; //textcursor position (updates on mouseup event)
     text: string = ''; //store the text itself for sizing purposes
     location: string = ''; //store location
     password: string = ''; //optional password added to the letter
 
     constructor(private googleanalyticsService: GoogleAnalyticsService,
-                private passwordService: PasswordService,
                 private deviceService: DeviceService,
                 private route: ActivatedRoute) {}
 
@@ -178,17 +177,20 @@ export class ComposeComponent{
         }
     };
 
-    emitLetter(hashedPassword: string = null) {
-        var letterObj: any = {
+    emitLetter(password: string = null) {
+        var letterObj: Letter = {
             debug: this.debugMode,
             tldid: this.tldid,
             location: this.location.toLowerCase(),
             order: this.order, down: this.down, duration: this.duration, times: this.times,
             text: this.text
         }
-        if (hashedPassword) letterObj.password = hashedPassword;
 
-        this.sendEmitter.emit(letterObj);
+        if (password) {
+            this.sendEmitter.emit({letter: letterObj, password: password});
+        } else {
+            this.sendEmitter.emit({letter: letterObj});
+        }
     }
         
     //generate the appropriate url
@@ -282,6 +284,6 @@ export class ComposeComponent{
         }
 
         //reemit letter with password
-        this.emitLetter(this.passwordService.hash(this.password, this.tldid));
+        this.emitLetter(this.password);
     }
 }

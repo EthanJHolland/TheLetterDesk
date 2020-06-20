@@ -20,7 +20,6 @@ import { ViewComponent } from './components/view.component';
 
 //import services
 import { GoogleAnalyticsService } from './services/google-analytics.service';
-import { PasswordService } from './services/password.service';
 import { DeviceService } from './services/device.service';
 import { ReadWriteService } from './services/readwrite.service';
 
@@ -47,7 +46,6 @@ import { routes } from './routes';
   ],
   providers: [
     GoogleAnalyticsService,
-    PasswordService,
     DeviceService,
     ReadWriteService
   ],

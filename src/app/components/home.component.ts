@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GoogleAnalyticsService } from '../services/google-analytics.service';
 
+import { Letter } from '../models/letter.model';
+
 import * as $ from 'jquery';
 import { Constants } from '../constants';
 
@@ -12,14 +14,14 @@ import { Constants } from '../constants';
 })
 export class HomeComponent implements OnInit{
     //feed in data
-    letter=Constants.ABOUT; //get about letter
-    messageComplete = true; //true before letter starts or after entire message has been typed
+    letter: Letter = Constants.ABOUT; //get about letter
+    messageComplete: boolean = true; //true before letter starts or after entire message has been typed
 
     //global variables
-    pause = false;
-    totalString = ""; //what is outputted
-    i=0; //what array index we are on
-    shift = false; //if the shift key was pressed down 1 keypress ago
+    pause: boolean = false;
+    totalString: string = ""; //what is outputted
+    i: number = 0; //what array index we are on
+    shift: boolean = false; //if the shift key was pressed down 1 keypress ago
 
     constructor(private googleanalyticsService: GoogleAnalyticsService, private route: ActivatedRoute, private router: Router){}
 
@@ -90,7 +92,7 @@ export class HomeComponent implements OnInit{
             var delay = 3000;
         }
         else {
-            var delay = (this.letter.absTimes[this.i]-this.letter.absTimes[this.i-1])*1000;
+            var delay = (this.letter.times[this.i]-this.letter.times[this.i-1])*1000;
             if (delay > 2000) {delay = 2000;} //the reader doesn't want to wait forever
         }
         
@@ -110,7 +112,7 @@ export class HomeComponent implements OnInit{
     }
 
     //each time this is called, one letter is added to the output (or backspaced)
-    updateString(index) {
+    updateString(index: number) {
         //c is a keycode
         var c = this.letter.order[index];
         
