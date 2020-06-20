@@ -2,8 +2,8 @@
 
 const MongoClient = require('mongodb').MongoClient;
 const MONGO_URL = require('../constants').MONGO_URL
-const sha256 = require('crypto-js/sha256');
-const base64 = require('crypto-js/enc-base64');
+const HASH = require('../constants').HASH;
+const CryptoJS = require('crypto-js');
 
 exports.test=function(req,res){
     res.json({success: true}) //simple test of api 
@@ -109,6 +109,6 @@ exports.getStats = function(req, res) {
     });
 }
 
-function hash (password, salt) {
-    return base64(sha256(password + salt));
+function hash(password, salt) {
+    return CryptoJS.enc.Base64.stringify(HASH(password + salt));
 }
