@@ -1,9 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GoogleAnalyticsService } from '../services/google-analytics.service';
-import { PasswordService } from '../services/password.service';
 import { DeviceService } from '../services/device.service';
-import { Letter, EncryptedLetter } from '../models/letter.model';
+import { Letter } from '../models/letter.model';
 import { Constants } from '../constants'
 
 import { environment } from '../../environments/environment';
@@ -16,7 +15,7 @@ import * as $ from 'jquery';
 })
 export class ComposeComponent{
     @Input() tldid: string;
-    @Output() sendEmitter: EventEmitter<Letter | EncryptedLetter> = new EventEmitter();
+    @Output() sendEmitter: EventEmitter<{letter: Letter} | {letter: Letter, password: string}> = new EventEmitter();
     
     cursor_placement: number = 0; //updates on send, so it can refocus appropriately if you close the send screen 
     //parallel arrays
@@ -33,7 +32,6 @@ export class ComposeComponent{
     password: string = ''; //optional password added to the letter
 
     constructor(private googleanalyticsService: GoogleAnalyticsService,
-                private passwordService: PasswordService,
                 private deviceService: DeviceService,
                 private route: ActivatedRoute) {}
 
@@ -189,9 +187,9 @@ export class ComposeComponent{
         }
 
         if (password) {
-            this.sendEmitter.emit(this.passwordService.encrypt(letterObj, password));
+            this.sendEmitter.emit({letter: letterObj, password: password});
         } else {
-            this.sendEmitter.emit(letterObj);
+            this.sendEmitter.emit({letter: letterObj});
         }
     }
         

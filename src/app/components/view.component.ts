@@ -1,12 +1,13 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { GoogleAnalyticsService } from '../services/google-analytics.service';
 
+import { DeviceService } from '../services/device.service';
+import { ReadWriteService } from '../services/readwrite.service';
+
 import { Letter, PasswordRequired, passwordRequired } from '../models/letter.model';
 import { Constants } from '../constants';
 
 import * as $ from 'jquery';
-import { PasswordService } from '../services/password.service';
-import { DeviceService } from '../services/device.service';
 
 @Component({
     selector: 'view-component',
@@ -22,6 +23,7 @@ export class ViewComponent{
             document.getElementById("body").focus();  // focus on body
         }
     }
+
     @Input() set preview(preview: boolean){
         //if this letter is being viewed in preview mode skip open scene and just show text
         if(preview){
@@ -47,7 +49,7 @@ export class ViewComponent{
     letter_seen = false; //changes permanently to 'true' after the final word is played; prevents retoggle
 
     constructor(private googleanalyticsService: GoogleAnalyticsService,
-                private passwordService: PasswordService,
+                private readwriteService: ReadWriteService,
                 private deviceService: DeviceService) {}
 
     isMobile () {
@@ -309,6 +311,9 @@ export class ViewComponent{
     }
 
     submitPassword() {
+        if (this.locked && this.passwordAttempt) {
+            this.readwriteService.retrieve(this.tldid, this.passwordAttempt)
+        }
         // TODO
         // if (this.passwordService.verify(this.passwordAttempt, this._letter)) {
         //     this.googleanalyticsService.logEvent('view', 'entered correct password');

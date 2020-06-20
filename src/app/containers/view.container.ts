@@ -4,7 +4,7 @@ import { Router,ActivatedRoute,ParamMap } from '@angular/router';
 import { GoogleAnalyticsService } from '../services/google-analytics.service';
 import { ReadWriteService } from '../services/readwrite.service';
 
-import { Letter } from '../models/letter.model';
+import { Letter, RetrieveResponse, doesNotExist, PasswordRequired } from '../models/letter.model';
 import { DBError, isDBError } from '../models/dberror.model';
 
 import 'rxjs/add/operator/filter';
@@ -19,7 +19,7 @@ import { Constants } from '../constants';
     `,
 })
 export class ViewPageComponent implements OnInit{
-    letter: Letter;
+    letter: Letter | PasswordRequired;
     preview: boolean;
 
     constructor(
@@ -39,20 +39,19 @@ export class ViewPageComponent implements OnInit{
         this.route.paramMap.subscribe((params: ParamMap) => {
             //get letter based on id
             this.readWriteService.retrieve(params.get('id'))
-                .then((letter: Letter | DBError) => {
+                .then((letter: RetrieveResponse | DBError) => {
                     if (isDBError(letter)) {
                         //db error
                         this.letter = Constants.LETTER_NOT_FOUND;
-                    } else if (letter) {
-                        this.googleanalyticsService.logEvent('view', 'existing letter');
-                        this.letter=letter;
-                    } else {
+                    } else if (doesNotExist(letter)) {
                         //letter does not exist
                         this.googleanalyticsService.logEvent('view', 'non-existent letter');
                         this.letter = Constants.LETTER_NOT_FOUND;
+                    } else {
+                        this.googleanalyticsService.logEvent('view', 'existing letter');
+                        this.letter = letter;
                     }
                 });
         });
-        
     }
 }

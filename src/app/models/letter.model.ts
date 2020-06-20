@@ -9,17 +9,20 @@ export interface Letter {
     text?: string;
 }
 
-export interface EncryptedLetter {
-    tldid: string;
-    debug?: boolean;
-    password: string;
-    encrypted_letter: string;
-}
-
 export interface PasswordRequired {
     passwordRequired: true;
 }
 
-export function passwordRequired(obj: Letter | PasswordRequired): obj is PasswordRequired {
-    return obj && 'passwordRequired' in obj && !obj['passwordRequired'];
+export interface DoesNotExist {
+    doesNotExist: true;
+}
+
+export type RetrieveResponse = Letter | PasswordRequired | DoesNotExist
+
+export function passwordRequired(res: RetrieveResponse): res is PasswordRequired {
+    return res && 'passwordRequired' in res && res['passwordRequired'];
+}
+
+export function doesNotExist(res: RetrieveResponse): res is DoesNotExist {
+    return res && 'doesNotExist' in res && res['doesNotExist'];
 }
