@@ -4,8 +4,6 @@ export interface Letter {
     location: string;
     order: number[];
     times: number[];
-    down?: number[];
-    duration?: number[];
     text?: string;
 }
 
