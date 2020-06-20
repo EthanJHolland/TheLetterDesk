@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { GoogleAnalyticsService } from '../services/google-analytics.service';
 
-import { isEncrypted, EncryptedLetter, BasicLetter } from '../models/letter.model';
+import { Letter, PasswordRequired, passwordRequired } from '../models/letter.model';
 import { Constants } from '../constants';
 
 import * as $ from 'jquery';
@@ -14,13 +14,12 @@ import { DeviceService } from '../services/device.service';
     styleUrls: ['./templates/view.css']
 })
 export class ViewComponent{
-    @Input() set letter(letter: EncryptedLetter | BasicLetter){
-        this.locked = isEncrypted(letter); // locked iff letter has password which viewer has not yet entered (set in ngOnInit)
-        this._letter = letter;
+    @Input() set letter(letter: Letter | PasswordRequired){
+        this.locked = passwordRequired(letter); // locked iff letter has password which viewer has not yet entered (set in ngOnInit)
 
         if (letter && !this.locked) {
-            // focus on body
-            document.getElementById("body").focus();
+            this._letter = letter;
+            document.getElementById("body").focus();  // focus on body
         }
     }
     @Input() set preview(preview: boolean){
@@ -310,21 +309,20 @@ export class ViewComponent{
     }
 
     submitPassword() {
-        if (isEncrypted(this._letter)) {
-            if (this.passwordService.verify(this.passwordAttempt, this._letter)) {
-                this.googleanalyticsService.logEvent('view', 'entered correct password');
+        // TODO
+        // if (this.passwordService.verify(this.passwordAttempt, this._letter)) {
+        //     this.googleanalyticsService.logEvent('view', 'entered correct password');
 
-                this._letter = this.passwordService.decrypt(this._letter, this.passwordAttempt);
-                this.locked = false;
-                document.getElementById("body").focus(); // focus on body so space/enter can be used to open letter without having to click on page
-            } else {
-                this.googleanalyticsService.logEvent('view', 'entered incorrect password');
+        //     this._letter = this.passwordService.decrypt(this._letter, this.passwordAttempt);
+        //     this.locked = false;
+        //     document.getElementById("body").focus(); // focus on body so space/enter can be used to open letter without having to click on page
+        // } else {
+        //     this.googleanalyticsService.logEvent('view', 'entered incorrect password');
 
-                //password is wrong; reset password field
-                this.passwordAttempt = '';
-                this.passwordButtonText = 'try again';
-                document.getElementById("password").focus();
-            }
-        }
+        //     //password is wrong; reset password field
+        //     this.passwordAttempt = '';
+        //     this.passwordButtonText = 'try again';
+        //     document.getElementById("password").focus();
+        // }
     }
 }

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { GoogleAnalyticsService } from '../services/google-analytics.service';
 import { PasswordService } from '../services/password.service';
 import { DeviceService } from '../services/device.service';
-import { BasicLetter, Letter } from '../models/letter.model';
+import { Letter, EncryptedLetter } from '../models/letter.model';
 import { Constants } from '../constants'
 
 import { environment } from '../../environments/environment';
@@ -16,7 +16,7 @@ import * as $ from 'jquery';
 })
 export class ComposeComponent{
     @Input() tldid: string;
-    @Output() sendEmitter: EventEmitter<Letter> = new EventEmitter();
+    @Output() sendEmitter: EventEmitter<Letter | EncryptedLetter> = new EventEmitter();
     
     cursor_placement: number = 0; //updates on send, so it can refocus appropriately if you close the send screen 
     //parallel arrays
@@ -180,7 +180,7 @@ export class ComposeComponent{
     };
 
     emitLetter(password: string = null) {
-        var letterObj: BasicLetter = {
+        var letterObj: Letter = {
             debug: this.debugMode,
             tldid: this.tldid,
             location: this.location.toLowerCase(),

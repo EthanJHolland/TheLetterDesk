@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
-import { Letter } from '../models/letter.model';
+import { Letter, PasswordRequired } from '../models/letter.model';
 import { DBError } from '../models/dberror.model';
 import { Constants } from '../constants';
  
@@ -23,7 +23,7 @@ export class ReadWriteService {
           .catch(this.handleError);     //catches an error if no letter class object exists
     }
 
-    retrieve(tldid: string): Promise<Letter | DBError> {
+    retrieve(tldid: string, password: string = ''): Promise<DBError | Letter | PasswordRequired> {
         const url = `${this.apiUrl}/retrieve/${tldid}`;
         return this.http.get(url)
             .toPromise()

@@ -1,4 +1,4 @@
-export interface BasicLetter {
+export interface Letter {
     tldid: string;
     debug?: boolean;
     location: string;
@@ -16,8 +16,10 @@ export interface EncryptedLetter {
     encrypted_letter: string;
 }
 
-export type Letter = BasicLetter | EncryptedLetter;
+export interface PasswordRequired {
+    passwordRequired: true;
+}
 
-export function isEncrypted(letter: Letter): letter is EncryptedLetter {
-    return letter && 'password' in letter;
+export function passwordRequired(obj: Letter | PasswordRequired): obj is PasswordRequired {
+    return obj && 'passwordRequired' in obj && !obj['passwordRequired'];
 }

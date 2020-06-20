@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GoogleAnalyticsService } from '../services/google-analytics.service';
 
-import { BasicLetter } from '../models/letter.model';
+import { Letter } from '../models/letter.model';
 
 import * as $ from 'jquery';
 import { Constants } from '../constants';
@@ -14,7 +14,7 @@ import { Constants } from '../constants';
 })
 export class HomeComponent implements OnInit{
     //feed in data
-    letter: BasicLetter = Constants.ABOUT; //get about letter
+    letter: Letter = Constants.ABOUT; //get about letter
     messageComplete: boolean = true; //true before letter starts or after entire message has been typed
 
     //global variables
