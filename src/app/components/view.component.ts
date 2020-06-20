@@ -59,11 +59,13 @@ export class ViewComponent{
                     if (isDBError(letter)) {
                         //db error
                         this.googleanalyticsService.logError('retrieving letter', letter.error);
-                        this.letter = Constants.LETTER_NOT_FOUND;
                     } else if (doesNotExist(letter)) {
                         //letter does not exist
                         this.googleanalyticsService.logEvent('view', 'non-existent letter');
                         this.letter = Constants.LETTER_NOT_FOUND;
+
+                        this.locked = false;
+                        document.getElementById("body").focus();  // focus on body
                     } else {
                         //letter exists
                         this.locked = passwordRequired(letter); // locked iff letter has password which viewer has not yet entered (set in ngOnInit)
