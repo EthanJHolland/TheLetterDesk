@@ -1,35 +1,39 @@
 <div id="body" class="body" tabindex="0" (keydown)="keyDown($event)">
-    <p id="logo" class="logo-text top-left-corner clickable menu" routerLink="/home">Letterdesk</p>
-    <p id="about" class="button-text top-right-corner clickable menu" routerLink="/home">WHAT IS THIS?</p>
+    <loading-component *ngIf="!loaded"></loading-component>
 
-    <div *ngIf="!isMobile()">
-        <p id="pause" class="button-text clickable details">SPACEBAR</p>
-        <p id="fastfor" class="button-text clickable details">RIGHT ARROW</p>
+    <div *ngIf="loaded">
+        <p id="logo" class="logo-text top-left-corner clickable menu" routerLink="/home">Letterdesk</p>
+        <p id="about" class="button-text top-right-corner clickable menu" routerLink="/home">WHAT IS THIS?</p>
+
+        <div *ngIf="!isMobile()">
+            <p id="pause" class="button-text clickable details">SPACEBAR</p>
+            <p id="fastfor" class="button-text clickable details">RIGHT ARROW</p>
+        </div>
+
+        <!--the location and time appear only when you click the letter-->
+        <p id="location" class="button-text details">{{letter ? letter.location : ''}}</p>
+        <p id="time" class="button-text top-right-corner details"></p>
+
+        <!-- password field -->
+        <div id="pw-container" *ngIf="locked">
+            <button type="button"
+                id="enter"
+                class="button-text clickable"
+                (click)="submitPassword()"
+                (mouseenter)="mouseEnter()"
+                (mouseleave)="mouseExit()">{{passwordButtonText}}</button>
+            <input type="text" class="body-text" [(ngModel)]="passwordAttempt" id="password" autocomplete="off" autofocus="true">
+        </div>
+
+        <!--open letter button: to move this around relative to the page, move wrapper div-->
+        <div id="wrapper" *ngIf="!locked" >
+            <div id="start" class="button-text clickable" (click)="openLetter()"><span style="font-size: 1.1em;">O</span>PEN <span style="font-size: 1.1em;">L</span>ETTER</div>
+        </div>
+
+        <!--the letter itself (after you open the letter)-->
+        <div id="letter" class="body-text">{{getPartialString()}}</div>
+
+        <!--some details you can only see AFTER the letter-->
+        <p id="reply" class="button-text top-right-corner clickable" (click)="openReplyWindow()">WRITE A LETTER</p>
     </div>
-
-    <!--the location and time appear only when you click the letter-->
-    <p id="location" class="button-text details">{{letter ? letter.location : ''}}</p>
-    <p id="time" class="button-text top-right-corner details"></p>
-
-    <!-- password field -->
-    <div id="pw-container" *ngIf="locked">
-        <button type="button"
-            id="enter"
-            class="button-text clickable"
-            (click)="submitPassword()"
-            (mouseenter)="mouseEnter()"
-            (mouseleave)="mouseExit()">{{passwordButtonText}}</button>
-        <input type="text" class="body-text" [(ngModel)]="passwordAttempt" id="password" autocomplete="off" autofocus="true">
-    </div>
-
-    <!--open letter button: to move this around relative to the page, move wrapper div-->
-    <div id="wrapper" *ngIf="!locked" >
-        <div id="start" class="button-text clickable" (click)="openLetter()"><span style="font-size: 1.1em;">O</span>PEN <span style="font-size: 1.1em;">L</span>ETTER</div>
-    </div>
-    
-    <!--the letter itself (after you open the letter)-->
-    <div id="letter" class="body-text">{{getPartialString()}}</div>
-
-    <!--some details you can only see AFTER the letter-->
-    <p id="reply" class="button-text top-right-corner clickable" (click)="openReplyWindow()">WRITE A LETTER</p>
 </div>

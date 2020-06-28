@@ -13,13 +13,17 @@ import 'rxjs/add/operator/switchMap';
 
 @Component({
     selector: 'compose-page',
-    template: `<compose-component
-     [tldid]=tldid
-     (sendEmitter)=send($event)>
-     </compose-component>
+    template: `
+    <loading-component *ngIf="!loaded"></loading-component>
+    <compose-component
+        *ngIf="loaded"
+        [tldid]=tldid
+        (sendEmitter)=send($event)>
+    </compose-component>
      `
 })
 export class ComposePageComponent implements OnInit {
+    loaded: boolean = false;
     tldid: string = 'new';
 
     constructor(
@@ -29,6 +33,7 @@ export class ComposePageComponent implements OnInit {
         private router: Router){}
 
     ngOnInit(){
+        this.loaded = false;
         this.route.paramMap.subscribe((params: ParamMap) => {
             this.tldid=params.get('id');
             //check if letter exists
@@ -39,6 +44,7 @@ export class ComposePageComponent implements OnInit {
                     } else if (doesNotExist(letter)) {
                         // letter does not exist so can compose
                         this.googleanalyticsService.logPage('compose');
+                        this.loaded = true;
                     } else {
                         // letter already exists so reroute to new compose page
                         this.router.navigate(['/compose'], {queryParamsHandling: 'preserve'})

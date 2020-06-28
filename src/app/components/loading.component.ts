@@ -10,17 +10,18 @@ export class LoadingComponent{
     @Input() phrase: string = 'Loading';
     @Input() numDots: number = 3;
 
-    dots = [];
+    DOT = '.';
+    dots = [this.DOT, this.DOT, this.DOT];
 
     ngOnInit () {
-        setTimeout(() => this.step(), 2000);
+        setTimeout(() => this.step(), 3000);
     }
 
     step () {
         if (this.dots.length >= this.numDots) {
-            this.dots = [];
+            this.dots = [this.DOT];
         } else {
-            this.dots.push('.');
+            this.dots.push(this.DOT);
         }
         setTimeout(() => this.step(), 1000);
     }

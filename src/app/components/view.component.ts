@@ -4,7 +4,7 @@ import { GoogleAnalyticsService } from '../services/google-analytics.service';
 import { DeviceService } from '../services/device.service';
 import { ReadWriteService } from '../services/readwrite.service';
 
-import { Letter, PasswordRequired, passwordRequired, RetrieveResponse, doesNotExist } from '../models/letter.model';
+import { passwordRequired, RetrieveResponse, doesNotExist } from '../models/letter.model';
 import { Constants } from '../constants';
 
 import * as $ from 'jquery';
@@ -33,6 +33,7 @@ export class ViewComponent{
     static whitespaceChars = new Set([9, 13, 32]) //tab, enter, space
 
     //global variables
+    loaded = false; //indicates wheher or not a response from the api has been recieved
     _tldid = undefined; //the tldid
     letter = undefined; //the letter itself
     locked = undefined; //indicates whether password is required (set in letter setter)
@@ -61,6 +62,7 @@ export class ViewComponent{
                         this.googleanalyticsService.logError('retrieving letter', letter.error);
                     } else if (doesNotExist(letter)) {
                         //letter does not exist
+                        this.loaded = true;
                         this.googleanalyticsService.logEvent('view', 'non-existent letter');
                         this.letter = Constants.LETTER_NOT_FOUND;
 
@@ -68,6 +70,7 @@ export class ViewComponent{
                         document.getElementById("body").focus();  // focus on body
                     } else {
                         //letter exists
+                        this.loaded = true;
                         this.locked = passwordRequired(letter); // locked iff letter has password which viewer has not yet entered (set in ngOnInit)
 
                         if (password) {
