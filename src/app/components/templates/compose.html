@@ -1,36 +1,55 @@
-<link href="https://fonts.googleapis.com/css?family=Crimson+Text" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Seaweed+Script" rel="stylesheet">
-    
 <div class="body">
-    <p class="logo menu" (click)="navigateHome()">Letterdesk</p>
-    <p class="logoTEXT send" (click)="send()">   </p>
-    <input class="location logoTEXT" placeholder='WHERE ARE YOU WRITING FROM?' style='text-transform:uppercase' [(ngModel)]="location">
-    
-    <div class="textarea-container">
-        <textarea 
-            class="letter" 
-            id="LETTER" 
-            placeholder='write 280+ characters to send a letter' 
-            rows=20 
-            spellcheck="false" 
-            (keydown)="keyDown($event)"
-            (keyup)="keyUp($event)"
-            [(ngModel)]="text"
-            autofocus>
-        </textarea>
-        <div class="textarea-size">{{text+'\n'}}</div> <!-- naturally expanding text field-->
+    <p class="logo-text top-left-corner clickable" routerLink="/home">Letterdesk</p>
+
+    <p class="body-text letter" *ngIf="isMobile()" style="font-size: larger; text-align: center; margin: 50px 25% 0px 25%;">Currently, letters cannot be written on mobile!</p>
+
+    <div id="pre-send-container" *ngIf="!isMobile()">
+        <input id="location" class="button-text" placeholder='WHERE ARE YOU WRITING FROM?' [(ngModel)]="location">
+        <p id="send" class="button-text top-right-corner" [ngClass]="{'clickable': canSend()}" (click)="send()"></p>
+
+        <div id="textarea-container">
+            <textarea 
+                id="LETTER"
+                class="body-text letter"
+                [placeholder]="placeholderText()" 
+                spellcheck="false"
+                (click)="checkcaret($event)"
+                (touchend)="checkcaret($event)"
+                (keydown)="keyDown($event)"
+                (keyup)="keyUp($event)"
+                [(ngModel)]="text"
+                onDrop="return false"
+                onPaste="return false"
+                autofocus>
+            </textarea>
+            <div id="textarea-size" class="body-text">{{text+'\n'}}</div> <!-- naturally expanding text field-->
+        </div>
     </div>
-    
-    <div id="stats" style="word-wrap: break-word;"></div>
     
     <!--below this is the "get the link to send it" page-->
-    <div class="getLink-container">
-        <div class="linkbox">
-            <div class="myurl">{{getUrl()}}</div>
-<!--            <div class="logoTEXT copylink" (click)="copyLink()">COPY</div>-->
+    <div id="post-send-container" *ngIf="!isMobile()">
+        <p id="password-button" class="button-text clickable" (click)="showPasswordField()">ADD PASSWORD</p>
+
+        <!--the class is changed to "enabled" after you click #password-button -->
+        <div id="pw-set-container" class="disabled">
+            <input type="password"
+                id="myPassword"
+                class="body-text"
+                [(ngModel)]="password"
+                (keyup)="passwordKeyUp($event)"
+                autofocus="true"
+                autocomplete="off" 
+                data-lpignore="true"> <!-- data-lpignore prevents the lastpass password fill box from appearing -->
+            <img id="eye" class="clickable" (click)="toggleEye()" src="assets/eye.png"/>
+            <button type="button" id="save" class="button-text clickable" (click)="savePassword()" [disabled]="!password"><span>SAVE</span></button>
         </div>
-        <p class="logoTEXT preview" (click)="preview()">PREVIEW</p>
-        <p class="logoTEXT close" (click)="close()">CLOSE</p>
+
+        <div id="copyalert" class="button-text clickable" (click)="copy()">CLICK TO COPY LINK</div>
+        <div id="linkbox">
+            <div id="myurl" class="body-text">{{getUrl()}}</div>
+        </div>
+        <p id="preview" class="button-text clickable" (click)="preview()">PREVIEW</p>
+        <p id="close" class="button-text clickable" (click)="close()">CONTINUE WRITING</p>
     </div>
+    <input id="url_input" class="hidden">
 </div>

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { GoogleAnalyticsService } from '../services/google-analytics.service';
+
+import { Letter } from '../models/letter.model';
 
 import * as $ from 'jquery';
 import { Constants } from '../constants';
@@ -11,30 +14,31 @@ import { Constants } from '../constants';
 })
 export class HomeComponent implements OnInit{
     //feed in data
-    letter=Constants.ABOUT; //get about letter
-    messageComplete = true; //true before letter starts or after entire message has been typed
+    letter: Letter = Constants.ABOUT; //get about letter
+    messageComplete: boolean = true; //true before letter starts or after entire message has been typed
 
     //global variables
-    pause = false;
-    totalString = ""; //what is outputted
-    i=0; //what array index we are on
-    shift = false; //if the shift key was pressed down 1 keypress ago
+    pause: boolean = false;
+    totalString: string = ""; //what is outputted
+    i: number = 0; //what array index we are on
+    shift: boolean = false; //if the shift key was pressed down 1 keypress ago
 
-    constructor(private route: ActivatedRoute, private router: Router){}
+    constructor(private googleanalyticsService: GoogleAnalyticsService, private route: ActivatedRoute, private router: Router){}
 
     ngOnInit(){
         //write version number so that it can be seen which git commit the website is up to
-        console.log('version '+Constants.VERSION);
+        this.googleanalyticsService.logPage('home');
+        console.log('version', Constants.VERSION);
     }
-    
+
     //when you click WHAT IS THIS, all this happens (it plays a letter for you)
     showAbout(){
-        $(".wrapper").fadeOut(400); //fade out the start button (using a wrapper div)
-        $(".body").toggleClass("typing"); //change the body background
-        $(".menu").toggleClass("typing"); //fade out the logo and other starting menu links
+        this.googleanalyticsService.logEvent('home', 'view about page');
+
+        $("#wrapper").fadeOut(400); //fade out the start button (using a wrapper div)
+        $("#body").toggleClass("typing"); //change the body background
         $(".details").toggleClass("typing"); //fade in the details (i.e. the clock)
-        $(".letter").toggleClass("typing"); //allow the letter to be visible
-        $(".write").toggleClass("typing"); //fade out write letter icon;
+        $("#letter").toggleClass("typing"); //allow the letter to be visible
         
         //start typing
         this.type();
@@ -88,7 +92,7 @@ export class HomeComponent implements OnInit{
             var delay = 3000;
         }
         else {
-            var delay = (this.letter.absTimes[this.i]-this.letter.absTimes[this.i-1])*1000;
+            var delay = (this.letter.times[this.i]-this.letter.times[this.i-1])*1000;
             if (delay > 2000) {delay = 2000;} //the reader doesn't want to wait forever
         }
         
@@ -108,7 +112,7 @@ export class HomeComponent implements OnInit{
     }
 
     //each time this is called, one letter is added to the output (or backspaced)
-    updateString(index) {
+    updateString(index: number) {
         //c is a keycode
         var c = this.letter.order[index];
         
@@ -168,10 +172,10 @@ export class HomeComponent implements OnInit{
     
     toEnd() {
         //toggle everything back
-        $(".body").toggleClass("typing"); //back to light gray display
-        $(".cornerlogo").toggleClass("final"); //show cornerlogo
+        $("#body").toggleClass("typing"); //back to light gray display
+        $("#cornerlogo").toggleClass("final"); //show cornerlogo
         $(".details").toggleClass("typing"); //get rid of pause, fastfor, location, time details
-        $(".letter").toggleClass("typing"); //get rid of letter
+        $("#letter").toggleClass("typing"); //get rid of letter
     }
 
     backToHome(){
@@ -179,8 +183,8 @@ export class HomeComponent implements OnInit{
     }
 
     // back(){
-    //     $(".wrapper").fadeOut(400); //fade out the start button (using a wrapper div)
+    //     $("#wrapper").fadeOut(400); //fade out the start button (using a wrapper div)
     //     $(".menu").toggleClass("typing"); //fade out the logo and other starting menu links
-    //     $(".write").toggleClass("typing"); //fade out write letter icon;
+    //     $("#write").toggleClass("typing"); //fade out write letter icon;
     // }
 }
